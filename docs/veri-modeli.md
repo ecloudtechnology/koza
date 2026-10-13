@@ -1,6 +1,6 @@
 # Veri modeli ve göçler
 
-Kaynak: şartname §20 (çekirdek model), §21 (durumlar), CLAUDE.md kural 2, 3, 9. Uygulama: `db/migrations/0001_init.sql` (PostgreSQL), geri dönüş `0001_init.down.sql`. Önizleme karşılığı: `apps/web/src/lib/domain.ts`.
+Kaynak: şartname §20 (çekirdek model), §21 (durumlar), GELISTIRME-KURALLARI.md kural 2, 3, 9. Uygulama: `db/migrations/0001_init.sql` (PostgreSQL), geri dönüş `0001_init.down.sql`. Önizleme karşılığı: `apps/web/src/lib/domain.ts`.
 
 ## İlkeler
 

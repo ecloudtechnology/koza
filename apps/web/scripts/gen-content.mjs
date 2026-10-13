@@ -49,6 +49,7 @@ fs.copyFileSync(trace, path.join(gen, "traceability.json"));
 // 5. Belgeler (Markdown → JSON; tarayıcıda marked ile çizilir)
 const docList = [
   ["readme", "README — projeye giriş", "README.md"],
+  ["ekip", "Ekip ve mentor", "docs/ekip.md"],
   ["inceleme-rehberi", "İnceleme rehberi (grup için)", "docs/inceleme-rehberi.md"],
   ["teslim-notu", "Teslim notu — Dilim 0 ve 1", "docs/teslim-notu-dilim-0-1.md"],
   ["gereklilik-izleme", "Gereklilik izleme matrisi", "docs/gereklilik-izleme.md"],
@@ -65,7 +66,7 @@ const docList = [
   ["calc-contract", "Hesap motoru sözleşmesi", "packages/calc-engine/CONTRACT.md"],
   ["calc-readme", "Hesap motoru README", "packages/calc-engine/README.md"],
   ["api-readme", "İş API'si README", "apps/api/README.md"],
-  ["claude-md", "CLAUDE.md — geliştirme kuralları", "CLAUDE.md"],
+  ["kurallar", "Geliştirme kuralları", "GELISTIRME-KURALLARI.md"],
 ];
 const docs = docList
   .filter(([, , rel]) => fs.existsSync(path.join(root, rel)))

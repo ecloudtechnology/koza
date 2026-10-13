@@ -5,7 +5,7 @@ import { PREVIEW_USERS, ROLE_LABEL, PERMISSIONS } from "@/lib/domain";
 import { profileById } from "@/lib/content";
 import { resetAll } from "@/lib/store";
 import { useStore } from "@/lib/useStore";
-import { Loading, Notice } from "@/components/ui";
+import { Loading, Notice, PageHeader } from "@/components/ui";
 
 export default function Ayarlar() {
   const { store, ready } = useStore();
@@ -14,7 +14,7 @@ export default function Ayarlar() {
   const t = store.tenant;
   return (
     <>
-      <h1>Kurum ayarları</h1>
+      <PageHeader eyebrow="Kurum · §04" title="Kurum ayarları" lead="Kurum profili, görev ayrılığı politikası, rol matrisi ve önizleme verisi." />
       <Notice kind="info">
         <p>Bu önizlemede kimlik, davet, SSO, çok faktörlü doğrulama, entegrasyon ve abonelik yoktur; roller üst çubuktaki kullanıcı seçicisiyle canlandırılır. Sunucu tarafı yetki katmanı <code>apps/api/koza_api/auth.py</code> ve <code>workflow.py</code> içindedir.</p>
       </Notice>

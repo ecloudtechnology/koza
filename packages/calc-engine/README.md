@@ -1,6 +1,6 @@
 # koza_calc — deterministik hesap motoru
 
-Koza'nın sayısal sonuç üreten tek bileşeni. Saf Python, yalnız standart kütüphane (`decimal`, `hashlib`, `json`). I/O yok, ağ yok, saat yok, rastgelelik yok, `float` yok. Aynı girdi + aynı faktör sürümü + aynı yöntem sürümü → aynı çıktı ve aynı `inputs_hash` (CLAUDE.md kural 1, §18).
+Koza'nın sayısal sonuç üreten tek bileşeni. Saf Python, yalnız standart kütüphane (`decimal`, `hashlib`, `json`). I/O yok, ağ yok, saat yok, rastgelelik yok, `float` yok. Aynı girdi + aynı faktör sürümü + aynı yöntem sürümü → aynı çıktı ve aynı `inputs_hash` (GELISTIRME-KURALLARI.md kural 1, §18).
 
 Dış sözleşme: [`CONTRACT.md`](CONTRACT.md). Bu sürüm (0.1.0) yalnız **Dilim 1** kapsamını destekler: sabit yakma için tek kayıt, gaz bazlı (CO₂/CH₄/N₂O) veya CO₂e bazlı faktör.
 

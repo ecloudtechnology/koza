@@ -4,7 +4,7 @@ import { useState } from "react";
 import { TEST_CATALOG } from "@/lib/content";
 import { ROLE_LABEL, type ActivityRecord } from "@/lib/domain";
 import { useStore } from "@/lib/useStore";
-import { ErrorBox, Loading, NoTenant, Notice } from "@/components/ui";
+import { ErrorBox, Loading, NoTenant, Notice, PageHeader } from "@/components/ui";
 
 export default function Faktorler() {
   const { store, ready } = useStore();
@@ -16,7 +16,7 @@ export default function Faktorler() {
 
   return (
     <>
-      <h1>Faktör kataloğu</h1>
+      <PageHeader eyebrow="Yöntem · §18 · T13" title="Faktör kataloğu" lead="Her faktör sürümü değer, birim, gaz, esas, sınır, geçerlilik ve kaynağıyla kayıtlıdır. Yeni sürüm eski sonucu değiştirmez; etkilenen kayıt listesi üretir." />
       <Notice kind="warn">
         <p>
           <strong>Üretim kataloğu boş.</strong> {TEST_CATALOG.note_tr} Kaynak ve birimi olmayan katsayı kataloğa giremez (§18). Faktör sürümleri alan uzmanı onayıyla etkinleşir (K-05); bu önizlemede "uzman kontrolör" rolü yayımlayabilir.

@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { ROLE_LABEL } from "@/lib/domain";
 import { useStore, fmtDec, kgToT } from "@/lib/useStore";
-import { Loading, NoTenant, Notice, StateBadge } from "@/components/ui";
+import { Loading, NoTenant, Notice, PageHeader, StateBadge } from "@/components/ui";
 
 export default function Inceleme() {
   const { store, ready } = useStore();
@@ -14,8 +14,7 @@ export default function Inceleme() {
 
   return (
     <>
-      <h1>İnceleme kuyruğu</h1>
-      <p className="muted">Uzman kontrolör sınır, yöntem, faktör ve kanıtı inceler; onaylayan sonucu onaylar (§04). Rolünüz: {ROLE_LABEL[store.role]}.</p>
+      <PageHeader eyebrow={`Kontrol · §21 · rol: ${ROLE_LABEL[store.role]}`} title="İnceleme kuyruğu" lead="Uzman kontrolör sınır, yöntem, faktör ve kanıtı inceler; onaylayan sonucu onaylar (§04). Hesaplandı, onaylandı demek değildir." />
       {!reviewer && (
         <Notice kind="info">
           <p>Bu rolle inceleme yapılamaz; kuyruk salt okunurdur. Üst çubuktan "uzman kontrolör" veya "onaylayan" seçin (görev ayrılığı: veri giren kendi kaydını onaylayamaz).</p>

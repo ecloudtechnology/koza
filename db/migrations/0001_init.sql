@@ -1,7 +1,7 @@
 -- 0001_init.sql — Koza çekirdek veri modeli (§20), kayıt durumları (§21), audit (§25)
 -- PostgreSQL 15+. Geri alma: 0001_init.down.sql
 --
--- İlkeler (CLAUDE.md değiştirilemez kurallar):
+-- İlkeler (GELISTIRME-KURALLARI.md değiştirilemez kurallar):
 --   2  NULL = bilinmiyor, 0 = ölçülmüş sıfır, not_applicable = gerekçeli karar; estimated = veri niteliği.
 --   3  Her kurumsal tabloda tenant_id NOT NULL + organization FK; tenant-içi referanslar
 --      bileşik FK (tenant_id, x_id) ile doğrulanır; RLS ENABLE + FORCE.

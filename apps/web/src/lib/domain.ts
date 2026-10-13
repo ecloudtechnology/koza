@@ -1,4 +1,4 @@
-// Ortak alan tipleri (packages/domain ile aynı sözleşme; §20, §21, CLAUDE.md kural 2).
+// Ortak alan tipleri (packages/domain ile aynı sözleşme; §20, §21, GELISTIRME-KURALLARI.md kural 2).
 // Sayısal değerler her zaman ondalık DİZE olarak taşınır; hesap yalnız koza_calc içinde yapılır.
 
 export type Role =

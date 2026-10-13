@@ -1,6 +1,6 @@
-# CLAUDE.md — Koza
+# Geliştirme kuralları — Koza
 
-Bu dosya, Koza'yı Claude Code ile geliştirirken her oturumda okunur. Kısa tutulur; ayrıntı `docs/` altındadır.
+Bu dosya, Koza'yı geliştiren herkesin her çalışma oturumunda okuduğu kurallar belgesidir. Kısa tutulur; ayrıntı `docs/` altındadır.
 
 ## Ürün tek cümlede
 
@@ -118,7 +118,7 @@ Dilim 0'da dolduruldu (13 Ekim 2026).
 # dışa aktar:  cd apps/web && npm run build      (statik; GitHub Pages için NEXT_PUBLIC_BASE_PATH=/koza)
 ```
 
-Özel komutlar: `/dilim <kimlikler>` bir dilimi döngüye göre yürütür; `/kontrol` değiştirilemez kuralları denetler.
+Süreç listeleri: `docs/surec/dilim.md` bir dilimi döngüye göre yürütür; `docs/surec/kontrol.md` değiştirilemez kuralları denetler.
 
 ## Dil ve üslup
 

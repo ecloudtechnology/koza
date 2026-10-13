@@ -1,6 +1,6 @@
 "use client";
 import { useStore, fmtDate } from "@/lib/useStore";
-import { ErrorBox, Loading, NoTenant } from "@/components/ui";
+import { ErrorBox, Loading, NoTenant, PageHeader } from "@/components/ui";
 
 export default function DenetimIzi() {
   const { store, ready } = useStore();
@@ -12,15 +12,14 @@ export default function DenetimIzi() {
   } catch (e) {
     return (
       <>
-        <h1>Denetim izi</h1>
+        <PageHeader eyebrow="Doğrulama" title="Denetim izi" />
         <ErrorBox error={e} />
       </>
     );
   }
   return (
     <>
-      <h1>Denetim izi</h1>
-      <p className="muted">Append-only: her işlem aktör, rol, nesne, sürüm ve gerekçeyle yazılır; silme yolu yok (§25, Dilim 0). Loglara belge içeriği veya sır yazılmaz. {log.length} olay.</p>
+      <PageHeader eyebrow="Doğrulama · §25 · Dilim 0" title="Denetim izi" lead={`Append-only: her işlem aktör, rol, nesne, sürüm ve gerekçeyle yazılır; silme yolu yok. Loglara belge içeriği veya sır yazılmaz. ${log.length} olay.`} />
       <div className="table-wrap card">
         <table>
           <thead>

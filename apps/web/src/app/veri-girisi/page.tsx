@@ -4,7 +4,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useState } from "react";
 import { type ActivityRecordVersion, type DataQuality, type Evidence, type ValueState } from "@/lib/domain";
 import { useStore } from "@/lib/useStore";
-import { ErrorBox, Loading, NoTenant, Notice } from "@/components/ui";
+import { ErrorBox, Loading, NoTenant, Notice, PageHeader } from "@/components/ui";
+import { parseQuantity } from "@/lib/quantity";
 
 const UNITS = [
   ["GJ", "GJ (gigajul) — faturada enerji"],
@@ -22,30 +23,6 @@ export default function Page() {
       <VeriGirisi />
     </Suspense>
   );
-}
-
-// §11: nokta/virgül belirsizliği sessizce çözülmez
-function parseQuantity(raw: string, decimalSep: "," | "." | null): { value: string | null; ambiguous: boolean; error: string | null } {
-  const s = raw.trim().replace(/\s/g, "");
-  if (!s) return { value: null, ambiguous: false, error: null };
-  if (/^-/.test(s)) return { value: null, ambiguous: false, error: "Negatif tüketim normal kayıt olamaz; iade/düzeltme ayrı işlem türüdür (§11)." };
-  if (!/^[\d.,]+$/.test(s)) return { value: null, ambiguous: false, error: "Bu alan miktar bekliyor; ödeme tutarını veya metni ayrı alana yazın (§10)." };
-  const hasDot = s.includes("."), hasComma = s.includes(",");
-  let v: string;
-  if (hasDot && hasComma) {
-    // son ayraç ondalık
-    const lastDot = s.lastIndexOf("."), lastComma = s.lastIndexOf(",");
-    v = lastDot > lastComma ? s.replace(/,/g, "") : s.replace(/\./g, "").replace(",", ".");
-  } else if (hasComma) {
-    v = s.replace(",", ".");
-  } else if (hasDot) {
-    const parts = s.split(".");
-    if (parts.length === 2 && parts[1].length === 3 && decimalSep === null) return { value: null, ambiguous: true, error: null };
-    v = decimalSep === "." || parts[1]?.length !== 3 ? s : s.replace(/\./g, "");
-    if (parts.length > 2) v = s.replace(/\./g, "");
-  } else v = s;
-  if (!/^\d+(\.\d+)?$/.test(v)) return { value: null, ambiguous: false, error: "Sayı okunamadı." };
-  return { value: v, ambiguous: false, error: null };
 }
 
 function VeriGirisi() {
@@ -127,7 +104,7 @@ function VeriGirisi() {
 
   return (
     <>
-      <h1>Ne kaydetmek istiyorsun?</h1>
+      <PageHeader eyebrow="Veri girişi · DAT-01…06" title="Ne kaydetmek istiyorsun?" lead="Fatura veya tüketimi kanıtıyla kaydedin. Her adım taslağı korur; kapsam seçimi ileri alandadır, sistem kaynaktan önerir." tags={["§11 ortak sözleşme", "T03", "T04", "T07", "T20"]} />
       {training && (
         <Notice kind="info">
           <p>

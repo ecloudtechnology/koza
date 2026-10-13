@@ -4,7 +4,7 @@ import { useState } from "react";
 import { PROFILES, profileById, suggestProfile, type Profile } from "@/lib/content";
 import { SOURCE_TYPE_LABEL, type SourceType } from "@/lib/domain";
 import { useStore } from "@/lib/useStore";
-import { ErrorBox, Loading, Notice } from "@/components/ui";
+import { ErrorBox, Loading, Notice, PageHeader } from "@/components/ui";
 
 const STEPS = ["Kurum ve profil", "Tesisler", "Dönem ve sınır", "Kaynak envanteri", "İlk görev"];
 
@@ -24,8 +24,7 @@ export default function Kurulum() {
 
   return (
     <>
-      <h1>Kurum kurulumu</h1>
-      <p className="muted">ONB-01 … ONB-03, SEK-01/03/05. Geri dönülen kurulum kaldığı adımdan devam eder (§06).</p>
+      <PageHeader eyebrow="Başlangıç · ONB-01…03, SEK-01/03/05" title="Kurum kurulumu" lead="Kurum, sektör profili, tesisler, raporlama dönemi, envanter sınırı ve kaynak envanteri. Geri dönülen kurulum kaldığı adımdan devam eder (§06)." />
       <ol className="steps">
         {STEPS.map((s, i) => (
           <li key={s} aria-current={i === step ? "step" : undefined} className={i < step ? "done" : ""}>

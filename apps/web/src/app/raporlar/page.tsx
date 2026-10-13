@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { ROLE_LABEL } from "@/lib/domain";
 import { useStore, fmtDate, kgToT } from "@/lib/useStore";
-import { ErrorBox, Loading, NoTenant, Notice } from "@/components/ui";
+import { ErrorBox, Loading, NoTenant, Notice, PageHeader } from "@/components/ui";
 
 export default function Raporlar() {
   const { store, ready } = useStore();
@@ -26,8 +26,7 @@ export default function Raporlar() {
 
   return (
     <>
-      <h1>Raporlar ve kanıtlar</h1>
-      <p className="muted">Her rapor veri/hesap/faktör kimliklerini içeren bir manifest ve SHA-256 karması taşır (§22). Aynı girdilerle yeniden oluşturulan rapor aynı karmayı verir (T19). Rol: {ROLE_LABEL[store.role]}.</p>
+      <PageHeader eyebrow={`Rapor · §22 · T19 · rol: ${ROLE_LABEL[store.role]}`} title="Raporlar ve kanıtlar" lead="Her rapor veri, hesap ve faktör kimliklerini içeren bir manifest ve SHA-256 karması taşır. Aynı girdilerle yeniden oluşturulan rapor aynı karmayı verir; sonradan değişen kaynak raporu sessizce değiştiremez." />
       <Notice kind="info">
         <p>
           Bu önizlemede rapor paketi <b>makine okunur JSON manifest</b>tir ve indirilebilir. DOCX/PDF, GRI/TSRS gereklilik indeksi ve yayımlama ayrı yetkili işlemi henüz yok (Dilim 2+). Taslak indirmek yayımlamak değildir.

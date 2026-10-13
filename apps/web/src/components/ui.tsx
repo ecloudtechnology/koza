@@ -3,83 +3,91 @@ import Link from "next/link";
 import { marked } from "marked";
 import { useMemo } from "react";
 import { STATE_LABEL, type RecordState } from "@/lib/domain";
+import { explain, LAYER_LABEL } from "@/lib/errors";
 import { StoreError } from "@/lib/store";
 
-export function Notice({ kind = "info", children }: { kind?: "info" | "warn" | "crit" | "ok"; children: React.ReactNode }) {
+const KIND_LABEL = { info: "Bilgi", warn: "Dikkat", crit: "Hata", ok: "Tamam" } as const;
+
+export function Notice({ kind = "info", title, children }: { kind?: "info" | "warn" | "crit" | "ok"; title?: string; children: React.ReactNode }) {
   return (
     <div className={`notice ${kind}`} role={kind === "crit" ? "alert" : "status"}>
-      {children}
+      <div>
+        <span className="label">{title ?? KIND_LABEL[kind]}</span>
+        {children}
+      </div>
     </div>
   );
 }
 
+export function PageHeader({ eyebrow, title, lead, tags, children }: { eyebrow?: string; title: string; lead?: React.ReactNode; tags?: string[]; children?: React.ReactNode }) {
+  return (
+    <header className="page-head">
+      {eyebrow && <div className="eyebrow">{eyebrow}</div>}
+      <h1>{title}</h1>
+      {lead && <p className="lead">{lead}</p>}
+      {tags && tags.length > 0 && (
+        <div className="tags">
+          {tags.map((t) => (
+            <span key={t} className="badge neutral">
+              {t}
+            </span>
+          ))}
+        </div>
+      )}
+      {children}
+    </header>
+  );
+}
+
+// Hata kutusu: kod → sözlükten kaynak, neden, sonuç, yapılacak iş (§28 hata durumu: sorun, verinin korunma durumu, güvenli tekrar)
 export function ErrorBox({ error }: { error: unknown }) {
   if (!error) return null;
-  if (error instanceof StoreError) {
-    return (
-      <Notice kind={error.status === 403 || error.status === 409 ? "warn" : "crit"}>
-        <p>
-          <strong>{labelFor(error.code)}</strong> — {error.message}
-        </p>
-        {error.extra?.duplicates && Array.isArray(error.extra.duplicates) ? (
-          <p className="small">
-            Aday kayıtlar:{" "}
-            {(error.extra.duplicates as string[]).map((id) => (
-              <Link key={id} href={`/kayit/?id=${id}`} className="mono">
-                {id}{" "}
-              </Link>
-            ))}
-          </p>
-        ) : null}
-        <p className="small">Girdiğiniz veri formda korunuyor; sorunu giderip tekrar deneyebilirsiniz.</p>
-      </Notice>
-    );
-  }
+  const code = error instanceof StoreError ? error.code : "RENDER_ERROR";
+  const entry = explain(code);
+  const kind = error instanceof StoreError && (error.status === 403 || error.status === 409) ? "warn" : "crit";
+  const message = String((error as Error)?.message ?? error);
   return (
-    <Notice kind="crit">
-      <p>
-        <strong>Beklenmeyen hata</strong> — {String((error as Error)?.message ?? error)}
+    <Notice kind={kind} title={entry?.title ?? "Hata"}>
+      <p>{message}</p>
+      {entry && (
+        <dl className="err-detail">
+          <dt>Kaynak</dt>
+          <dd>
+            {LAYER_LABEL[entry.layer]} — {entry.source}
+          </dd>
+          <dt>Neden</dt>
+          <dd>{entry.cause}</dd>
+          <dt>Sonuç</dt>
+          <dd>{entry.consequence}</dd>
+          <dt>Ne yapmalı</dt>
+          <dd>{entry.action}</dd>
+        </dl>
+      )}
+      {error instanceof StoreError && Array.isArray(error.extra?.duplicates) && (
+        <p className="small" style={{ marginTop: "0.5rem" }}>
+          Aday kayıtlar:{" "}
+          {(error.extra!.duplicates as string[]).map((id) => (
+            <Link key={id} href={`/kayit/?id=${id}`} className="mono">
+              {id.slice(0, 12)}{" "}
+            </Link>
+          ))}
+        </p>
+      )}
+      <p className="small" style={{ marginTop: "0.5rem" }}>
+        Girdiğiniz veri formda korunuyor. Kod: <code>{code}</code> · <Link href={`/hatalar/#${code}`}>hata sözlüğü</Link>
       </p>
     </Notice>
   );
 }
 
-function labelFor(code: string): string {
-  const m: Record<string, string> = {
-    FORBIDDEN: "Yetki yok",
-    NOT_FOUND: "Bulunamadı",
-    VERSION_CONFLICT: "Sürüm çakışması",
-    PERIOD_LOCKED: "Dönem kilitli",
-    DUPLICATE_CANDIDATE: "Mükerrer aday",
-    SEPARATION_OF_DUTIES: "Görev ayrılığı",
-    VALIDATION: "Eksik alan",
-    CALC_REQUIRED: "Hesap gerekli",
-    CALC_BLOCKED: "Hesap engelli",
-    CLOSE_BLOCKED: "Kapanış engeli",
-    NO_TENANT: "Kurum seçilmedi",
-    EVIDENCE_REQUIRED: "Kanıt gerekli",
-    REVIEW_ACK_REQUIRED: "İnceleme beyanı gerekli",
-    INVALID_TRANSITION: "Geçersiz durum geçişi",
-  };
-  return m[code] ?? code;
-}
-
 export function StateBadge({ state }: { state: RecordState }) {
-  const cls: Record<RecordState, string> = {
-    draft: "neutral",
-    validation_required: "warn",
-    calculated: "info",
-    in_review: "info",
-    changes_requested: "warn",
-    approved: "ok",
-    locked: "accent",
-  };
+  const cls: Record<RecordState, string> = { draft: "neutral", validation_required: "warn", calculated: "info", in_review: "info", changes_requested: "warn", approved: "ok", locked: "accent" };
   return <span className={`badge ${cls[state]}`}>{STATE_LABEL[state]}</span>;
 }
 
 export function Empty({ title, children }: { title: string; children?: React.ReactNode }) {
   return (
-    <div className="card">
+    <div className="card quiet">
       <h3>{title}</h3>
       {children}
     </div>
@@ -88,7 +96,7 @@ export function Empty({ title, children }: { title: string; children?: React.Rea
 
 export function Loading({ what = "Veriler" }: { what?: string }) {
   return (
-    <p className="muted" role="status">
+    <p className="muted" role="status" aria-live="polite">
       {what} yükleniyor…
     </p>
   );
@@ -96,10 +104,9 @@ export function Loading({ what = "Veriler" }: { what?: string }) {
 
 export function NoTenant() {
   return (
-    <Notice kind="warn">
+    <Notice kind="warn" title="Kurum seçilmedi">
       <p>
-        <strong>Kurum seçilmedi.</strong> Bu ekran bir kurum bağlamında çalışır. <Link href="/kurulum/">Kurum kurulumu</Link> ile başlayın veya üst
-        çubuktan kurum seçin.
+        Bu ekran bir kurum bağlamında çalışır. <Link href="/kurulum/">Kurum kurulumu</Link> ile başlayın veya üst çubuktan kurum seçin.
       </p>
     </Notice>
   );
@@ -113,11 +120,10 @@ export function Markdown({ body }: { body: string }) {
 export function Planned({ title, dilim, section, children }: { title: string; dilim: string; section: string; children: React.ReactNode }) {
   return (
     <>
-      <h1>{title}</h1>
-      <Notice kind="info">
+      <PageHeader eyebrow={`Planlı · Dilim ${dilim}`} title={title} lead={`Şartname bölümü: ${section}.`} />
+      <Notice kind="info" title="Bu sekme henüz uygulanmadı">
         <p>
-          <strong>Bu sekme henüz uygulanmadı.</strong> Planlandığı dilim: <b>Dilim {dilim}</b>. Şartname bölümü: {section}. Burada çalışmayan buton veya örnek veri
-          yoktur (CLAUDE.md kural 10); aşağıda bu sekmenin ne yapacağı ve hazır olan parçalar listelenir.
+          Burada çalışmayan buton veya örnek veri yoktur (GELISTIRME-KURALLARI.md kural 10). Aşağıda bu sekmenin ne yapacağı ve şimdiden hazır olan parçalar listelenir.
         </p>
       </Notice>
       {children}

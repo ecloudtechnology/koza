@@ -22,6 +22,7 @@ function Belgeler() {
     <div className="doc-layout">
       <aside>
         <h2 style={{ marginTop: 0 }}>Belgeler</h2>
+        <p className="small muted">Proje belgeleri, şartname ve grup çıktıları. Kaynak dosyalar depoda.</p>
         <nav className="doc-list" aria-label="Belge listesi">
           {DOCS.map((d) => (
             <Link key={d.id} href={`/belgeler/?d=${d.id}`} aria-current={d.id === doc.id ? "page" : undefined}>

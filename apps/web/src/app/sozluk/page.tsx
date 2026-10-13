@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { TERMS } from "@/lib/content";
-import { Notice } from "@/components/ui";
+import { Notice, PageHeader } from "@/components/ui";
 
 const fold = (s: string) => s.toLocaleLowerCase("tr").replace(/ı/g, "i").replace(/ğ/g, "g").replace(/ü/g, "u").replace(/ş/g, "s").replace(/ö/g, "o").replace(/ç/g, "c");
 
@@ -10,8 +10,7 @@ export default function Sozluk() {
   const list = TERMS.filter((t) => !q || fold(`${t.tr} ${t.en} ${t.abbr ?? ""} ${t.definition}`).includes(fold(q)));
   return (
     <>
-      <h1>Sözlük</h1>
-      <p className="muted">Başlangıç terimleri (§10): kapsam, sistem sınırı, emisyon faktörü, GWP, fonksiyonel birim, tahsis. Arama Türkçe karakter ve İngilizce karşılıkla çalışır. Tam sözlük ve bağlamsal yardım Dilim 3.</p>
+      <PageHeader eyebrow="Öğrenme · §10 · kısmi (Dilim 3)" title="Sözlük" lead="Başlangıç terimleri: kapsam, sistem sınırı, emisyon faktörü, GWP, fonksiyonel birim, tahsis. Arama Türkçe karakter ve İngilizce karşılıkla çalışır; tam sözlük ve bağlamsal yardım Dilim 3." />
       <Notice kind="info">
         <p>Tanımlar özgün kısa açıklamalardır; standart metinleri kopyalanmamıştır (K-12). Her terim "editör onayı bekliyor" durumundadır. Kaynak bağlantıları §33–§34 listesindendir.</p>
       </Notice>

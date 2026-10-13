@@ -8,6 +8,7 @@ import { ROLE_LABEL, type CalcResult, type FactorRef } from "@/lib/domain";
 import { StoreError } from "@/lib/store";
 import { useStore, fmtDate, fmtDec, kgToT } from "@/lib/useStore";
 import { ErrorBox, Loading, NoTenant, Notice, StateBadge } from "@/components/ui";
+import { explain } from "@/lib/errors";
 
 export default function Page() {
   return (
@@ -272,9 +273,10 @@ function Kayit() {
           <h2>Hesap önizlemesi (DAT-05, §18)</h2>
           {engine === "loading" && <p className="muted" role="status">Hesap motoru (Python, Pyodide) yükleniyor… İlk yüklemede ~10 MB iner.</p>}
           {engine === "failed" && (
-            <Notice kind="crit">
-              <p>
-                <strong>Hesap motoru yüklenemedi.</strong> {engineErr} — Bu durumda hesap yapılmaz; sahte sonuç gösterilmez. Mevcut kayıt ve taslak korunur (§25 süreklilik).
+            <Notice kind="crit" title="Hesap motoru yüklenemedi">
+              <p>{engineErr}</p>
+              <p className="small">
+                <b>Sonuç:</b> {explain("ENGINE_LOAD_FAILED")?.consequence} <b>Ne yapmalı:</b> {explain("ENGINE_LOAD_FAILED")?.action}
               </p>
             </Notice>
           )}
@@ -445,11 +447,19 @@ function ResultView({ r, title }: { r: CalcResult; title: string }) {
             <strong>Hesap yapılamadı.</strong> Engel çözülmeden onay yok.
           </p>
           <ul>
-            {r.blocks.map((b, i) => (
-              <li key={i}>
-                <span className="mono">{b.code}</span> — {b.message_tr} {b.field && <span className="muted">({b.field})</span>}
-              </li>
-            ))}
+            {r.blocks.map((b, i) => {
+              const ex = explain(b.code);
+              return (
+                <li key={i}>
+                  <b>{ex?.title ?? b.code}</b> <code>{b.code}</code> — {b.message_tr} {b.field && <span className="muted">({b.field})</span>}
+                  {ex && (
+                    <div className="small" style={{ marginTop: "0.2rem" }}>
+                      <b>Neden:</b> {ex.cause} <b>Ne yapmalı:</b> {ex.action}
+                    </div>
+                  )}
+                </li>
+              );
+            })}
           </ul>
         </Notice>
       ) : (

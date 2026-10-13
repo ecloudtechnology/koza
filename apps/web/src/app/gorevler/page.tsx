@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useStore, fmtDate } from "@/lib/useStore";
-import { Loading, NoTenant, Notice } from "@/components/ui";
+import { Loading, NoTenant, Notice, PageHeader } from "@/components/ui";
 
 const KIND: Record<string, string> = {
   missing_info: "Eksik bilgi",
@@ -19,8 +19,7 @@ export default function Gorevler() {
   const open = tasks.filter((t) => t.status === "open");
   return (
     <>
-      <h1>Görevler ve veri talepleri</h1>
-      <p className="muted">Eksik bilgi, uzman kararı ve içerik talepleri akışlardan otomatik oluşur. Tedarikçi talepleri (TDR) Dilim 7'de.</p>
+      <PageHeader eyebrow="Görevler" title="Görevler ve veri talepleri" lead="Eksik bilgi, uzman kararı ve içerik talepleri akışlardan otomatik oluşur; eksik veriye sıfır atanmaz, görev açılır. Tedarikçi talepleri (TDR) Dilim 7'de." />
       <Notice kind="info">
         <p>Tedarikçi veri talebi, dış kişiye gönderim ve otomatik hatırlatma bu önizlemede yok; dış gönderim açık yetki ister (§09, §21).</p>
       </Notice>

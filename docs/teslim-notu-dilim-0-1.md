@@ -1,6 +1,6 @@
 # Teslim notu — Dilim 0 ve Dilim 1 (önizleme)
 
-Tarih: 13 Ekim 2026. Biçim: CLAUDE.md "Teslim notu" ve şartname §31 "Teslim biçimi".
+Tarih: 13 Ekim 2026. Biçim: GELISTIRME-KURALLARI.md "Teslim notu" ve şartname §31 "Teslim biçimi".
 
 ## Karşılanan kimlikler
 

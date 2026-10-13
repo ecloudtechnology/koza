@@ -53,4 +53,4 @@ pip install -e packages/calc-engine -e "apps/api[dev]"
 pytest -q
 ```
 
-Yapı: `CLAUDE.md` (kurallar), `docs/` (belgeler), `apps/web` (arayüz), `apps/api` (iş API'si), `packages/calc-engine` (hesap motoru), `content/` (profil, ders, terim, kaynak), `db/migrations`, `tests/`.
+Yapı: `GELISTIRME-KURALLARI.md` (kurallar), `docs/` (belgeler), `apps/web` (arayüz), `apps/api` (iş API'si), `packages/calc-engine` (hesap motoru), `content/` (profil, ders, terim, kaynak), `db/migrations`, `tests/`.

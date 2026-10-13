@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { TRACE } from "@/lib/content";
+import { PageHeader } from "@/components/ui";
 
 const DILIM = [
   ["0", "Depo iskeleti, karar kaydı, CI, kimlik + tenant izolasyonu, audit", "T14 ve izolasyon testleri geçer", "done", "37 API/izolasyon testi; RLS PostgreSQL 15'te doğrulandı; CI iş akışı; kimlik katmanı dev-token (OIDC yok)"],
@@ -20,8 +21,7 @@ export default function Durum() {
   const counts = TRACE.rows.reduce<Record<string, number>>((a, r) => ({ ...a, [r.status]: (a[r.status] ?? 0) + 1 }), {});
   return (
     <>
-      <h1>Proje durumu</h1>
-      <p className="muted">Güncelleme: {TRACE.updated}. Her gereklilik kimliği için durum, yer ve kanıt. "Tamam" yalnız test veya gösterimle desteklenir; sahte tamamlama yok (kural 10).</p>
+      <PageHeader eyebrow={`Proje · güncelleme ${TRACE.updated}`} title="Proje durumu" lead="Her gereklilik kimliği için durum, yer ve kanıt. 'Tamam' yalnız test veya gösterimle desteklenir; sahte tamamlama yok (kural 10)." />
       <div className="row">
         {Object.entries(TXT).map(([k, v]) => (
           <span key={k} className={`badge ${CLS[k]}`}>
@@ -31,7 +31,7 @@ export default function Durum() {
       </div>
 
       <div className="card">
-        <h2>Dilim sırası (CLAUDE.md)</h2>
+        <h2>Dilim sırası (GELISTIRME-KURALLARI.md)</h2>
         <div className="table-wrap">
           <table>
             <thead>

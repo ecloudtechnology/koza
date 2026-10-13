@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { SOURCE_TYPE_LABEL } from "@/lib/domain";
 import { useStore, fmtDec, kgToT } from "@/lib/useStore";
-import { Loading, NoTenant, StateBadge } from "@/components/ui";
+import { Loading, NoTenant, PageHeader, StateBadge } from "@/components/ui";
 
 export default function Envanter() {
   const { store, ready } = useStore();
@@ -13,8 +13,7 @@ export default function Envanter() {
 
   return (
     <>
-      <h1>Emisyon envanteri</h1>
-      <p className="muted">Kapsam 1 — sabit yakma (doğal gaz). Kapsam 2 (Dilim 2) ve Kapsam 3'ün 15 kategorisi (Dilim 7) henüz yok; eksik kapsam görünür kalır (§22).</p>
+      <PageHeader eyebrow="Envanter · Kapsam 1" title="Emisyon envanteri" lead="Sabit yakma (doğal gaz) kayıtları ve kaynak envanteri. Kapsam 2 (Dilim 2) ve Kapsam 3'ün 15 kategorisi (Dilim 7) henüz yok; eksik kapsam görünür kalır (§22)." />
 
       <div className="card">
         <h2>Kaynak envanteri</h2>

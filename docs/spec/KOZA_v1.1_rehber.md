@@ -152,7 +152,7 @@ Forumun 0–6 / 6–18 / 18–36 ay yol haritası, şartnamenin "ilk uçtan uca 
 | Faz 2 · İki hedefi besleyen döngü | KZN + ÖĞR, AKS (Dilim 5–6) | — |
 | Faz 3 · Entegrasyon ve dış uyum | TDR + Kapsam 3, REG paketleri + senaryo defteri (Dilim 7–8) | **Ölçekleme kapısı:** iki hedefin eşikleri + uzman onaylı altın set |
 
-Bir sonraki faza yalnız kapı koşulları sağlandığında geçilir; süreler pilot kapasitesine göre güncellenir ve teslim taahhüdü değildir (§30). Dilim tanımları `CLAUDE.md` "Dilim sırası" tablosundadır.
+Bir sonraki faza yalnız kapı koşulları sağlandığında geçilir; süreler pilot kapasitesine göre güncellenir ve teslim taahhüdü değildir (§30). Dilim tanımları `GELISTIRME-KURALLARI.md` "Dilim sırası" tablosundadır.
 
 ## 7. Başarı ölçütleri ve yeni kabul koşulları
 
@@ -185,7 +185,7 @@ Mevcut ürün ölçütleri korunur; forumun iki hedefi üzerine eklenir. Hedef d
 
 ## 8. Uygulamayı geliştirecek yapay zekâya güncellenmiş talimat
 
-Aşağıdaki metin şartnamenin §31'ine eklenir. Claude Code ile geliştirmede aynı kurallar, depo kökündeki `CLAUDE.md` dosyasında geliştirici iş akışı şemasıyla birlikte yer alır.
+Aşağıdaki metin şartnamenin §31'ine eklenir. geliştirme ortamı ile geliştirmede aynı kurallar, depo kökündeki `GELISTIRME-KURALLARI.md` dosyasında geliştirici iş akışı şemasıyla birlikte yer alır.
 
 ```
 # KOZA — Geliştirme talimatı (v1.1 eki)

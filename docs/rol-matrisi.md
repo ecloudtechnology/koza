@@ -1,6 +1,6 @@
 # Rol ve yetki matrisi
 
-Kaynak: şartname §04 (roller), v1.1 §3 (yeni roller), CLAUDE.md kural 4 (yetki sunucuda). Sunucu tarafı uygulaması `apps/api/koza_api/workflow.py`; önizleme eşdeğeri `apps/web/src/lib/domain.ts` (`PERMISSIONS`). Arayüzde gizlemek yetkilendirme değildir.
+Kaynak: şartname §04 (roller), v1.1 §3 (yeni roller), GELISTIRME-KURALLARI.md kural 4 (yetki sunucuda). Sunucu tarafı uygulaması `apps/api/koza_api/workflow.py`; önizleme eşdeğeri `apps/web/src/lib/domain.ts` (`PERMISSIONS`). Arayüzde gizlemek yetkilendirme değildir.
 
 ## İşlem × rol
 

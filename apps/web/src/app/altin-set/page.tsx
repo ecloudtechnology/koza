@@ -4,7 +4,7 @@ import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 import { GOLDEN } from "@/lib/content";
 import { engineReady, engineVersion, runGolden, type GoldenRun } from "@/lib/calc";
-import { Loading, Notice } from "@/components/ui";
+import { Loading, Notice, PageHeader } from "@/components/ui";
 
 export default function Page() {
   return (
@@ -48,7 +48,7 @@ function AltinSet() {
 
   return (
     <>
-      <h1>Altın set — hesap motoru doğrulaması</h1>
+      <PageHeader eyebrow="Doğrulama · §29" title="Altın set — hesap motoru doğrulaması" />
       <p className="muted">
         {GOLDEN.length} kurgusal senaryo (T01–T04, T20 ve birim/esas/sınır engelleri) depodaki <code>tests/golden/*.json</code> dosyalarından okunur ve <b>aynı Python motoru</b> (packages/calc-engine) tarayıcıda Pyodide ile çalıştırılır. Sonuç burada üretilir; önceden hesaplanmış bir tablo değildir.
       </p>

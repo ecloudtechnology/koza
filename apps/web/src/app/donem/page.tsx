@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { ROLE_LABEL } from "@/lib/domain";
 import { useStore, fmtDate } from "@/lib/useStore";
-import { ErrorBox, Loading, NoTenant, Notice, StateBadge } from "@/components/ui";
+import { ErrorBox, Loading, NoTenant, Notice, PageHeader, StateBadge } from "@/components/ui";
 
 export default function Donem() {
   const { store, ready } = useStore();
@@ -24,8 +24,7 @@ export default function Donem() {
   };
   return (
     <>
-      <h1>Dönem kapanışı</h1>
-      <p className="muted">Kapanış listesi beklenen kayıtları, eksikleri, onay durumunu ve tahminleri gösterir. Kilitli dönem değiştirilemez; yeniden açma gerekçe + etki analizi + yetkili onayı ister (§21, T17). Rol: {ROLE_LABEL[store.role]}.</p>
+      <PageHeader eyebrow={`Dönem · §21 · T17 · rol: ${ROLE_LABEL[store.role]}`} title="Dönem kapanışı" lead="Kapanış listesi beklenen kayıtları, eksikleri, onay durumunu ve tahminleri gösterir. Kilitli dönem değiştirilemez; yeniden açma gerekçe, etki analizi ve yetkili onayı ister." />
       <ErrorBox error={err} />
       {periods.length === 0 && (
         <Notice kind="warn">

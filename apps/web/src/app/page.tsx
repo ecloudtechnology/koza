@@ -2,49 +2,81 @@
 import Link from "next/link";
 import { ROLE_LABEL } from "@/lib/domain";
 import { useStore, fmtDate } from "@/lib/useStore";
-import { Loading, Notice, StateBadge } from "@/components/ui";
+import { Loading, StateBadge } from "@/components/ui";
+
+const CHAIN = [
+  ["Kurulum", "/kurulum/", "Kurum, profil, kaynaklar"],
+  ["Veri", "/veri-girisi/", "Kanıtlı doğal gaz kaydı"],
+  ["Hesap", "/envanter/", "Motorla önizleme ve koşu"],
+  ["Kontrol", "/inceleme/", "Uzman incelemesi ve onay"],
+  ["Dönem", "/donem/", "Kapanış listesi ve kilit"],
+  ["Rapor", "/raporlar/", "Sabit manifest"],
+] as const;
 
 export default function Home() {
   const { store, ready } = useStore();
   if (!ready || !store) return <Loading />;
   const tenant = store.tenant;
 
-  // "Sonraki adım": depo durumundan türetilir (§05 ana sayfa: bugünkü işler, eksikler, sonraki adım)
-  let next: { title: string; href: string; why: string };
-  if (!tenant) next = { title: "Kurum kurulumunu başlat", href: "/kurulum/", why: "Henüz kurum yok. Kurum adı, sektör (NACE) ve kaynak envanteriyle başlanır (ONB-01…03)." };
+  // "Sonraki adım" depo durumundan türetilir (§05 ana sayfa: bugünkü işler, eksikler, sonraki adım)
+  let next: { title: string; href: string; why: string; stage: number };
+  if (!tenant) next = { title: "Kurum kurulumunu başlat", href: "/kurulum/", why: "Henüz kurum yok. Kurum adı, sektör (NACE) ve kaynak envanteriyle başlanır (ONB-01…03).", stage: 0 };
   else if (!tenant.profile_confirmed || store.sources().length === 0 || store.periods().length === 0)
-    next = { title: "Kurulumu tamamla", href: "/kurulum/", why: "Profil onayı, tesis, raporlama dönemi veya kaynak envanteri eksik. Kurulum kaldığı adımdan devam eder (§06)." };
+    next = { title: "Kurulumu tamamla", href: "/kurulum/", why: "Profil onayı, tesis, raporlama dönemi veya kaynak envanteri eksik. Kurulum kaldığı adımdan devam eder (§06).", stage: 0 };
   else {
     const recs = store.records();
-    const byState = (s: string) => recs.filter((r) => r.state === s);
-    if (recs.length === 0) next = { title: "İlk doğal gaz kaydını gir", href: "/veri-girisi/", why: "Kaynak envanteri hazır. İlk görev: bir eğitim kaydı veya gerçek fatura (§06 ilk görev)." };
-    else if (byState("validation_required").length) next = { title: "Eksik bilgiyi tamamla", href: "/gorevler/", why: `${byState("validation_required").length} kayıt doğrulama bekliyor; görevlerde hangi alanın eksik olduğu yazılı (T20).` };
-    else if (byState("draft").length) next = { title: "Taslağı hesapla", href: `/kayit/?id=${byState("draft")[0].id}`, why: "Taslak kayıt var; hesap önizlemesi motorla çalıştırılır (DAT-05)." };
-    else if (byState("changes_requested").length) next = { title: "Düzeltme istenen kaydı güncelle", href: `/kayit/?id=${byState("changes_requested")[0].id}`, why: "İnceleyen gerekçe yazdı; kayıt yeni sürümle düzeltilir." };
-    else if (byState("calculated").length) next = { title: "Kontrole gönder", href: `/kayit/?id=${byState("calculated")[0].id}`, why: "Hesaplandı, onaylandı demek değildir (§21). İnceleme için gönderin." };
-    else if (byState("in_review").length) next = { title: "İnceleme kuyruğu", href: "/inceleme/", why: `${byState("in_review").length} kayıt incelemede. Veri giren ile onaylayan farklı olmalı; üst çubuktan rolü değiştirin.` };
-    else if (byState("approved").length && store.periods().some((p) => p.status === "open")) next = { title: "Dönemi kapat", href: "/donem/", why: "Onaylı kayıtlar var; kapanış listesi eksikleri gösterir, yönetici kilitler (§21)." };
-    else next = { title: "Rapor sürümü oluştur", href: "/raporlar/", why: "Kilitli dönem için sabit manifestli rapor üretilir (T19)." };
+    const by = (s: string) => recs.filter((r) => r.state === s);
+    if (recs.length === 0) next = { title: "İlk doğal gaz kaydını gir", href: "/veri-girisi/", why: "Kaynak envanteri hazır. İlk görev: bir eğitim kaydı veya gerçek fatura (§06).", stage: 1 };
+    else if (by("validation_required").length) next = { title: "Eksik bilgiyi tamamla", href: "/gorevler/", why: `${by("validation_required").length} kayıt doğrulama bekliyor; görevlerde hangi alanın eksik olduğu yazılı (T20).`, stage: 1 };
+    else if (by("draft").length) next = { title: "Taslağı hesapla", href: `/kayit/?id=${by("draft")[0].id}`, why: "Taslak kayıt var; hesap önizlemesi motorla çalıştırılır (DAT-05).", stage: 2 };
+    else if (by("changes_requested").length) next = { title: "Düzeltme istenen kaydı güncelle", href: `/kayit/?id=${by("changes_requested")[0].id}`, why: "İnceleyen gerekçe yazdı; kayıt yeni sürümle düzeltilir.", stage: 2 };
+    else if (by("calculated").length) next = { title: "Kontrole gönder", href: `/kayit/?id=${by("calculated")[0].id}`, why: "Hesaplandı, onaylandı demek değildir (§21). İnceleme için gönderin.", stage: 3 };
+    else if (by("in_review").length) next = { title: "İnceleme kuyruğuna git", href: "/inceleme/", why: `${by("in_review").length} kayıt incelemede. Veri giren ile onaylayan farklı olmalı; üst çubuktan rolü değiştirin.`, stage: 3 };
+    else if (by("approved").length && store.periods().some((p) => p.status === "open")) next = { title: "Dönemi kapat", href: "/donem/", why: "Onaylı kayıtlar var; kapanış listesi eksikleri gösterir, yönetici kilitler (§21).", stage: 4 };
+    else next = { title: "Rapor sürümü oluştur", href: "/raporlar/", why: "Kilitli dönem için sabit manifestli rapor üretilir (T19).", stage: 5 };
   }
 
   const tasks = tenant ? store.tasks().filter((t) => t.status === "open") : [];
   const recent = tenant ? store.db.audit.filter((a) => a.tenant_id === tenant.id).slice(-6).reverse() : [];
+  const recs = tenant ? store.records() : [];
+  const n = (s: string) => recs.filter((r) => r.state === s).length;
 
   return (
     <>
-      <h1>Ne yapmak istiyorsun?</h1>
-      <p className="muted">
-        Oturum: <b>{store.user.name}</b> ({ROLE_LABEL[store.role]}){tenant ? <> · Kurum: <b>{tenant.name}</b></> : null}
-      </p>
-
-      <div className="card">
-        <h2>Sonraki adım</h2>
-        <p>
+      <section className="hero">
+        <div style={{ fontSize: "0.7rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--accent)", fontWeight: 600, marginBottom: "0.4rem" }}>
+          {tenant ? tenant.name : "Hoş geldiniz"} · {store.user.name} ({ROLE_LABEL[store.role]})
+        </div>
+        <h1>Ne yapmak istiyorsun?</h1>
+        <p className="lead">{next.why}</p>
+        <div className="actions">
           <Link className="btn primary" href={next.href}>
-            {next.title}
+            {next.title} →
           </Link>
-        </p>
-        <p className="small">{next.why}</p>
+          {!tenant && (
+            <Link className="btn" href="/hakkinda/">
+              Önce Koza nedir?
+            </Link>
+          )}
+        </div>
+        {tenant && (
+          <div className="stat-row">
+            <div className="stat"><span className="v">{recs.length}</span><span className="l">Kayıt</span></div>
+            <div className="stat"><span className="v">{n("in_review")}</span><span className="l">İncelemede</span></div>
+            <div className="stat"><span className="v">{n("approved") + n("locked")}</span><span className="l">Onaylı</span></div>
+            <div className="stat"><span className="v">{tasks.length}</span><span className="l">Açık görev</span></div>
+          </div>
+        )}
+      </section>
+
+      <div className="flow" aria-label="Çalışma zinciri">
+        {CHAIN.map(([t, href, d], i) => (
+          <Link key={t} href={href} className={`node${i === next.stage ? " on" : ""}`}>
+            <div className="k">Adım {i + 1}</div>
+            <div className="t">{t}</div>
+            <div className="d">{d}</div>
+          </Link>
+        ))}
       </div>
 
       <div className="grid-2">
@@ -56,8 +88,7 @@ export default function Home() {
             <ul>
               {tasks.slice(0, 6).map((t) => (
                 <li key={t.id}>
-                  <Link href={t.related_record_id ? `/kayit/?id=${t.related_record_id}` : "/gorevler/"}>{t.title}</Link>{" "}
-                  <span className="badge neutral">{t.requirement_ids.join(", ")}</span>
+                  <Link href={t.related_record_id ? `/kayit/?id=${t.related_record_id}` : "/gorevler/"}>{t.title}</Link> <span className="badge neutral">{t.requirement_ids.join(", ")}</span>
                 </li>
               ))}
             </ul>
@@ -85,12 +116,12 @@ export default function Home() {
         </div>
       </div>
 
-      {tenant && store.records().length > 0 && (
+      {recs.length > 0 && (
         <div className="card">
           <h2>Kayıt durumları</h2>
           <div className="row">
-            {store.records().map((r) => (
-              <Link key={r.id} href={`/kayit/?id=${r.id}`} className="small">
+            {recs.map((r) => (
+              <Link key={r.id} href={`/kayit/?id=${r.id}`} className="small" style={{ textDecoration: "none" }}>
                 <StateBadge state={r.state} /> <span className="mono">{r.id.slice(0, 12)}</span>
               </Link>
             ))}
@@ -98,16 +129,14 @@ export default function Home() {
         </div>
       )}
 
-      <Notice kind="info">
-        <p>
-          <strong>Bu bir önizlemedir.</strong> Dilim 0–1 akışı (kurum kurulumu → doğal gaz kaydı → hesap → inceleme → dönem kapanışı → rapor) çalışır; hesabı
-          tarayıcıda çalışan aynı Python motoru yapar. Kayıtlar yalnız bu tarayıcıda saklanır; sunucu, veritabanı ve gerçek yetki katmanı bu önizlemede yoktur
-          (depodaki <code>apps/api</code> ve <code>db/migrations</code> bunların kodudur). Kullanılan tüm emisyon faktörleri <b>kurgusal test değerleridir</b>.
+      <div className="card quiet">
+        <h3 style={{ marginTop: 0 }}>Bu önizleme hakkında</h3>
+        <p className="small" style={{ marginBottom: 0 }}>
+          Dilim 0–1 akışı çalışır; hesabı tarayıcıda çalışan aynı Python motoru yapar. Kayıtlar yalnız bu tarayıcıda saklanır; sunucu, veritabanı ve gerçek yetki katmanı depodaki
+          kodda ve testlerde çalışır, önizlemede değil. Tüm emisyon faktörleri <b>kurgusal test değeridir</b>. İnceleyenler için: <Link href="/belgeler/?d=inceleme-rehberi">İnceleme rehberi</Link> ·{" "}
+          <Link href="/durum/">Proje durumu</Link> · <Link href="/hatalar/">Hata sözlüğü</Link>
         </p>
-        <p>
-          İnceleyenler için: <Link href="/belgeler/?d=inceleme-rehberi">İnceleme rehberi</Link> · <Link href="/durum/">Proje durumu ve gereklilik izleme</Link>
-        </p>
-      </Notice>
+      </div>
     </>
   );
 }

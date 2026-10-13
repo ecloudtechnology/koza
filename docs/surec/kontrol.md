@@ -1,8 +1,5 @@
----
-description: Son değişiklikleri Koza'nın değiştirilemez kurallarına göre denetle
----
-
-`git diff` (ya da belirtilen kapsam) üzerinde CLAUDE.md'deki 12 değiştirilemez kuralı tek tek kontrol et. Her kural için: **Geçti / İhlal / İlgisiz** ve ihlalse dosya:satır + önerilen düzeltme.
+# Değiştirilemez kural kontrol listesi
+`git diff` (ya da belirtilen kapsam) üzerinde GELISTIRME-KURALLARI.md'deki 12 değiştirilemez kuralı tek tek kontrol et. Her kural için: **Geçti / İhlal / İlgisiz** ve ihlalse dosya:satır + önerilen düzeltme.
 
 Özellikle ara:
 

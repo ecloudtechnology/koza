@@ -1,6 +1,6 @@
 {
   "catalog_id": "test-catalog",
-  "note_tr": "KURGUSAL TEST KATALOĞU. Bu katsayılar gerçek emisyon faktörü değildir; yalnız yazılım testi ve önizleme içindir (CLAUDE.md kural 12, şartname §18 ve §29). Üretim faktör kataloğuna aktarılamaz.",
+  "note_tr": "KURGUSAL TEST KATALOĞU. Bu katsayılar gerçek emisyon faktörü değildir; yalnız yazılım testi ve önizleme içindir (GELISTIRME-KURALLARI.md kural 12, şartname §18 ve §29). Üretim faktör kataloğuna aktarılamaz.",
   "license": "test-only",
   "method": {
     "id": "ghgp-corporate-test",

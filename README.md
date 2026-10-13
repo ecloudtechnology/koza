@@ -13,7 +13,7 @@ Bu depo, MEXT "İş Dünyasında Sorumlu Üretim" çalışma grubunun forum çı
 ## Depo düzeni
 
 ```
-CLAUDE.md                  # 12 değiştirilemez kural, dilim sırası, komutlar
+GELISTIRME-KURALLARI.md                  # 12 değiştirilemez kural, dilim sırası, komutlar
 docs/
   spec/                    # Şartname v1.0 (§01–§34), v1.1 eki, v1.1 rehber
   forum/                   # Forum bulguları (TR/EN), sistem mimarisi ve karar akışı notu
@@ -33,7 +33,7 @@ db/migrations/             # PostgreSQL: tenant_id + RLS + append-only (up/down)
 tests/golden/              # 32 kurgusal altın senaryo (T01–T04, T20 …)
 tests/factors/             # Kurgusal test faktör kataloğu (yalnız test ve önizleme)
 tests/isolation/           # Kurumlar arası erişim testleri (T14)
-.claude/commands/          # /dilim ve /kontrol
+docs/surec/                # dilim döngüsü ve kural kontrol listesi
 ```
 
 ## Çalıştırma
@@ -60,6 +60,10 @@ cd apps/web && npm run build   # → apps/web/out
 | 2–8 | Elektrik, asistan, SEK/GÖS panosu, Kaizen, AKS, Kapsam 3, REG | Planlı; K-06/07/08/09 kararlarına bağlı olanlar işaretli |
 
 Gereklilik bazında: `docs/gereklilik-izleme.md`. Bilinen eksikler: `docs/teslim-notu-dilim-0-1.md`.
+
+## Ekip
+
+Çalışma grubu: Muhammet Polat, Enes Koç, Çağla Kumru, Elif Sarıkaş, Havva Dönmez, Mısra Toprak, Okan Yılmaz, Zeynep Esmer. Mentor: Onur Dedeoğlu. Ayrıntı: `docs/ekip.md`.
 
 ## Geri bildirim
 

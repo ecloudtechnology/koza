@@ -1,10 +1,10 @@
 # Karar kaydı
 
-Belirsiz noktalar burada çözülür; çözülmeden ilgili kod yazılmaz (§32). Claude Code yeni bir belirsizlik bulursa satır ekler ve durur.
+Belirsiz noktalar burada çözülür; çözülmeden ilgili kod yazılmaz (§32). Geliştirici yeni bir belirsizlik bulursa satır ekler ve durur.
 
 | # | Karar | Önerilen başlangıç | Kesinleştiren | Durum | Kanıt / tarih |
 | --- | --- | --- | --- | --- | --- |
-| K-01 | Teknoloji yığını ve sürümler | CLAUDE.md'deki öneri | Teknik sorumlu | **Dilim 0 kararı** | 13 Eki 2026: Next.js 16 (statik dışa aktarma, TypeScript), FastAPI + Pydantic v2 (Python ≥3.11), saf Python `koza_calc` (Decimal, stdlib), PostgreSQL 15 (RLS). Sürümler `apps/web/package.json`, `apps/api/pyproject.toml`. Gerekçeyle değiştirilebilir. |
+| K-01 | Teknoloji yığını ve sürümler | GELISTIRME-KURALLARI.md'deki öneri | Teknik sorumlu | **Dilim 0 kararı** | 13 Eki 2026: Next.js 16 (statik dışa aktarma, TypeScript), FastAPI + Pydantic v2 (Python ≥3.11), saf Python `koza_calc` (Decimal, stdlib), PostgreSQL 15 (RLS). Sürümler `apps/web/package.json`, `apps/api/pyproject.toml`. Gerekçeyle değiştirilebilir. |
 | K-02 | Pilot sektör profilleri | `genel` + 2 profil | Ürün sahibi + alan uzmanı | Açık | Taslak profiller: `genel`, `agir-sanayi`, `gida-icecek` (status: draft) |
 | K-03 | Profil sınıflandırması (NACE düzeyi, çok faaliyetli kurum kuralı) | NACE bölüm düzeyi; tesis bazlı profil | Alan uzmanı | Açık | Önizlemede bölüm/grup ön ek eşleşmesi; tesise profil alanı var |
 | K-04 | Hesap otoritesi | GHG Protocol tabanlı sürümlü yöntemler | Alan uzmanı | Açık | Test yöntemi `ghgp-corporate-test@0.1`, `approved: false` |
