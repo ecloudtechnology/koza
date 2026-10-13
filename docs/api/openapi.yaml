@@ -1,0 +1,975 @@
+# Üretilmiş dosya — elle düzenlemeyin. Kaynak: apps/api/scripts/export_openapi.py
+openapi: "3.1.0"
+info:
+  title: "Koza API"
+  description: "Koza iş API'si — Dilim 0. Zarf: {data, meta, request_id}; hata: {code, message, field_errors, retryable, request_id}. Kurum bağlamı X-Tenant başlığı + üyelikten doğrulanır."
+  version: "0.1.0"
+paths:
+  /healthz:
+    get:
+      tags:
+        - "ops"
+      summary: "Sağlık"
+      operationId: "healthz_healthz_get"
+      responses:
+        200:
+          description: "Successful Response"
+          content:
+            application/json:
+              schema: {}
+  /v1/activities:
+    post:
+      tags:
+        - "activities"
+      summary: "Taslak oluştur (Idempotency-Key zorunlu)"
+      description: "201 + kayıt/sürüm. Aynı Idempotency-Key + aynı gövde → aynı yanıt; farklı gövde → 409 IDEMPOTENCY_MISMATCH.\nGövdede `tenant_id` kabul edilmez (422); kurum bağlamı X-Tenant + üyelikten gelir."
+      operationId: "create_activity_v1_activities_post"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/ActivityCreate"
+        required: true
+      responses:
+        201:
+          description: "Successful Response"
+          content:
+            application/json:
+              schema: {}
+        422:
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/HTTPValidationError"
+  /v1/activities/{record_id}:
+    get:
+      tags:
+        - "activities"
+      summary: "Kaydı oku"
+      operationId: "get_activity_v1_activities__record_id__get"
+      parameters:
+        - name: "record_id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+            title: "Record Id"
+      responses:
+        200:
+          description: "Successful Response"
+          content:
+            application/json:
+              schema: {}
+        422:
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/HTTPValidationError"
+    patch:
+      tags:
+        - "activities"
+      summary: "Kaydı güncelle (beklenen sürüm zorunlu)"
+      description: "If-Match: \"<version>\" veya gövde `expected_version` zorunlu (428). Uyuşmazlık → 409 VERSION_CONFLICT,\ngövdede güncel sürüm (T18). Kilitli dönem → 409 PERIOD_LOCKED (T17). Onaylı kayıtta veri değişikliği →\ndurum validation_required, onay geçersizleşir (§21)."
+      operationId: "patch_activity_v1_activities__record_id__patch"
+      parameters:
+        - name: "record_id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+            title: "Record Id"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/ActivityPatch"
+      responses:
+        200:
+          description: "Successful Response"
+          content:
+            application/json:
+              schema: {}
+        422:
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/HTTPValidationError"
+  /v1/activities/{record_id}/versions:
+    get:
+      tags:
+        - "activities"
+      summary: "Sürüm geçmişi (append-only)"
+      operationId: "get_activity_versions_v1_activities__record_id__versions_get"
+      parameters:
+        - name: "record_id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+            title: "Record Id"
+      responses:
+        200:
+          description: "Successful Response"
+          content:
+            application/json:
+              schema: {}
+        422:
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/HTTPValidationError"
+  /v1/activities/{record_id}/submit:
+    post:
+      tags:
+        - "activities"
+      summary: "Kontrole gönder"
+      description: "calculated → in_review. Güncel veri sürümü için geçerli (bloke olmayan) koşum şarttır;\ngerekçeli 'uygulanamaz' kayıt hesapsız gönderilebilir."
+      operationId: "submit_activity_v1_activities__record_id__submit_post"
+      parameters:
+        - name: "record_id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+            title: "Record Id"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              anyOf:
+                - "$ref": "#/components/schemas/SubmitRequest"
+                - type: "null"
+              title: "Body"
+      responses:
+        200:
+          description: "Successful Response"
+          content:
+            application/json:
+              schema: {}
+        422:
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/HTTPValidationError"
+  /v1/activities/{record_id}/runs:
+    get:
+      tags:
+        - "activities"
+      summary: "Hesap koşumları (tümü korunur, T13)"
+      operationId: "list_runs_v1_activities__record_id__runs_get"
+      parameters:
+        - name: "record_id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+            title: "Record Id"
+      responses:
+        200:
+          description: "Successful Response"
+          content:
+            application/json:
+              schema: {}
+        422:
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/HTTPValidationError"
+  /v1/calculations/preview:
+    post:
+      tags:
+        - "calculations"
+      summary: "Hesap önizle (hiçbir şey saklanmaz)"
+      description: "Girdi/faktör/yöntem sürümü ve motor sonucu döner; kayıt, koşum veya audit YAZILMAZ."
+      operationId: "preview_v1_calculations_preview_post"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/PreviewRequest"
+        required: true
+      responses:
+        200:
+          description: "Successful Response"
+          content:
+            application/json:
+              schema: {}
+        422:
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/HTTPValidationError"
+  /v1/activities/{record_id}/calculate:
+    post:
+      tags:
+        - "calculations"
+      summary: "Hesapla (değişmez koşum ekler)"
+      description: "Her çağrı yeni bir calculation_run + result ekler; önceki koşumlar silinmez (T13).\nOnaylı kayıtta yeni koşum durumu değiştirmez; onay eski koşuma bağlı kalır, yeni koşum öneri olarak listelenir."
+      operationId: "calculate_v1_activities__record_id__calculate_post"
+      parameters:
+        - name: "record_id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+            title: "Record Id"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/CalculateRequest"
+      responses:
+        201:
+          description: "Successful Response"
+          content:
+            application/json:
+              schema: {}
+        422:
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/HTTPValidationError"
+  /v1/approvals:
+    post:
+      tags:
+        - "approvals"
+      summary: "Onay ver veya düzeltme iste"
+      description: "in_review → approved (yalnız onaylayan, yazar olmayan) veya changes_requested (kontrolör/onaylayan).\nKarar değişmez iz olarak saklanır; kayıt yeni sürüm alır."
+      operationId: "decide_v1_approvals_post"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/ApprovalRequest"
+        required: true
+      responses:
+        201:
+          description: "Successful Response"
+          content:
+            application/json:
+              schema: {}
+        422:
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/HTTPValidationError"
+  /v1/periods:
+    get:
+      tags:
+        - "periods"
+      summary: "Dönemleri listele"
+      operationId: "list_periods_v1_periods_get"
+      responses:
+        200:
+          description: "Successful Response"
+          content:
+            application/json:
+              schema: {}
+    post:
+      tags:
+        - "periods"
+      summary: "Dönem oluştur"
+      operationId: "create_period_v1_periods_post"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/PeriodCreate"
+        required: true
+      responses:
+        201:
+          description: "Successful Response"
+          content:
+            application/json:
+              schema: {}
+        422:
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/HTTPValidationError"
+  /v1/periods/{period_id}:
+    get:
+      tags:
+        - "periods"
+      summary: "Dönemi oku"
+      operationId: "get_period_v1_periods__period_id__get"
+      parameters:
+        - name: "period_id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+            title: "Period Id"
+      responses:
+        200:
+          description: "Successful Response"
+          content:
+            application/json:
+              schema: {}
+        422:
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/HTTPValidationError"
+  /v1/periods/{period_id}/lock:
+    post:
+      tags:
+        - "periods"
+      summary: "Dönemi kilitle (admin)"
+      description: "Tüm kayıtlar onaylı olmalı (aksi 409 PERIOD_NOT_READY). Onaylı kayıtlar `locked` sürümü alır."
+      operationId: "lock_period_v1_periods__period_id__lock_post"
+      parameters:
+        - name: "period_id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+            title: "Period Id"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              anyOf:
+                - "$ref": "#/components/schemas/PeriodLockRequest"
+                - type: "null"
+              title: "Body"
+      responses:
+        200:
+          description: "Successful Response"
+          content:
+            application/json:
+              schema: {}
+        422:
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/HTTPValidationError"
+  /v1/periods/{period_id}/reopen:
+    post:
+      tags:
+        - "periods"
+      summary: "Kilitli dönemi yeniden aç (admin, gerekçe zorunlu)"
+      description: "Gerekçe + onaylayan kaydedilir; eski rapor sürümleri korunur (silme ucu yoktur).\nKilitli kayıtlar `approved` durumuna döner; veri değişirse olağan akışla onay geçersizleşir."
+      operationId: "reopen_period_v1_periods__period_id__reopen_post"
+      parameters:
+        - name: "period_id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+            title: "Period Id"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/PeriodReopenRequest"
+      responses:
+        200:
+          description: "Successful Response"
+          content:
+            application/json:
+              schema: {}
+        422:
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/HTTPValidationError"
+  /v1/reports:
+    post:
+      tags:
+        - "reports"
+      summary: "Rapor oluştur (sabit manifest)"
+      description: "Şartname 202 + job_id öngörür (§27). Dilim 0'da kuyruk yoktur: manifest SENKRON üretilir ve yanıt\n202 ile `status: \"ready\"`, `job_id` = rapor kimliği döner. Önceki rapor sürümü varsa `supersede_reason`\nzorunludur; eski sürüm korunur (kural 9). Rapor dosyası (DOCX/PDF) henüz üretilmez."
+      operationId: "create_report_v1_reports_post"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/ReportCreate"
+        required: true
+      responses:
+        202:
+          description: "Successful Response"
+          content:
+            application/json:
+              schema: {}
+        422:
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/HTTPValidationError"
+  /v1/reports/{report_id}:
+    get:
+      tags:
+        - "reports"
+      summary: "Raporu oku / indir"
+      operationId: "get_report_v1_reports__report_id__get"
+      parameters:
+        - name: "report_id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+            title: "Report Id"
+      responses:
+        200:
+          description: "Successful Response"
+          content:
+            application/json:
+              schema: {}
+        422:
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/HTTPValidationError"
+  /v1/evidence/uploads:
+    post:
+      tags:
+        - "evidence"
+      summary: "Kanıt yükleme kaydı (sha256 + ad + boyut)"
+      description: "Yalnız sha256, dosya adı ve boyut alınır; kurum içinde aynı karma varsa `duplicate_candidates`\nlistelenir (T07). GERÇEK NESNE DEPOSU UYGULANMADI: `upload` alanı null döner, dosya alınmaz,\n`scan_status` 'pending' kalır. Kanıt tarama tamamlanmadan kullanılamaz."
+      operationId: "create_upload_v1_evidence_uploads_post"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/EvidenceUploadRequest"
+        required: true
+      responses:
+        201:
+          description: "Successful Response"
+          content:
+            application/json:
+              schema: {}
+        422:
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/HTTPValidationError"
+  /v1/audit:
+    get:
+      tags:
+        - "audit"
+      summary: "Denetim izi (append-only)"
+      operationId: "list_audit_v1_audit_get"
+      parameters:
+        - name: "object_id"
+          in: "query"
+          required: false
+          schema:
+            anyOf:
+              - type: "string"
+              - type: "null"
+            title: "Object Id"
+        - name: "limit"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+            maximum: 1000
+            minimum: 1
+            default: 100
+            title: "Limit"
+      responses:
+        200:
+          description: "Successful Response"
+          content:
+            application/json:
+              schema: {}
+        422:
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/HTTPValidationError"
+components:
+  schemas:
+    ActivityCreate:
+      properties:
+        period_id:
+          type: "string"
+          title: "Period Id"
+        source_type:
+          type: "string"
+          minLength: 1
+          title: "Source Type"
+        fuel:
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Fuel"
+        quantity:
+          anyOf:
+            - type: "string"
+              pattern: "^-?\\d+(\\.\\d+)?$"
+              description: "Ondalık dize; sayı değil"
+            - type: "null"
+          title: "Quantity"
+        quantity_state:
+          type: "string"
+          enum:
+            - "known"
+            - "unknown"
+            - "not_applicable"
+          title: "Quantity State"
+          default: "unknown"
+        not_applicable_reason:
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Not Applicable Reason"
+        unit:
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Unit"
+        heating_value_basis:
+          anyOf:
+            - type: "string"
+              enum:
+                - "LHV"
+                - "HHV"
+            - type: "null"
+          title: "Heating Value Basis"
+        data_quality:
+          type: "string"
+          enum:
+            - "measured"
+            - "estimated"
+          title: "Data Quality"
+          default: "measured"
+        activity_start:
+          type: "string"
+          format: "date"
+          title: "Activity Start"
+        activity_end:
+          type: "string"
+          format: "date"
+          title: "Activity End"
+        note:
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Note"
+        source_id:
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Source Id"
+      additionalProperties: false
+      type: "object"
+      required:
+        - "period_id"
+        - "source_type"
+        - "activity_start"
+        - "activity_end"
+      title: "ActivityCreate"
+    ActivityPatch:
+      properties:
+        expected_version:
+          anyOf:
+            - type: "integer"
+            - type: "null"
+          title: "Expected Version"
+          description: "If-Match başlığına alternatif"
+        change_reason:
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Change Reason"
+        fuel:
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Fuel"
+        quantity:
+          anyOf:
+            - type: "string"
+              pattern: "^-?\\d+(\\.\\d+)?$"
+              description: "Ondalık dize; sayı değil"
+            - type: "null"
+          title: "Quantity"
+        quantity_state:
+          anyOf:
+            - type: "string"
+              enum:
+                - "known"
+                - "unknown"
+                - "not_applicable"
+            - type: "null"
+          title: "Quantity State"
+        not_applicable_reason:
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Not Applicable Reason"
+        unit:
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Unit"
+        heating_value_basis:
+          anyOf:
+            - type: "string"
+              enum:
+                - "LHV"
+                - "HHV"
+            - type: "null"
+          title: "Heating Value Basis"
+        data_quality:
+          anyOf:
+            - type: "string"
+              enum:
+                - "measured"
+                - "estimated"
+            - type: "null"
+          title: "Data Quality"
+        activity_start:
+          anyOf:
+            - type: "string"
+              format: "date"
+            - type: "null"
+          title: "Activity Start"
+        activity_end:
+          anyOf:
+            - type: "string"
+              format: "date"
+            - type: "null"
+          title: "Activity End"
+        note:
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Note"
+      additionalProperties: false
+      type: "object"
+      title: "ActivityPatch"
+      description: "Kısmi güncelleme. Verilmeyen alan korunur; açık `null` 'bilinmiyor' demektir\n(pydantic `model_fields_set` ile ayırt edilir)."
+    ApprovalRequest:
+      properties:
+        record_id:
+          type: "string"
+          title: "Record Id"
+        expected_version:
+          type: "integer"
+          title: "Expected Version"
+        decision:
+          type: "string"
+          enum:
+            - "approve"
+            - "request_changes"
+          title: "Decision"
+        comment:
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Comment"
+        self_approval_reason:
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Self Approval Reason"
+      additionalProperties: false
+      type: "object"
+      required:
+        - "record_id"
+        - "expected_version"
+        - "decision"
+      title: "ApprovalRequest"
+    CalculateRequest:
+      properties:
+        factor_refs:
+          items:
+            "$ref": "#/components/schemas/FactorRef"
+          type: "array"
+          minItems: 1
+          title: "Factor Refs"
+        method:
+          "$ref": "#/components/schemas/MethodRef"
+        calorific_value:
+          anyOf:
+            - additionalProperties: true
+              type: "object"
+            - type: "null"
+          title: "Calorific Value"
+        basis_conversion:
+          anyOf:
+            - additionalProperties: true
+              type: "object"
+            - type: "null"
+          title: "Basis Conversion"
+        reference_conditions:
+          anyOf:
+            - additionalProperties: true
+              type: "object"
+            - type: "null"
+          title: "Reference Conditions"
+      additionalProperties: false
+      type: "object"
+      required:
+        - "factor_refs"
+        - "method"
+      title: "CalculateRequest"
+    EvidenceUploadRequest:
+      properties:
+        sha256:
+          type: "string"
+          pattern: "^[0-9a-f]{64}$"
+          title: "Sha256"
+        filename:
+          type: "string"
+          maxLength: 255
+          minLength: 1
+          title: "Filename"
+        size_bytes:
+          type: "integer"
+          minimum: 0.0
+          title: "Size Bytes"
+        record_id:
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Record Id"
+      additionalProperties: false
+      type: "object"
+      required:
+        - "sha256"
+        - "filename"
+        - "size_bytes"
+      title: "EvidenceUploadRequest"
+    FactorRef:
+      properties:
+        id:
+          type: "string"
+          title: "Id"
+        version:
+          type: "string"
+          title: "Version"
+      additionalProperties: false
+      type: "object"
+      required:
+        - "id"
+        - "version"
+      title: "FactorRef"
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            "$ref": "#/components/schemas/ValidationError"
+          type: "array"
+          title: "Detail"
+      type: "object"
+      title: "HTTPValidationError"
+    MethodRef:
+      properties:
+        id:
+          type: "string"
+          title: "Id"
+        version:
+          type: "string"
+          title: "Version"
+      additionalProperties: false
+      type: "object"
+      required:
+        - "id"
+        - "version"
+      title: "MethodRef"
+    PeriodCreate:
+      properties:
+        start_date:
+          type: "string"
+          format: "date"
+          title: "Start Date"
+        end_date:
+          type: "string"
+          format: "date"
+          title: "End Date"
+      additionalProperties: false
+      type: "object"
+      required:
+        - "start_date"
+        - "end_date"
+      title: "PeriodCreate"
+    PeriodLockRequest:
+      properties:
+        note:
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Note"
+      additionalProperties: false
+      type: "object"
+      title: "PeriodLockRequest"
+    PeriodReopenRequest:
+      properties:
+        reason:
+          type: "string"
+          title: "Reason"
+        impact_note:
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Impact Note"
+      additionalProperties: false
+      type: "object"
+      required:
+        - "reason"
+      title: "PeriodReopenRequest"
+    PreviewActivity:
+      properties:
+        source_type:
+          type: "string"
+          title: "Source Type"
+        fuel:
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Fuel"
+        quantity:
+          type: "string"
+          pattern: "^-?\\d+(\\.\\d+)?$"
+          title: "Quantity"
+          description: "Ondalık dize; sayı değil"
+        unit:
+          type: "string"
+          title: "Unit"
+        heating_value_basis:
+          anyOf:
+            - type: "string"
+              enum:
+                - "LHV"
+                - "HHV"
+            - type: "null"
+          title: "Heating Value Basis"
+        data_quality:
+          type: "string"
+          enum:
+            - "measured"
+            - "estimated"
+          title: "Data Quality"
+          default: "measured"
+        activity_start:
+          type: "string"
+          format: "date"
+          title: "Activity Start"
+        activity_end:
+          type: "string"
+          format: "date"
+          title: "Activity End"
+      additionalProperties: false
+      type: "object"
+      required:
+        - "source_type"
+        - "quantity"
+        - "unit"
+        - "activity_start"
+        - "activity_end"
+      title: "PreviewActivity"
+    PreviewRequest:
+      properties:
+        activity:
+          "$ref": "#/components/schemas/PreviewActivity"
+        factor_refs:
+          items:
+            "$ref": "#/components/schemas/FactorRef"
+          type: "array"
+          minItems: 1
+          title: "Factor Refs"
+        method:
+          "$ref": "#/components/schemas/MethodRef"
+        calorific_value:
+          anyOf:
+            - additionalProperties: true
+              type: "object"
+            - type: "null"
+          title: "Calorific Value"
+        basis_conversion:
+          anyOf:
+            - additionalProperties: true
+              type: "object"
+            - type: "null"
+          title: "Basis Conversion"
+        reference_conditions:
+          anyOf:
+            - additionalProperties: true
+              type: "object"
+            - type: "null"
+          title: "Reference Conditions"
+      additionalProperties: false
+      type: "object"
+      required:
+        - "activity"
+        - "factor_refs"
+        - "method"
+      title: "PreviewRequest"
+    ReportCreate:
+      properties:
+        period_id:
+          type: "string"
+          title: "Period Id"
+        supersede_reason:
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Supersede Reason"
+          description: "Önceki rapor sürümü varsa neden yenilendiği"
+      additionalProperties: false
+      type: "object"
+      required:
+        - "period_id"
+      title: "ReportCreate"
+    SubmitRequest:
+      properties:
+        note:
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Note"
+      additionalProperties: false
+      type: "object"
+      title: "SubmitRequest"
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+              - type: "string"
+              - type: "integer"
+          type: "array"
+          title: "Location"
+        msg:
+          type: "string"
+          title: "Message"
+        type:
+          type: "string"
+          title: "Error Type"
+        input:
+          title: "Input"
+        ctx:
+          type: "object"
+          title: "Context"
+      type: "object"
+      required:
+        - "loc"
+        - "msg"
+        - "type"
+      title: "ValidationError"

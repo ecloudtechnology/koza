@@ -1,0 +1,11 @@
+id: "101-02"
+title: {tr: "Veri okuryazarlığı"}
+level: başlangıç
+goal: "Miktar, birim, dönem, kaynak ve tahmini ayırmak"
+application: "Örnek faturayı okumak"
+duration_min: null
+status: iskelet — gövde yazılmadı, editör onayı yok
+prerequisites: []
+body: null
+sources: []
+review_date: null

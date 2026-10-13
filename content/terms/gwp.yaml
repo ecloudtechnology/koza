@@ -1,0 +1,10 @@
+id: gwp
+tr: Küresel ısınma potansiyeli
+en: Global warming potential
+abbr: GWP
+definition: "Bir sera gazının belirli bir zaman ufkunda (genelde 100 yıl) CO₂'ye göre ne kadar ısınma etkisi yarattığını gösteren katsayı. Gaz kütleleri GWP ile çarpılarak CO₂e'ye çevrilir. Hangi GWP setinin (hangi IPCC raporunun) kullanıldığı kaydedilir."
+example: "1 kg CH₄ × GWP 28 = 28 kg CO₂e (test seti). Faktör zaten CO₂e veriyorsa GWP tekrar uygulanmaz."
+confused_with: "CO₂e ile aynı şey değildir; CO₂e sonucun birimi, GWP dönüşüm katsayısıdır."
+related_task: "Yöntem sürümü seçimi; CO₂e faktörde çift uygulamayı önleme (T02)."
+source: "K03; IPCC değerlendirme raporları (sürüm yöntemde kayıtlı)"
+status: editör onayı bekliyor

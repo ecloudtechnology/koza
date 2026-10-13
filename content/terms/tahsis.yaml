@@ -1,0 +1,9 @@
+id: tahsis
+tr: Tahsis (paylaştırma)
+en: Allocation
+definition: "Birden fazla ürün, tesis veya kuruma ait ortak bir emisyonun ilgili paylara uygun bir temelle (kütle, enerji, ekonomik değer, fiziksel ilişki) bölünmesi. Tahsis temeli, payda dönemi ve oranı kaydedilir; dağıtılan toplam sınırı aşamaz."
+example: "Aynı kazanın iki üretim hattına buhar vermesi: emisyon hatlara buhar tüketimine göre paylaştırılır."
+confused_with: "Ücretsiz tahsis (ETS'de kurumlara verilen emisyon izni) farklı bir kavramdır ve senaryo defterinde kalır."
+related_task: "Kapsam 3 tahsis ve örnekleme (§16); ürün çalışmasında ortak ürünler."
+source: "K03; K12; K05"
+status: editör onayı bekliyor

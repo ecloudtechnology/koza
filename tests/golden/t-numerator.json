@@ -1,0 +1,66 @@
+{
+  "id": "t-numerator",
+  "title_tr": "Faktör değeri t/GJ → kütle kg ×1000",
+  "requirements": [
+    "§18"
+  ],
+  "note_tr": "Katsayılar kurgusaldır; yalnız yazılım testi içindir.",
+  "request": {
+    "activity": {
+      "id": "act-test-0001",
+      "version": 1,
+      "source_type": "stationary_combustion",
+      "fuel": "natural_gas",
+      "quantity": "100",
+      "unit": "GJ",
+      "heating_value_basis": "LHV",
+      "reference_conditions": null,
+      "calorific_value": null,
+      "basis_conversion": null,
+      "data_quality": "measured",
+      "period": {
+        "start": "2026-01-01",
+        "end": "2026-01-31"
+      }
+    },
+    "factors": [
+      {
+        "id": "TEST-NG-CO2-T",
+        "version": "1.0",
+        "value": "0.05",
+        "numerator_unit": "t",
+        "gas": "CO2",
+        "denominator_unit": "GJ",
+        "basis": "LHV",
+        "reference_conditions": null,
+        "boundary": "combustion",
+        "gwp_set_id": null,
+        "source_ref": "tests/golden — kurgusal",
+        "license": "test-only",
+        "valid_from": "2026-01-01",
+        "valid_to": null
+      }
+    ],
+    "method": {
+      "id": "ghgp-corporate-test",
+      "version": "0.1",
+      "gwp_set": {
+        "id": "TEST-GWP",
+        "CH4": "28",
+        "N2O": "265"
+      }
+    }
+  },
+  "expected": {
+    "status": "computed",
+    "total_co2e_kg": "5000",
+    "block_codes": [],
+    "components": [
+      {
+        "gas": "CO2",
+        "mass_kg": "5000",
+        "co2e_kg": "5000"
+      }
+    ]
+  }
+}

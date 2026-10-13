@@ -1,0 +1,57 @@
+# ÖRNEK — uzman onayı bekliyor. Değerler yapıyı göstermek içindir, kaynak değildir.
+id: agir-sanayi
+version: 0.1.0
+status: draft
+title: {tr: "Ağır sanayi (metal, çimento, cam)", en: "Heavy industry"}
+nace_codes: ["C23", "C24"]
+approved_by: null
+approved_at: null
+
+indicators:
+  - id: scrap_rate
+    name: {tr: "Hurda oranı", en: "Scrap rate"}
+    unit: "%"
+    definition: "Dönemde oluşan hurda kütlesi / toplam çıktı kütlesi"
+    suggested_owner_role: "Üretim"
+    frequency: monthly
+  - id: process_emissions
+    name: {tr: "Proses emisyonu", en: "Process emissions"}
+    unit: tCO2e
+    definition: "Yanma dışı kimyasal/fiziksel proseslerden doğan doğrudan emisyon (Kapsam 1 proses şablonu)"
+    suggested_owner_role: "Çevre / enerji"
+    frequency: monthly
+
+intensity_denominators:
+  - id: production_tonnes
+    name: {tr: "Ürün miktarı"}
+    unit: t
+    source_hint: "Üretim planlama / MES"
+
+onboarding_questions:
+  - id: buys_electricity
+    text: {tr: "Elektrik satın alıyor musunuz?"}
+    creates_source_type: purchased_electricity
+  - id: furnaces
+    text: {tr: "Ergitme, ısıl işlem veya pişirme fırınınız var mı?"}
+    creates_source_type: stationary_combustion
+  - id: process_reactions
+    text: {tr: "Hammaddeden kimyasal reaksiyonla gaz çıkan prosesiniz var mı?"}
+    creates_source_type: process
+  - id: exports_eu
+    text: {tr: "Ürünlerinizi AB'ye ihraç ediyor musunuz?"}
+    creates_source_type: null
+
+scope3_priorities: [1, 3, 4]
+
+lesson_paths:
+  manager: ["101-01", "101-07", "101-09"]
+  specialist: ["101-03", "101-04", "101-05", "101-06", "101-08"]
+  field: ["101-01", "101-02"]
+
+example_documents: ["Elektrik faturası", "Doğal gaz faturası", "Hammadde alım belgesi", "Hurda satış formu"]
+
+regulation_packages:
+  - package_id: cbam
+    note: "Ürün AB'ye ihraç ediliyor ve CBAM kapsamındaysa; §08 değerlendirmesi gerekir"
+  - package_id: national-ets
+    note: "Tesis ulusal ETS kapsamındaysa; eşikler kaynak izleme üzerinden doğrulanır (K-06)"

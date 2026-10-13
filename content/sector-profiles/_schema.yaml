@@ -1,0 +1,43 @@
+# Sektör profili şeması (SEK-02)
+# Profil kod değil veridir. Her profil sürümlüdür ve alan uzmanı onayı olmadan
+# "approved" durumuna geçemez. Profil yalnız önerir/önceliklendirir (SEK-03).
+
+id: string                 # ör. "genel", "agir-sanayi"
+version: semver            # profil değişince yeni sürüm (SEK-04)
+status: draft | review | approved | retired
+title: {tr: string, en: string}
+nace_codes: [string]       # eşleşen NACE bölüm/grup kodları
+approved_by: string | null
+approved_at: date | null
+
+indicators:                # GÖS-02: çekirdek paket her profilde otomatik vardır; burada yalnız eklenenler
+  - id: string
+    name: {tr: string, en: string}
+    unit: string
+    definition: string
+    suggested_owner_role: string
+    frequency: monthly | quarterly | annual
+
+intensity_denominators:    # GÖS-03
+  - id: string
+    name: {tr: string}
+    unit: string           # ör. "t", "m2", "employee", "t.km"
+    source_hint: string    # verinin genelde nereden geleceği
+
+onboarding_questions:      # ONB-03 kaynak envanteri soruları
+  - id: string
+    text: {tr: string}
+    creates_source_type: string   # ör. stationary_combustion, refrigerant
+
+scope3_priorities: [int]   # 1–15; yalnız öncelik sırası, diğer kategoriler silinmez
+
+lesson_paths:              # ÖĞR
+  manager: [lesson_id]
+  specialist: [lesson_id]
+  field: [lesson_id]
+
+example_documents: [string]
+
+regulation_packages:       # REG-01: aday paketler; açılması §08 değerlendirmesine bağlıdır
+  - package_id: string     # ör. "cbam", "national-ets"
+    note: string

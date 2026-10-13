@@ -1,0 +1,64 @@
+{
+  "id": "T03-m3-conditions-unknown-blocked",
+  "title_tr": "m³ koşulsuz, faktör Nm³ başına → otomatik eşitleme yok",
+  "requirements": [
+    "T03",
+    "§12"
+  ],
+  "note_tr": "Katsayılar kurgusaldır; yalnız yazılım testi içindir.",
+  "request": {
+    "activity": {
+      "id": "act-test-0001",
+      "version": 1,
+      "source_type": "stationary_combustion",
+      "fuel": "natural_gas",
+      "quantity": "1000",
+      "unit": "m3",
+      "heating_value_basis": null,
+      "reference_conditions": null,
+      "calorific_value": null,
+      "basis_conversion": null,
+      "data_quality": "measured",
+      "period": {
+        "start": "2026-01-01",
+        "end": "2026-01-31"
+      }
+    },
+    "factors": [
+      {
+        "id": "TEST-NG-CO2-NM3",
+        "version": "1.0",
+        "value": "2",
+        "numerator_unit": "kg",
+        "gas": "CO2",
+        "denominator_unit": "Nm3",
+        "basis": null,
+        "reference_conditions": null,
+        "boundary": "combustion",
+        "gwp_set_id": null,
+        "source_ref": "tests/golden — kurgusal",
+        "license": "test-only",
+        "valid_from": "2026-01-01",
+        "valid_to": null
+      }
+    ],
+    "method": {
+      "id": "ghgp-corporate-test",
+      "version": "0.1",
+      "gwp_set": {
+        "id": "TEST-GWP",
+        "CH4": "28",
+        "N2O": "265"
+      }
+    }
+  },
+  "expected": {
+    "status": "blocked",
+    "total_co2e_kg": null,
+    "coverage": null,
+    "components": [],
+    "block_codes": [
+      "UNIT_CONDITIONS_UNKNOWN"
+    ]
+  }
+}

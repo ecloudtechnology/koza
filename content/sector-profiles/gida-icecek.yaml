@@ -1,0 +1,53 @@
+# ÖRNEK — uzman onayı bekliyor. Değerler yapıyı göstermek içindir, kaynak değildir.
+id: gida-icecek
+version: 0.1.0
+status: draft
+title: {tr: "Gıda ve içecek üretimi", en: "Food and beverage manufacturing"}
+nace_codes: ["C10", "C11"]
+approved_by: null
+approved_at: null
+
+indicators:
+  - id: water_intensity
+    name: {tr: "Su yoğunluğu", en: "Water intensity"}
+    unit: m3/t
+    definition: "Dönemdeki toplam su çekimi / dönemdeki üretim miktarı"
+    suggested_owner_role: "Üretim veya çevre sorumlusu"
+    frequency: monthly
+  - id: food_loss_rate
+    name: {tr: "Gıda kaybı oranı", en: "Food loss rate"}
+    unit: "%"
+    definition: "Üretimde kaybolan ürün kütlesi / girdi kütlesi"
+    suggested_owner_role: "Kalite"
+    frequency: monthly
+
+intensity_denominators:
+  - id: production_tonnes
+    name: {tr: "Üretim miktarı"}
+    unit: t
+    source_hint: "Üretim planlama / ERP"
+
+onboarding_questions:
+  - id: buys_electricity
+    text: {tr: "Elektrik satın alıyor musunuz?"}
+    creates_source_type: purchased_electricity
+  - id: boilers
+    text: {tr: "Buhar kazanı veya fırın kullanıyor musunuz?"}
+    creates_source_type: stationary_combustion
+  - id: cold_chain
+    text: {tr: "Soğuk oda veya soğutma hattınız var mı?"}
+    creates_source_type: refrigerant
+  - id: packaging
+    text: {tr: "Ürünlerinizi ambalajlıyor musunuz?"}
+    creates_source_type: purchased_goods
+
+scope3_priorities: [1, 4, 5, 12]
+
+lesson_paths:
+  manager: ["101-01", "101-07", "101-09"]
+  specialist: ["101-03", "101-04", "101-05", "101-06", "101-08"]
+  field: ["101-01", "101-02", "101-10"]
+
+example_documents: ["Elektrik faturası", "Doğal gaz faturası", "Soğutucu gaz servis formu", "Atık teslim formu"]
+
+regulation_packages: []

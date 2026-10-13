@@ -1,0 +1,10 @@
+id: emisyon-faktoru
+tr: Emisyon faktörü
+en: Emission factor
+abbr: EF
+definition: "Bir birim faaliyet (ör. 1 GJ yakıt, 1 kWh elektrik) başına salınan sera gazı miktarını veren katsayı. Değerinin yanında birimi, gazı (CO₂ mü, CO₂e mi), coğrafyası, yılı, sınırı ve kaynağı olmadan kullanılamaz."
+example: "50 kg CO₂ / GJ (alt ısıl değer esaslı, yanma) — bu uygulamadaki tüm faktörler kurgusal test değerleridir."
+confused_with: "GWP (gaz başına ısınma katsayısı) ile karıştırılır; faktör faaliyet→gaz, GWP gaz→CO₂e dönüşümüdür."
+related_task: "Hesap önizlemesinde faktör seçimi; sonuçtan faktöre ve kaynağa iz."
+source: "K03; şartname §18"
+status: editör onayı bekliyor

@@ -1,0 +1,80 @@
+{
+  "id": "T04-hhv-with-basis-conversion-review",
+  "title_tr": "HHV→LHV oranı 0,9 kaynaklı → 100×0,9×50 = 4500, inceleme gerekli",
+  "requirements": [
+    "T04"
+  ],
+  "note_tr": "Katsayılar kurgusaldır; yalnız yazılım testi içindir.",
+  "request": {
+    "activity": {
+      "id": "act-test-0001",
+      "version": 1,
+      "source_type": "stationary_combustion",
+      "fuel": "natural_gas",
+      "quantity": "100",
+      "unit": "GJ",
+      "heating_value_basis": "HHV",
+      "reference_conditions": null,
+      "calorific_value": null,
+      "basis_conversion": {
+        "ratio": "0.9",
+        "from": "HHV",
+        "to": "LHV",
+        "source_ref": "tests/golden — kurgusal oran"
+      },
+      "data_quality": "measured",
+      "period": {
+        "start": "2026-01-01",
+        "end": "2026-01-31"
+      }
+    },
+    "factors": [
+      {
+        "id": "TEST-NG-CO2",
+        "version": "1.0",
+        "value": "50",
+        "numerator_unit": "kg",
+        "gas": "CO2",
+        "denominator_unit": "GJ",
+        "basis": "LHV",
+        "reference_conditions": null,
+        "boundary": "combustion",
+        "gwp_set_id": null,
+        "source_ref": "tests/golden — kurgusal",
+        "license": "test-only",
+        "valid_from": "2026-01-01",
+        "valid_to": null
+      }
+    ],
+    "method": {
+      "id": "ghgp-corporate-test",
+      "version": "0.1",
+      "gwp_set": {
+        "id": "TEST-GWP",
+        "CH4": "28",
+        "N2O": "265"
+      }
+    }
+  },
+  "expected": {
+    "status": "review_required",
+    "total_co2e_kg": "4500",
+    "coverage": "co2_only",
+    "block_codes": [],
+    "warning_codes": [
+      "BASIS_CONVERSION_APPLIED"
+    ],
+    "normalized_activity": {
+      "quantity": "90",
+      "unit": "GJ",
+      "basis": "LHV"
+    },
+    "components": [
+      {
+        "gas": "CO2",
+        "mass_kg": "4500",
+        "gwp_applied": false
+      }
+    ]
+  }
+}

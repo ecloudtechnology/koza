@@ -1,0 +1,45 @@
+# ÖRNEK — uzman onayı bekliyor. Uygun profil bulunmayan kurumlar bununla başlar (SEK-05).
+id: genel
+version: 0.1.0
+status: draft
+title: {tr: "Genel profil", en: "General profile"}
+nace_codes: []
+approved_by: null
+approved_at: null
+
+indicators: []             # yalnız çekirdek paket
+
+intensity_denominators:
+  - id: employees
+    name: {tr: "Çalışan sayısı (FTE)"}
+    unit: employee
+    source_hint: "İK kayıtları"
+  - id: floor_area
+    name: {tr: "Kullanım alanı"}
+    unit: m2
+    source_hint: "Kira sözleşmesi veya tesis kaydı"
+
+onboarding_questions:
+  - id: buys_electricity
+    text: {tr: "Elektrik satın alıyor musunuz?"}
+    creates_source_type: purchased_electricity
+  - id: burns_fuel
+    text: {tr: "Yakıt yakan ekipmanınız (kazan, jeneratör, araç) var mı?"}
+    creates_source_type: stationary_combustion
+  - id: has_cooling
+    text: {tr: "Klima veya soğutma ekipmanınız var mı?"}
+    creates_source_type: refrigerant
+  - id: buys_goods
+    text: {tr: "Malzeme veya hizmet satın alıyor musunuz?"}
+    creates_source_type: purchased_goods
+
+scope3_priorities: [1, 6, 7, 5]
+
+lesson_paths:
+  manager: ["101-01", "101-07", "101-09"]
+  specialist: ["101-02", "101-03", "101-04", "101-05", "101-08"]
+  field: ["101-01", "101-02"]
+
+example_documents: ["Elektrik faturası", "Doğal gaz faturası", "Yakıt alım fişi"]
+
+regulation_packages: []

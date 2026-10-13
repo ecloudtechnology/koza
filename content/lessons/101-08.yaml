@@ -1,0 +1,11 @@
+id: "101-08"
+title: {tr: "Kanıt ve kalite"}
+level: başlangıç
+goal: "Eksik veri, varsayım ve onayı anlamak"
+application: "Hatalı kaydı düzeltmek"
+duration_min: null
+status: iskelet — gövde yazılmadı, editör onayı yok
+prerequisites: []
+body: null
+sources: []
+review_date: null

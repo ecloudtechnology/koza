@@ -1,0 +1,9 @@
+id: sistem-siniri
+tr: Sistem sınırı
+en: System boundary
+definition: "Bir ürün veya kurum çalışmasında hangi süreçlerin, aşamaların ve kaynakların hesaba dahil edildiğinin açık tanımı. Ürün çalışmalarında kapıdan kapıya, beşikten kapıya, beşikten mezara gibi sınırlar vardır."
+example: "Beşikten kapıya: ham madde çıkarımından ürünün fabrikadan çıkışına kadar; kullanım ve ömür sonu dahil değil."
+confused_with: "Kapsam (kurumsal 1/2/3 ayrımı) ve envanter sınırı (hangi kuruluşların dahil olduğu)."
+related_task: "Ürün çalışması tanımı (§17); faktörün kapsadığı süreçleri kontrol etme."
+source: "K12 GHG Protocol Product Standard; K13 ISO 14040/14044"
+status: editör onayı bekliyor
