@@ -50,7 +50,7 @@ git clone <depo>
 cd koza/apps/web && npm install && npm run dev            # arayüz
 python3 -m venv .venv && . .venv/bin/activate
 pip install -e packages/calc-engine -e "apps/api[dev]"
-pytest packages/calc-engine/tests apps/api/tests tests/isolation -q
+pytest -q
 ```
 
 Yapı: `CLAUDE.md` (kurallar), `docs/` (belgeler), `apps/web` (arayüz), `apps/api` (iş API'si), `packages/calc-engine` (hesap motoru), `content/` (profil, ders, terim, kaynak), `db/migrations`, `tests/`.

@@ -13,7 +13,7 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install -e packages/calc-engine -e "apps/api[dev]"
-      - run: pytest packages/calc-engine/tests apps/api/tests tests/isolation -q
+      - run: pytest -q
       - name: Altın set
         run: python -c "from koza_calc.golden import run_dir; r=run_dir('tests/golden'); print(r['passed'], r['failed']); assert r['failed']==0"
       - name: OpenAPI güncel mi

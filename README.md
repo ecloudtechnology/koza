@@ -42,7 +42,7 @@ tests/isolation/           # Kurumlar arası erişim testleri (T14)
 # Hesap motoru + API + izolasyon testleri
 python3 -m venv .venv && . .venv/bin/activate
 pip install -e packages/calc-engine -e "apps/api[dev]"
-pytest packages/calc-engine/tests apps/api/tests tests/isolation -q
+pytest -q
 
 # Arayüz (geliştirme)
 cd apps/web && npm install && npm run dev

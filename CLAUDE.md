@@ -109,7 +109,7 @@ Dilim 0'da dolduruldu (13 Ekim 2026).
 ```
 # kurulum:     python3 -m venv .venv && . .venv/bin/activate && pip install -e packages/calc-engine -e "apps/api[dev]"
 #              cd apps/web && npm install
-# test:        pytest packages/calc-engine/tests apps/api/tests tests/isolation -q
+# test:        pytest -q
 # altın set:   python -c "from koza_calc.golden import run_dir; print(run_dir('tests/golden'))"
 # izolasyon:   pytest tests/isolation -q
 # lint/tip:    cd apps/web && npx eslint src && npm run typecheck
