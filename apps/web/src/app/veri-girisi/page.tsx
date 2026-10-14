@@ -186,6 +186,8 @@ function VeriGirisi() {
       const d = clone(detail);
       d.data_source = dataSource;
       d.responsible = responsible || null;
+      // Kaynakta tanımlı yakıt, kullanıcı değiştirmediyse varsayılandır (kaynak envanteri → kayıt)
+      if (getPath(d, "fuel") === undefined && source?.fuel && schema.fields.some((f) => f.key === "fuel")) setPath(d, "fuel", source.fuel);
       if (fam === "energy" && schema.scope === 1 && !basis) {
         // "bilmiyorum" → esas null; depo görev açar (T20)
       }
@@ -572,7 +574,7 @@ function VeriGirisi() {
             )}
           </fieldset>
 
-          <SchemaFields schema={schema} detail={detail} unknownFields={unknownFields} setField={setField} toggleUnknown={toggleUnknown} />
+          <SchemaFields schema={schema} detail={detail} unknownFields={unknownFields} setField={setField} toggleUnknown={toggleUnknown} sourceFuel={source?.fuel} />
 
           {schema.scope === 2 && <InstrumentsEditor detail={detail} setField={setField} />}
           {schema.scope === 3 && <MethodChecklist detail={detail} setField={setField} />}
@@ -589,7 +591,7 @@ function VeriGirisi() {
   );
 }
 
-function SchemaFields({ schema, detail, unknownFields, setField, toggleUnknown }: { schema: RecordSchema; detail: Record<string, unknown>; unknownFields: string[]; setField: (k: string, v: unknown) => void; toggleUnknown: (k: string, on: boolean) => void }) {
+function SchemaFields({ schema, detail, unknownFields, setField, toggleUnknown, sourceFuel }: { schema: RecordSchema; detail: Record<string, unknown>; unknownFields: string[]; setField: (k: string, v: unknown) => void; toggleUnknown: (k: string, on: boolean) => void; sourceFuel?: string | null }) {
   const visible = schema.fields.filter((f) => f.key !== "heating_value_basis" && fieldVisible(f, detail));
   const groups = Array.from(new Set(visible.map((f) => f.group)));
   if (!groups.length) return null;
@@ -603,7 +605,7 @@ function SchemaFields({ schema, detail, unknownFields, setField, toggleUnknown }
             {visible
               .filter((f) => f.group === g)
               .map((spec) => (
-                <Field key={spec.key} spec={spec} value={getPath(detail, spec.key)} unknown={unknownFields.includes(spec.key)} onChange={(v) => setField(spec.key, v)} onUnknown={(on) => toggleUnknown(spec.key, on)} help={g.startsWith("Veri kalitesi") ? DQ_DIMS.find((d) => spec.key.endsWith(d.key))?.help : undefined} />
+                <Field key={spec.key} spec={spec} value={getPath(detail, spec.key) ?? (spec.key === "fuel" ? sourceFuel ?? undefined : undefined)} unknown={unknownFields.includes(spec.key)} onChange={(v) => setField(spec.key, v)} onUnknown={(on) => toggleUnknown(spec.key, on)} help={g.startsWith("Veri kalitesi") ? DQ_DIMS.find((d) => spec.key.endsWith(d.key))?.help : undefined} />
               ))}
           </div>
         </fieldset>
