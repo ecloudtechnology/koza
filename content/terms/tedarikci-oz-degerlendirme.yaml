@@ -1,0 +1,19 @@
+id: tedarikci-oz-degerlendirme
+tr: Tedarikçi öz değerlendirme
+en: Supplier self-assessment
+abbr: null
+aliases: ["tedarikçi anketi", "supplier self assessment", "tedarikçi öz değerlendirme", "öz değerlendirme"]
+kind: terim
+contexts: [envanter, yonetim]
+definition: >-
+  Tedarikçinin kendi süreçleri, enerji ve emisyon verisi ve yönetim uygulamaları hakkında kısa bir
+  standart formu doldurması. Risk temelli tedarikçi programının ilk adımıdır; yüksek riskte saha
+  ziyareti görevi açılır, ceza yerine düzeltici plan izlenir. Verilen veri "yalnız toplulaştırılmış
+  kullanım" taahhüdüyle işlenir.
+example: "İlk dalgada harcama ve emisyon yoğunluğuna göre seçilen tedarikçilere kısa form ve örnek dolu şablon gönderilir."
+confused_with: "Denetim ile karıştırılır; öz değerlendirme tedarikçinin beyanıdır, doğrulanmış değildir."
+related_task: "Tedarikçi programında talep göndermek (TDR-02, açık yetki gerekir)."
+related_route: "/tedarikci/"
+likely_department: "Satın alma / tedarikçi ilişkileri"
+source: "TDR-01…04"
+status: editör onayı bekliyor

@@ -1,0 +1,64 @@
+# Varsayılan RACI satırları — docs/forum/sistem-mimarisi-karar-akisi.md "Yönetim modeli ve uygulama planı" tablosundan.
+# A/R/C/I ayrımı tablodaki "sorumlu birimler" sütunundan türetilmiş ÖNERİDİR; kurum düzenler.
+id: varsayilan
+version: 0.1.0
+status: draft
+source: "docs/forum/sistem-mimarisi-karar-akisi.md — Yönetim modeli ve uygulama planı"
+
+rows:
+  - process_id: governance
+    process: {tr: "Yönetişim ve strateji"}
+    responsible: ["Sürdürülebilirlik"]
+    accountable: "Üst yönetim"
+    consulted: ["Finans"]
+    informed: ["Süreç sahipleri"]
+    deliverable: {tr: "Hedef kartı, RACI, yatırım onay kuralları"}
+    metric: {tr: "Hedef sahibi atanma oranı"}
+  - process_id: process_architecture
+    process: {tr: "Süreç mimarisi"}
+    responsible: ["Üretim", "Bakım"]
+    accountable: "Üretim"
+    consulted: ["Satın alma", "İK"]
+    informed: ["Sürdürülebilirlik"]
+    deliverable: {tr: "Karar kapıları ve süreç akışları"}
+    metric: {tr: "ESG değerlendirmesinden geçen değişiklik oranı"}
+  - process_id: data_integration
+    process: {tr: "Veri ve entegrasyon"}
+    responsible: ["BT", "Enerji"]
+    accountable: "BT"
+    consulted: ["Çevre", "Kalite"]
+    informed: ["Sürdürülebilirlik"]
+    deliverable: {tr: "Veri sözleşmeleri, entegrasyon, kontrol kayıtları"}
+    metric: {tr: "Otomatik veri ve geçerli veri oranı"}
+  - process_id: decision_action
+    process: {tr: "Karar ve aksiyon"}
+    responsible: ["Üretim", "Bakım"]
+    accountable: "Üretim"
+    consulted: ["İSG"]
+    informed: ["Üst yönetim"]
+    deliverable: {tr: "Sapma uyarısı, görev, düzeltici faaliyet"}
+    metric: {tr: "Aksiyon kapanış süresi, tekrar eden sapmalar"}
+  - process_id: employee_experience
+    process: {tr: "Çalışan deneyimi"}
+    responsible: ["İK", "Üretim"]
+    accountable: "İK"
+    consulted: ["İSG"]
+    informed: ["Sürdürülebilirlik elçileri"]
+    deliverable: {tr: "Green Kaizen, eğitim ve etki kontrolü"}
+    metric: {tr: "Memnuniyet skoru, uygulanan öneri oranı"}
+  - process_id: supply_external
+    process: {tr: "Tedarik ve dış paydaş"}
+    responsible: ["Satın alma"]
+    accountable: "Satın alma"
+    consulted: ["Sürdürülebilirlik"]
+    informed: ["Finans"]
+    deliverable: {tr: "Tedarikçi veri ve gelişim programı"}
+    metric: {tr: "Katılan kritik tedarikçi oranı"}
+  - process_id: assurance_continuity
+    process: {tr: "Güvence ve süreklilik"}
+    responsible: ["BT", "İç kontrol"]
+    accountable: "İç kontrol"
+    consulted: ["Sürdürülebilirlik"]
+    informed: ["Üst yönetim"]
+    deliverable: {tr: "Denetim izi, yedek süreç, veri mutabakatı"}
+    metric: {tr: "Veri kesintisi ve düzeltme süresi"}

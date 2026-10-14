@@ -1,0 +1,34 @@
+/* urun-rapor modülü: ürün çalışması ve rapor paketi ekranları; yazdırma (PDF tarayıcıdan) biçimi. */
+.ur-lines td.num, .ur-lines th.num { text-align: right; }
+.ur-total { display: flex; flex-wrap: wrap; gap: 1.5rem; align-items: baseline; margin: 0.5rem 0 0.75rem; }
+.ur-total .big-num { font-size: 1.7rem; }
+.ur-section { margin-top: 1rem; }
+.ur-section h2 { margin-top: 0; }
+.ur-section p { margin-bottom: 0.4rem; }
+.ur-section table { margin-top: 0.4rem; }
+.ur-print-head { display: none; }
+.ur-boundary-q { display: grid; gap: 0.4rem; }
+.ur-boundary-q label { display: grid; grid-template-columns: auto 1fr; gap: 0.55rem; align-items: start; padding: 0.5rem 0.65rem; border: 1px solid var(--line); border-radius: var(--radius-sm); cursor: pointer; font-weight: 400; }
+.ur-boundary-q label:has(input:checked) { border-color: var(--accent); background: var(--accent-soft); }
+.ur-boundary-q .t { font-size: 0.78rem; color: var(--ink-3); }
+.ur-exports { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.75rem; }
+.ur-factors { display: grid; gap: 0.3rem; max-height: 220px; overflow: auto; border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 0.5rem 0.65rem; }
+.ur-factors label { font-weight: 400; display: flex; gap: 0.45rem; align-items: flex-start; font-size: 0.85rem; }
+
+@media print {
+  .nav, .topbar, .scrim, .menu-toggle, .ur-no-print, .page-head .tags { display: none !important; }
+  .shell { display: block; }
+  .content { padding: 0; max-width: none; }
+  .card { box-shadow: none; border: 0; padding: 0; margin: 0 0 0.75rem; break-inside: avoid; }
+  details { border: 0; padding: 0; }
+  details > summary { display: none; }
+  details:not([open]) > *:not(summary) { display: block; }
+  .ur-print-head { display: block; border-bottom: 2px solid #000; margin-bottom: 1rem; padding-bottom: 0.5rem; font-size: 0.85rem; }
+  .ur-section { break-inside: avoid; page-break-inside: avoid; }
+  h1 { font-size: 1.5rem; }
+  h2 { font-size: 1.05rem; margin-top: 1rem; }
+  table { font-size: 0.78rem; }
+  th { position: static; background: #eee; color: #000; }
+  a { color: inherit; text-decoration: none; }
+  body { background: #fff; color: #000; }
+}

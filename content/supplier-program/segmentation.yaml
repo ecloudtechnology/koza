@@ -1,0 +1,24 @@
+id: segmentation
+version: 0.1.0
+intensity_classes:
+  - value: high
+    label: "Yüksek emisyon yoğunluğu"
+    weight: 3
+    note: "Metal, çimento, kimya, cam, kâğıt gibi enerji ve proses yoğun ürünler; ağırlık 3."
+  - value: medium
+    label: "Orta emisyon yoğunluğu"
+    weight: 2
+    note: "Plastik parça, elektronik, tekstil, makine gibi orta yoğunluklu ürünler; ağırlık 2."
+  - value: low
+    label: "Düşük emisyon yoğunluğu"
+    weight: 1
+    note: "Hizmet, yazılım, danışmanlık, ofis malzemesi; ağırlık 1."
+  - value: unknown
+    label: "Bilinmiyor"
+    weight: 3
+    note: "Bilinmeyen yoğunluk düşük sayılmaz; önceliklendirmede ihtiyatlı olarak yüksek ağırlık alır (kural 2)."
+first_wave_percent: 20
+note: >-
+  Sıralama puanı = harcama tutarı × yoğunluk ağırlığı. Bu bir önceliklendirmedir, emisyon hesabı değildir;
+  hiçbir emisyon değeri üretmez. Farklı para birimindeki harcamalar birbirine çevrilmez; her para birimi
+  kendi içinde sıralanır.

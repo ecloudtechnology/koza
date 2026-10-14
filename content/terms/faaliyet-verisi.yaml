@@ -1,0 +1,18 @@
+id: faaliyet-verisi
+tr: Faaliyet verisi
+en: Activity data
+abbr: null
+aliases: ["activity data", "faaliyet verisi", "tüketim verisi", "aktivite verisi"]
+kind: terim
+contexts: [envanter, urun, veri-girisi]
+definition: >-
+  Emisyona yol açan faaliyetin ölçülen miktarı: yakılan yakıt, tüketilen elektrik, taşınan ton-km,
+  satın alınan malzeme kütlesi. Hesabın girdisidir ve her zaman birim, dönem, kaynak ve veri
+  niteliğiyle birlikte kaydedilir.
+example: "1.250 Sm³ doğal gaz, Aralık 2025, fatura F-1, ölçülmüş."
+confused_with: "Ödeme tutarı ile karıştırılır; tutar faaliyet verisi değildir (harcama bazlı yöntem ayrı ve tahmini bir yaklaşımdır)."
+related_task: "Veri girişinde miktar, birim ve dönemi kanıtla kaydetmek."
+related_route: "/veri-girisi/"
+likely_department: "Tesis bakım / satın alma / lojistik"
+source: "K03; §11"
+status: editör onayı bekliyor

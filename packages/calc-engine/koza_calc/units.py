@@ -2,9 +2,12 @@
 
 * Enerji: MJ, GJ, kWh, MWh — sabit tablo (MJ cinsinden).
 * Kütle: kg, t.
-* Hacim: m3, Nm3, Sm3 — Nm3 (0 °C, 101.325 kPa) ve Sm3 (15 °C, 101.325 kPa)
+* Hacim (gaz): m3, Nm3, Sm3 — Nm3 (0 °C, 101.325 kPa) ve Sm3 (15 °C, 101.325 kPa)
   tanımlıdır; düz m3 yalnız referans koşuluyla dönüşür. Dönüşüm ideal gaz
   oranıyla yapılır: V2 = V1 · T2/T1 · P1/P2 (sıcaklık kelvin).
+* Hacim (sıvı, 0.2): L, m3_liquid (=1000 L) — gaz hacmiyle karışmaz.
+* Mesafe: km. Kütle-mesafe: t.km, kg.km. Yolcu-mesafe: p.km. Adet: unit.
+* Para: TRY, EUR, USD — birbirine dönüştürülmez (CURRENCY_MISMATCH).
 """
 
 from __future__ import annotations
@@ -16,6 +19,12 @@ from .errors import CalcBlock
 ENERGY = "energy"
 MASS = "mass"
 VOLUME = "volume"
+VOLUME_LIQUID = "volume_liquid"
+DISTANCE = "distance"
+MASS_DISTANCE = "mass_distance"
+PASSENGER_DISTANCE = "passenger_distance"
+COUNT = "count"
+CURRENCY = "currency"
 
 ENERGY_IN_MJ: dict[str, Decimal] = {
     "MJ": Decimal("1"),
@@ -28,6 +37,21 @@ MASS_IN_KG: dict[str, Decimal] = {
     "kg": Decimal("1"),
     "t": Decimal("1000"),
 }
+
+LIQUID_IN_L: dict[str, Decimal] = {
+    "L": Decimal("1"),
+    "m3_liquid": Decimal("1000"),
+}
+
+MASS_DISTANCE_IN_KGKM: dict[str, Decimal] = {
+    "kg.km": Decimal("1"),
+    "t.km": Decimal("1000"),
+}
+
+DISTANCE_UNITS = ("km",)
+PASSENGER_DISTANCE_UNITS = ("p.km",)
+COUNT_UNITS = ("unit",)
+CURRENCY_UNITS = ("TRY", "EUR", "USD")
 
 #: Tanımlı standart hacimler: (sıcaklık °C, basınç kPa)
 STANDARD_CONDITIONS: dict[str, tuple[Decimal, Decimal]] = {
@@ -42,21 +66,44 @@ KELVIN_OFFSET = Decimal("273.15")
 IDEAL_GAS_SOURCE = "ideal gaz: V2 = V1 · T2/T1 · P1/P2 (kelvin)"
 FIXED_TABLE_SOURCE = "sabit tablo"
 
+#: Aynı aile içinde sabit tabloyla dönüşen birimler: aile -> (birim -> taban katsayı)
+_SCALED_FAMILIES: dict[str, dict[str, Decimal]] = {
+    ENERGY: ENERGY_IN_MJ,
+    MASS: MASS_IN_KG,
+    VOLUME_LIQUID: LIQUID_IN_L,
+    MASS_DISTANCE: MASS_DISTANCE_IN_KGKM,
+}
+
+#: Tek birimli aileler: dönüşüm yalnız kendisine (oran 1).
+_SINGLE_UNIT_FAMILIES: dict[str, tuple[str, ...]] = {
+    DISTANCE: DISTANCE_UNITS,
+    PASSENGER_DISTANCE: PASSENGER_DISTANCE_UNITS,
+    COUNT: COUNT_UNITS,
+}
+
 
 def unit_family(unit: object) -> str | None:
     if not isinstance(unit, str):
         return None
-    if unit in ENERGY_IN_MJ:
-        return ENERGY
-    if unit in MASS_IN_KG:
-        return MASS
+    for family, table in _SCALED_FAMILIES.items():
+        if unit in table:
+            return family
     if unit in VOLUME_UNITS:
         return VOLUME
+    for family, names in _SINGLE_UNIT_FAMILIES.items():
+        if unit in names:
+            return family
+    if unit in CURRENCY_UNITS:
+        return CURRENCY
     return None
 
 
 def is_known_unit(unit: object) -> bool:
     return unit_family(unit) is not None
+
+
+def is_currency(unit: object) -> bool:
+    return isinstance(unit, str) and unit in CURRENCY_UNITS
 
 
 def parse_rate_unit(unit: object) -> tuple[str, str]:
@@ -69,16 +116,60 @@ def parse_rate_unit(unit: object) -> tuple[str, str]:
     return numerator, denominator
 
 
+def _convert_scaled(table: dict[str, Decimal], quantity: Decimal, from_unit: str, to_unit: str) -> tuple[Decimal, Decimal]:
+    ratio = table[from_unit] / table[to_unit]
+    # Önce çarp, bir kez böl: temsil edilebilir sonuçlar tam kalır.
+    return (quantity * table[from_unit]) / table[to_unit], ratio
+
+
 def convert_energy(quantity: Decimal, from_unit: str, to_unit: str) -> tuple[Decimal, Decimal]:
     """Enerji birim dönüşümü; (sonuç, oran) döner."""
-    ratio = ENERGY_IN_MJ[from_unit] / ENERGY_IN_MJ[to_unit]
-    # Önce çarp, bir kez böl: temsil edilebilir sonuçlar tam kalır.
-    return (quantity * ENERGY_IN_MJ[from_unit]) / ENERGY_IN_MJ[to_unit], ratio
+    return _convert_scaled(ENERGY_IN_MJ, quantity, from_unit, to_unit)
 
 
 def convert_mass(quantity: Decimal, from_unit: str, to_unit: str) -> tuple[Decimal, Decimal]:
-    ratio = MASS_IN_KG[from_unit] / MASS_IN_KG[to_unit]
-    return (quantity * MASS_IN_KG[from_unit]) / MASS_IN_KG[to_unit], ratio
+    return _convert_scaled(MASS_IN_KG, quantity, from_unit, to_unit)
+
+
+def convert_liquid(quantity: Decimal, from_unit: str, to_unit: str) -> tuple[Decimal, Decimal]:
+    return _convert_scaled(LIQUID_IN_L, quantity, from_unit, to_unit)
+
+
+def convert_mass_distance(quantity: Decimal, from_unit: str, to_unit: str) -> tuple[Decimal, Decimal]:
+    return _convert_scaled(MASS_DISTANCE_IN_KGKM, quantity, from_unit, to_unit)
+
+
+def convert_same_family(quantity: Decimal, from_unit: str, to_unit: str) -> tuple[Decimal, Decimal]:
+    """Aynı ailedeki (gaz hacmi hariç) iki birim arasında sabit tablo dönüşümü.
+
+    Para birimleri birbirine dönüştürülmez: farklı para birimi ValueError
+    verir; çağıran CURRENCY_MISMATCH bloğu üretir.
+    """
+    family = unit_family(from_unit)
+    if family is None or family != unit_family(to_unit):
+        raise ValueError(f"{from_unit} → {to_unit} aynı ailede değil")
+    if family in _SCALED_FAMILIES:
+        return _convert_scaled(_SCALED_FAMILIES[family], quantity, from_unit, to_unit)
+    if family == CURRENCY:
+        if from_unit != to_unit:
+            raise ValueError(f"para birimi dönüştürülmez: {from_unit} → {to_unit}")
+        return quantity, Decimal("1")
+    if family == VOLUME:
+        raise ValueError("gaz hacmi için convert_volume kullanılmalı")
+    # Tek birimli aileler (km, p.km, unit)
+    return quantity, Decimal("1")
+
+
+def liquid_to_mass(quantity_l: Decimal, density_kg_per_l: Decimal) -> Decimal:
+    """L × (kg/L) = kg."""
+    return quantity_l * density_kg_per_l
+
+
+def mass_to_liquid(quantity_kg: Decimal, density_kg_per_l: Decimal, field: str = "activity.density.value") -> Decimal:
+    """kg ÷ (kg/L) = L."""
+    if density_kg_per_l == 0:
+        raise CalcBlock("DIVISION_BY_ZERO", field, "yoğunluk 0")
+    return quantity_kg / density_kg_per_l
 
 
 def kelvin(temperature_c: Decimal, field: str) -> Decimal:

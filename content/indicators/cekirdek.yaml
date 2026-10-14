@@ -1,0 +1,271 @@
+# Çekirdek gösterge paketi (GÖS-02) — tüm sektörlerde vardır. ÖRNEK sürüm; alan uzmanı onayı bekliyor.
+# Sektöre özgü göstergeler bu dosyada DEĞİL, sektör profilinde tanımlanır (SEK-02).
+id: cekirdek
+version: 0.1.0
+status: draft
+title: {tr: "Çekirdek gösterge paketi"}
+note: "Enerji, Kapsam 1–2, su, atık, İSG, eğitim ve faaliyet çıktısı. Kapsam 1–2 değerleri yalnız kayıtlı hesap koşularından okunur; elle girilmez."
+
+indicators:
+  - id: electricity_kwh
+    name: {tr: "Elektrik tüketimi", en: "Electricity consumption"}
+    family: energy
+    definition: "Dönemde şebekeden ve/veya özel anlaşmayla satın alınan elektrik miktarı; öz üretim ayrı kaydedilir."
+    unit: kWh
+    source_system: "Elektrik faturası veya tesis ana sayacı"
+    owner_role: "Enerji / teknik sorumlusu"
+    frequency: monthly
+    access: all
+    entry: manual
+    ratio: null
+    quality:
+      allow_negative: false
+      max: null
+      consistency: []
+    dimensions: []
+
+  - id: fuels_gj
+    name: {tr: "Yakıt tüketimi (toplam enerji)", en: "Fuel consumption (energy)"}
+    family: energy
+    definition: "Sabit ve mobil yakmada kullanılan tüm yakıtların alt ısıl değer esaslı enerji toplamı. Hacim veya kütle birimli yakıt faturası enerjiye çevrilmeden buraya girilmez; dönüşüm hesap motorunda yapılır."
+    unit: GJ
+    source_system: "Yakıt faturaları, stok kayıtları (envanter kayıtlarından türetilebilir)"
+    owner_role: "Enerji / teknik sorumlusu"
+    frequency: monthly
+    access: all
+    entry: manual
+    ratio: null
+    quality:
+      allow_negative: false
+      max: null
+      consistency: []
+    dimensions: []
+
+  - id: scope1_kgco2e
+    name: {tr: "Kapsam 1 emisyonu", en: "Scope 1 emissions"}
+    family: emissions
+    definition: "Kurumun kontrolündeki kaynaklardan doğrudan emisyon; değer, dönemin kayıtlı hesap koşularının toplamıdır. Onaylı ve taslak toplam ayrı gösterilir."
+    unit: kgCO2e
+    source_system: "Hesap motoru koşuları (koza_calc)"
+    owner_role: "Sürdürülebilirlik sorumlusu"
+    frequency: monthly
+    access: all
+    entry: engine_runs
+    ratio: null
+    quality:
+      allow_negative: false
+      max: null
+      consistency: []
+    dimensions: []
+
+  - id: scope2_kgco2e
+    name: {tr: "Kapsam 2 emisyonu", en: "Scope 2 emissions"}
+    family: emissions
+    definition: "Satın alınan elektrik, buhar, ısı ve soğutmanın üretiminden doğan dolaylı emisyon; değer, dönemin kayıtlı hesap koşularının toplamıdır. Konum ve piyasa bazlı sonuçlar toplanmaz; hangi yöntemin gösterildiği yazılır."
+    unit: kgCO2e
+    source_system: "Hesap motoru koşuları (koza_calc)"
+    owner_role: "Sürdürülebilirlik sorumlusu"
+    frequency: monthly
+    access: all
+    entry: engine_runs
+    ratio: null
+    quality:
+      allow_negative: false
+      max: null
+      consistency: []
+    dimensions: []
+
+  - id: water_withdrawal_m3
+    name: {tr: "Su çekimi", en: "Water withdrawal"}
+    family: water
+    definition: "Dönemde şebeke, kuyu, yüzey suyu ve diğer kaynaklardan alınan toplam su hacmi."
+    unit: m3
+    source_system: "Su faturası, kuyu sayacı"
+    owner_role: "Çevre sorumlusu"
+    frequency: monthly
+    access: all
+    entry: manual
+    ratio: null
+    quality:
+      allow_negative: false
+      max: null
+      consistency: []
+    dimensions: []
+
+  - id: water_discharge_m3
+    name: {tr: "Su deşarjı", en: "Water discharge"}
+    family: water
+    definition: "Dönemde alıcı ortama veya kanalizasyona verilen toplam su hacmi."
+    unit: m3
+    source_system: "Deşarj sayacı, atıksu izni kayıtları"
+    owner_role: "Çevre sorumlusu"
+    frequency: monthly
+    access: all
+    entry: manual
+    ratio: null
+    quality:
+      allow_negative: false
+      max: null
+      consistency:
+        - {rule: lte, other: water_withdrawal_m3, message: "Deşarj aynı dönemdeki su çekiminden büyük olamaz."}
+    dimensions: []
+
+  - id: water_consumption_m3
+    name: {tr: "Su tüketimi", en: "Water consumption"}
+    family: water
+    definition: "Çekilen suyun geri verilmeyen kısmı (çekim − deşarj). Fatura tutarı veya çekim miktarı tüketim değildir (§23)."
+    unit: m3
+    source_system: "Çekim ve deşarj kayıtlarından uzlaştırma"
+    owner_role: "Çevre sorumlusu"
+    frequency: monthly
+    access: all
+    entry: manual
+    ratio: null
+    quality:
+      allow_negative: false
+      max: null
+      consistency:
+        - {rule: lte, other: water_withdrawal_m3, message: "Su tüketimi aynı dönemdeki su çekiminden büyük olamaz."}
+    dimensions: []
+
+  - id: waste_mass_t
+    name: {tr: "Atık kütlesi", en: "Waste mass"}
+    family: waste
+    definition: "Dönemde oluşan ve teslim edilen atık kütlesi; tür, tehlike sınıfı ve işleme yöntemi kırılımıyla girilir. Oluşum ve bertaraf kayıtları uzlaştırılır (§23)."
+    unit: t
+    source_system: "Atık teslim formları, lisanslı taşıyıcı belgeleri"
+    owner_role: "Çevre sorumlusu"
+    frequency: monthly
+    access: all
+    entry: manual
+    ratio: null
+    quality:
+      allow_negative: false
+      max: null
+      consistency: []
+    dimensions:
+      - id: hazard
+        name: {tr: "Tehlike sınıfı"}
+        values:
+          - {id: hazardous, tr: "Tehlikeli"}
+          - {id: non_hazardous, tr: "Tehlikesiz"}
+      - id: treatment
+        name: {tr: "İşleme yöntemi"}
+        values:
+          - {id: recycling, tr: "Geri dönüşüm"}
+          - {id: recovery, tr: "Geri kazanım (enerji dahil)"}
+          - {id: landfill, tr: "Düzenli depolama"}
+          - {id: incineration, tr: "Yakma (geri kazanımsız)"}
+          - {id: other, tr: "Diğer / bilinmiyor"}
+      - id: waste_type
+        name: {tr: "Atık türü"}
+        values:
+          - {id: metal, tr: "Metal"}
+          - {id: plastic, tr: "Plastik"}
+          - {id: paper, tr: "Kâğıt / karton"}
+          - {id: organic, tr: "Organik"}
+          - {id: sludge, tr: "Çamur"}
+          - {id: mixed, tr: "Karışık"}
+          - {id: other, tr: "Diğer"}
+
+  - id: injuries_count
+    name: {tr: "İş kazası sayısı", en: "Work-related injuries"}
+    family: ohs
+    definition: "Dönemde kayıt altına alınan, tıbbi müdahale veya iş günü kaybı gerektiren iş kazası sayısı. Tanım İSG metodolojisine göre kurumca sabitlenir; kişi bilgisi girilmez."
+    unit: adet
+    source_system: "İSG kaza kayıt defteri"
+    owner_role: "İSG sorumlusu"
+    frequency: monthly
+    access: restricted
+    entry: manual
+    ratio: null
+    quality:
+      allow_negative: false
+      max: null
+      consistency: []
+    dimensions: []
+
+  - id: hours_worked
+    name: {tr: "Çalışılan saat", en: "Hours worked"}
+    family: ohs
+    definition: "Dönemde tüm çalışanların fiilen çalıştığı toplam saat; kaza oranlarının paydasıdır."
+    unit: saat
+    source_system: "İK / puantaj sistemi"
+    owner_role: "İK sorumlusu"
+    frequency: monthly
+    access: data_owner
+    entry: manual
+    ratio: null
+    quality:
+      allow_negative: false
+      max: null
+      consistency: []
+    dimensions: []
+
+  - id: headcount_fte
+    name: {tr: "Çalışan sayısı (FTE)", en: "Headcount (FTE)"}
+    family: people
+    definition: "Dönem sonundaki tam zamanlı eşdeğer çalışan sayısı; kişi başı oranların paydasıdır."
+    unit: FTE
+    source_system: "İK sistemi"
+    owner_role: "İK sorumlusu"
+    frequency: quarterly
+    access: data_owner
+    entry: manual
+    ratio: null
+    quality:
+      allow_negative: false
+      max: null
+      consistency: []
+    dimensions: []
+
+  - id: training_hours
+    name: {tr: "Eğitim saati (toplam)", en: "Training hours (total)"}
+    family: people
+    definition: "Dönemde verilen toplam eğitim saati (katılımcı × saat). Kişi başı değer yalnız çalışan sayısı aynı dönem için girildiyse oranlanır (§23)."
+    unit: saat
+    source_system: "İK eğitim kayıtları"
+    owner_role: "İK sorumlusu"
+    frequency: quarterly
+    access: data_owner
+    entry: manual
+    ratio: null
+    quality:
+      allow_negative: false
+      max: null
+      consistency: []
+    dimensions: []
+
+  - id: training_hours_per_fte
+    name: {tr: "Kişi başı eğitim saati", en: "Training hours per FTE"}
+    family: people
+    definition: "Toplam eğitim saati / çalışan sayısı (FTE), aynı dönem. Payda yoksa gösterilmez; sıfır atanmaz."
+    unit: saat/FTE
+    source_system: "Türetilmiş (iki girilen göstergenin oranı)"
+    owner_role: "İK sorumlusu"
+    frequency: quarterly
+    access: data_owner
+    entry: ratio
+    ratio: {numerator: training_hours, denominator: headcount_fte}
+    quality:
+      allow_negative: false
+      max: null
+      consistency: []
+    dimensions: []
+
+  - id: activity_output
+    name: {tr: "Faaliyet çıktısı", en: "Activity output"}
+    family: output
+    definition: "Yoğunluk göstergelerinin paydası. Somut biçimi (ürün tonu, çalışan, alan…) kurumun sektör profilindeki payda tanımıdır; birim ve kaynak oradan gelir (GÖS-03). Değer, profil paydası kimliğiyle girilir."
+    unit: "profil paydası"
+    source_system: "Profilin payda tanımındaki kaynak (ERP, MES, İK, tesis kaydı)"
+    owner_role: "Üretim planlama / veri sorumlusu"
+    frequency: monthly
+    access: all
+    entry: profile_denominator
+    ratio: null
+    quality:
+      allow_negative: false
+      max: null
+      consistency: []
+    dimensions: []

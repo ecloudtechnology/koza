@@ -1,10 +1,30 @@
 code: K13
-title: "ISO 14040 / 14044"
+title: "ISO 14040 / ISO 14044 — Life cycle assessment (ISO kataloğu)"
 publisher: "ISO"
-role: "Yaşam döngüsü çerçevesi"
+family: ISO
+role: "Yaşam döngüsü değerlendirmesi çerçevesi (ilkeler ve gereklilikler)"
 urls:
   - "https://www.iso.org/standard/37456.html"
   - "https://www.iso.org/standard/38498.html"
+edition: null
+language: en
+published_at: null
+effective_from: null
+transition_note: null
+retired_at: null
 checked_at: 2026-10-13
-license: "yalnız bağlantı; tam metin saklanmaz (K-12)"
-status: kart — sürüm/yürürlük alanları SRC altyapısıyla doldurulacak
+license: "yalnız bağlantı; standard metni lisanslıdır, saklanmaz (K-12)"
+status: editör onayı bekliyor
+identity_note: "Şartname K13 açıklamasında US EPA LCA rehberi de anılır; burada ISO katalog bağlantıları tutulur. Baskı yılları ve değişiklikler (Amd) kaynak izlemeyle doldurulacak."
+versions:
+  - label: "ISO 14040 / 14044 (güncel baskılar)"
+    edition: null
+    published_at: null
+    effective_from: null
+    url: "https://www.iso.org/standard/37456.html"
+    note: "Baskı yılı ve değişiklikleri doğrulanmadı."
+    current: true
+relevance:
+  - kind: product_study
+    value: null
+    reason: "Ürün çalışmasında LCA çerçevesi (sistem sınırı, fonksiyonel birim, tahsis)."

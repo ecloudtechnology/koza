@@ -74,3 +74,39 @@ def run_engine(request: dict[str, Any]) -> tuple[dict[str, Any], str]:
     result.setdefault("engine_version", engine_version)
     result.setdefault("inputs_hash", "sha256:" + sha256_hex(canonical_json(request)))
     return result, engine_version
+
+
+SCOPE1_TYPES = ("stationary_combustion", "mobile_combustion", "process", "refrigerant")
+SCOPE2_TYPES = ("purchased_electricity", "purchased_steam", "purchased_heat", "purchased_cooling")
+
+
+def load_aggregate() -> tuple[Callable[[dict[str, Any]], dict[str, Any]], str]:
+    """`koza_calc.aggregate` (motor 0.2, K-17). Yoksa 503 AGGREGATE_UNAVAILABLE: API toplam ÜRETMEZ (kural 1)."""
+    try:
+        import koza_calc  # type: ignore[import-not-found]
+    except ImportError as exc:  # pragma: no cover - ortam bağımlı
+        raise ApiError(503, "CALC_ENGINE_UNAVAILABLE", "Hesap motoru kurulu değil; `pip install -e packages/calc-engine`.",
+                       retryable=True) from exc
+    aggregate = getattr(koza_calc, "aggregate", None)
+    if aggregate is None:
+        raise ApiError(
+            503, "AGGREGATE_UNAVAILABLE",
+            "Toplama motor sürümü 0.2 gerektirir (koza_calc.aggregate yok); API kendi başına toplam üretmez.",
+            retryable=True, details={"engine_version": str(getattr(koza_calc, "ENGINE_VERSION", "?"))},
+        )
+    return aggregate, str(getattr(koza_calc, "ENGINE_VERSION", "?"))
+
+
+def classify_run(source_type: str, engine_request: dict[str, Any]) -> dict[str, Any]:
+    """Toplama isteği için bağlam/kapsam/kategori (CONTRACT-v0.2 §7). Sayı üretmez; yalnız etiketler."""
+    activity = engine_request.get("activity") or {}
+    if source_type == "product_process":
+        return {"context": "product", "scope": None, "category": None}
+    if source_type in SCOPE1_TYPES:
+        return {"context": "corporate", "scope": 1, "category": None}
+    if source_type in SCOPE2_TYPES:
+        return {"context": "corporate", "scope": 2, "category": None}
+    if source_type == "scope3":
+        cat = (activity.get("scope3") or {}).get("category")
+        return {"context": "corporate", "scope": 3, "category": int(cat) if cat is not None else None}
+    return {"context": "corporate", "scope": None, "category": None}

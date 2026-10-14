@@ -117,19 +117,3 @@ export function Markdown({ body }: { body: string }) {
   return <article className="doc" dangerouslySetInnerHTML={{ __html: html }} />;
 }
 
-export function Planned({ title, dilim, section, children }: { title: string; dilim: string; section: string; children: React.ReactNode }) {
-  return (
-    <>
-      <PageHeader eyebrow={`Planlı · Dilim ${dilim}`} title={title} lead={`Şartname bölümü: ${section}.`} />
-      <Notice kind="info" title="Bu sekme henüz uygulanmadı">
-        <p>
-          Burada çalışmayan buton veya örnek veri yoktur (GELISTIRME-KURALLARI.md kural 10). Aşağıda bu sekmenin ne yapacağı ve şimdiden hazır olan parçalar listelenir.
-        </p>
-      </Notice>
-      {children}
-      <p className="small">
-        Ayrıntı: <Link href="/durum/">Proje durumu</Link> · <Link href={`/belgeler/?d=sartname`}>Şartname</Link>
-      </p>
-    </>
-  );
-}

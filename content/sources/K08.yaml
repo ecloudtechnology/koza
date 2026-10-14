@@ -1,9 +1,29 @@
 code: K08
-title: "ISO 14067 açıklaması"
+title: "ISO 14067 — Greenhouse gases: carbon footprint of products (ISO açıklama yayını)"
 publisher: "ISO"
-role: "Ürün karbon ayak izi ile LCA ilişkisi"
+family: ISO
+role: "Ürün karbon ayak izi ile yaşam döngüsü değerlendirmesi ilişkisi"
 urls:
   - "https://www.iso.org/files/live/sites/isoorg/files/store/en/PUB100271.pdf"
+edition: null
+language: en
+published_at: null
+effective_from: null
+transition_note: null
+retired_at: null
 checked_at: 2026-10-13
-license: "yalnız bağlantı; tam metin saklanmaz (K-12)"
-status: kart — sürüm/yürürlük alanları SRC altyapısıyla doldurulacak
+license: "yalnız bağlantı; tam metin saklanmaz (K-12); ISO standard metni lisanslıdır"
+status: editör onayı bekliyor
+identity_note: "Bu bağlantı ISO'nun açıklama yayınıdır; standardın kendisi lisanslı satın alınır ve saklanmaz."
+versions:
+  - label: "ISO 14067 (güncel baskı)"
+    edition: null
+    published_at: null
+    effective_from: null
+    url: "https://www.iso.org/files/live/sites/isoorg/files/store/en/PUB100271.pdf"
+    note: "Baskı yılı kaynaktan doğrulanacak."
+    current: true
+relevance:
+  - kind: product_study
+    value: null
+    reason: "Ürün çalışması (§17) başlatıldığında ürün karbon ayak izi çerçevesi budur."

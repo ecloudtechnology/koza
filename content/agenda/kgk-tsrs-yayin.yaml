@@ -1,0 +1,22 @@
+id: kgk-tsrs-yayin
+type: resmi_duyuru
+status: yururlukte
+title: "KGK, Türkiye Sürdürülebilirlik Raporlama Standartlarını (TSRS) yayımladı"
+summary:
+  - "Kamu Gözetimi Kurumu, sürdürülebilikle ilgili finansal açıklamaları düzenleyen TSRS'yi (TSRS 1 ve TSRS 2) resmî sayfasında yayımladı."
+  - "Türkiye'de kurulu kurumları ilgilendirir; ancak hangi kurumların hangi dönemden itibaren zorunlu kapsamda olduğu KGK'nın kapsam kararına bağlıdır ve bu karar Koza'da henüz doğrulanmamıştır (K-08)."
+  - "Protokoller sekmesinde TSRS kaynağı için uygulanabilirlik değerlendirmesi yapın; karar doğrulanana kadar sonuç 'inceleme gerekli' kalır ve yükümlülük görevi üretilmez."
+publisher: "KGK (Kamu Gözetimi, Muhasebe ve Denetim Standartları Kurumu)"
+source_url: "https://www.kgk.gov.tr/surdurulebilirlik"
+source_codes: [K02]
+published_at: null
+event_or_effective_at: null
+countries: ["TR"]
+sectors: []
+relevance:
+  profile_ids: ["*"]
+  packages: ["tsrs"]
+suggested_action: "TSRS uygulanabilirlik değerlendirmesini başlat (uzman kontrolör / kurum yöneticisi); kapsam eşikleri kaynaktan doğrulanana kadar 'inceleme gerekli' olarak kaydet."
+affected_route: "/protokoller/?k=K02"
+last_checked: 2026-10-13
+editor_status: editör onayı bekliyor

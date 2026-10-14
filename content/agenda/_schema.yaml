@@ -1,0 +1,21 @@
+# Gündem kartı şeması (§09). Yalnız resmî kaynaktan doğrulanan madde eklenir; tarih bilinmiyorsa null
+# yazılır ve ekran "tarih kaynakta doğrulanmadı" der. Taslak/istişare maddesi hiçbir zaman görev üretmez.
+id: string
+type: mevzuat_degisikligi | standart_guncellemesi | resmi_duyuru | destek_cagrisi | etkinlik | sektor_gelismesi
+status: taslak | istisare | yururlukte
+title: string
+summary: [string]            # üç cümle: ne değişti / beni neden ilgilendiriyor / şimdi ne yapmalıyım
+publisher: string
+source_url: string           # resmî kaynak
+source_codes: [string]       # content/sources K-kodları (tek adımda kaynağa)
+published_at: date | null
+event_or_effective_at: date | null
+countries: [string]          # ör. ["TR"], ["global"]
+sectors: [string]            # boş = tüm sektörler
+relevance:                   # kurumla ilgisi: profil kimlikleri ve/veya regülasyon paketleri; "*" = herkes
+  profile_ids: [string]
+  packages: [string]
+suggested_action: string
+affected_route: string | null   # etkilenen kayda/ekrana tek adım
+last_checked: date | null
+editor_status: string

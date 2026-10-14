@@ -1,0 +1,19 @@
+id: cbam
+tr: Sınırda Karbon Düzenleme Mekanizması
+en: Carbon Border Adjustment Mechanism
+abbr: CBAM
+aliases: ["cbam", "skdm", "sınırda karbon", "carbon border adjustment", "gömülü emisyon"]
+kind: terim
+contexts: [mevzuat, urun]
+definition: >-
+  Avrupa Birliği'nin, kapsamındaki ürün gruplarının ithalatında ürünün gömülü emisyonunu dikkate alan
+  düzenlemesi. İhracatçı için anlamı, ürün başına gömülü emisyonu ürün bağlamında hesaplayıp AB
+  müşterisine iletmektir. Ürün düzeyi bir yükümlülüktür; sonuç kurumsal Kapsam 1–2 toplamına eklenmez.
+  Kapsam, tarih ve yöntem ayrıntıları kaynaktan doğrulanana kadar "inceleme gerekli" kalır.
+example: "AB'ye çelik ihraç eden tesis, ürün çalışmasında ton çelik başına gömülü emisyonu hesaplar ve ithalatçıya iletir."
+confused_with: "Kurumsal karbon raporu ile karıştırılır; CBAM ürün ve tesis düzeyinde çalışır."
+related_task: "CBAM regülasyon paketinin uygulanabilirlik değerlendirmesi; ürün çalışması."
+related_route: "/protokoller/"
+likely_department: "İhracat / dış ticaret / üretim"
+source: "REG-01, REG-03; §17; resmî kaynak doğrulaması bekliyor (K-07)"
+status: editör onayı bekliyor

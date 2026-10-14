@@ -1,0 +1,19 @@
+id: alan-mukerrer-gerekce
+tr: "Mükerrer aday gerekçesi kutusu — bu kutuya ne yazacağım?"
+en: Duplicate override reason field
+abbr: null
+aliases: ["mükerrer", "çift kayıt gerekçesi", "duplicate", "aynı fatura"]
+kind: alan-yardimi
+contexts: [veri-girisi]
+definition: >-
+  Sistem aynı belge veya dönemle başka bir kayıt bulduğunda görünür. Bu kaydın neden ayrı bir işlem
+  olduğunu bir cümleyle yazın (ör. iki ayrı sayaç, düzeltme faturası). Gerekçe yazınca kayıt
+  oluşur ve mükerrer inceleme görevi açılır; gerçekten aynı faturaysa kaydetmeyin.
+example: "'Aynı binada iki ayrı sayaç; faturalar ayrı numara taşıyor.'"
+confused_with: "Not alanı ile karıştırılır; bu alan yalnız mükerrer uyarısında istenir ve denetim izine yazılır."
+related_task: "Veri girişi — mükerrer aday gerekçesi"
+related_route: "/veri-girisi/"
+field_help: {route: "/veri-girisi/", field_id: "dup", field_label: "Mükerrer aday gerekçesi (T07)"}
+likely_department: "Veri giren / muhasebe"
+source: "T07; §11"
+status: editör onayı bekliyor

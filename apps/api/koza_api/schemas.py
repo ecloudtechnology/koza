@@ -7,7 +7,7 @@ birlikte okunur; `not_applicable` için gerekçe zorunludur.
 
 from __future__ import annotations
 
-from datetime import date
+from datetime import date, datetime
 from typing import Annotated, Any, ClassVar, Literal
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
@@ -178,3 +178,141 @@ class EvidenceUploadRequest(Strict):
     filename: str = Field(min_length=1, max_length=255)
     size_bytes: int = Field(ge=0)
     record_id: str | None = None
+
+
+# ---------------------------------------------------------------------------
+# Dilim 1 ekleri
+# ---------------------------------------------------------------------------
+
+ControlRelation = Literal["owned", "leased_operational_control", "leased_financial_control", "leased_no_control",
+                          "third_party", "unknown"]
+
+
+class ClassificationPreviewRequest(Strict):
+    source_type: str = Field(min_length=1)
+    fuel: str | None = None
+    control_relation: ControlRelation | None = None
+    energy_carrier: str | None = Field(default=None, description="purchased_* için: electricity | steam | heat | cooling")
+    scope3_hint: str | None = Field(default=None, description="scope3 için ipucu: purchased_goods | business_travel | ...")
+
+
+class ImportRows(Strict):
+    """JSON ile içe aktarma: satırlar ActivityCreate alanlarını (period_id hariç) taşır."""
+
+    period_id: str
+    rows: list[dict[str, Any]] = Field(min_length=1, max_length=5000)
+    filename: str | None = Field(default=None, max_length=255)
+
+
+class ImportRollbackRequest(Strict):
+    reason: str = Field(min_length=10, max_length=2000)
+
+
+class SourceCreate(Strict):
+    name: str = Field(min_length=1, max_length=300)
+    publisher: str = Field(min_length=1, max_length=300)
+    url: str | None = Field(default=None, max_length=2000)
+    kind: Literal["standard", "methodology", "regulation", "dataset", "guidance"]
+    license: str | None = Field(default=None, max_length=300)
+
+
+class ChangeCard(Strict):
+    """§19 değişiklik kartı."""
+
+    old_link: str | None = None
+    new_link: str | None = None
+    changed_clause: str | None = None
+    summary_tr: str | None = None
+    nature: Literal["definitive", "interpretive"] | None = Field(default=None, description="kesin / yorum niteliği")
+    affected_profiles: list[str] = Field(default_factory=list)
+    affected_forms: list[str] = Field(default_factory=list)
+    affected_calculations: list[str] = Field(default_factory=list)
+    affected_lessons: list[str] = Field(default_factory=list)
+    effective_note_tr: str | None = Field(default=None, description="Hangi tarihten itibaren hangi iş değişir")
+
+
+class SourceVersionCreate(Strict):
+    """Tarih modeli (§19): yayın, yürürlük, kapsanan dönem, erken uygulama, görülme, son kontrol — ayrı alanlar."""
+
+    publication_date: date | None = None
+    effective_date: date | None = None
+    covered_period_start: date | None = None
+    covered_period_end: date | None = None
+    early_adoption_note: str | None = None
+    seen_at: datetime | None = Field(default=None, description="Sistemde görülme; boşsa şimdi")
+    last_checked_at: datetime | None = None
+    content_hash: str | None = Field(default=None, pattern=r"^[0-9a-f]{64}$", description="İçerik sha256; `content` verilirse hesaplanır")
+    content: str | None = Field(default=None, description="Karma hesaplamak için ham metin (saklanmaz)")
+    content_url: str | None = Field(default=None, max_length=2000)
+    change_card: ChangeCard = Field(default_factory=ChangeCard)
+
+    @model_validator(mode="after")
+    def _validate(self) -> "SourceVersionCreate":
+        if self.content_hash is None and self.content is None:
+            raise ValueError("content_hash veya content zorunlu (SRC-03)")
+        if self.covered_period_start and self.covered_period_end and self.covered_period_end < self.covered_period_start:
+            raise ValueError("covered_period_end, covered_period_start'tan önce olamaz")
+        return self
+
+
+class FactorVersionCreate(Strict):
+    version: str = Field(min_length=1, max_length=50)
+    value: DecimalStr
+    numerator_unit: str = Field(min_length=1)
+    gas: Literal["CO2", "CH4", "N2O", "CO2e"]
+    denominator_unit: str = Field(min_length=1)
+    basis: Basis | None = None
+    reference_conditions: dict[str, Any] | None = None
+    boundary: str = Field(min_length=1)
+    gwp_set_id: str | None = None
+    country: str | None = None
+    year: int | None = None
+    source_ref: str = Field(min_length=3, description="Zorunlu: yayımlayan kaynak / sürüm referansı (§18)")
+    license: str = Field(min_length=1)
+    valid_from: date
+    valid_to: date | None = None
+
+    @model_validator(mode="after")
+    def _validate(self) -> "FactorVersionCreate":
+        if not self.source_ref.strip():
+            raise ValueError("source_ref boş olamaz")
+        if self.value.startswith("-"):
+            raise ValueError("Faktör değeri negatif olamaz")
+        return self
+
+
+class AggregatePolicy(Strict):
+    include_states: list[Literal["draft", "validation_required", "calculated", "in_review", "changes_requested", "approved", "locked"]] = Field(
+        default_factory=lambda: ["approved", "locked"]
+    )
+    scope2_method: Literal["location_based", "market_based"] = "location_based"
+
+
+class AggregateRequest(Strict):
+    period_id: str
+    policy: AggregatePolicy = Field(default_factory=AggregatePolicy)
+
+
+class WebhookRow(Strict):
+    external_id: str = Field(min_length=1, max_length=200)
+    payload: dict[str, Any]
+    pulled_at: datetime | None = None
+
+
+class WebhookEvent(Strict):
+    event_id: str = Field(min_length=1, max_length=200)
+    mapping_version: str = Field(min_length=1, max_length=50)
+    pulled_at: datetime | None = None
+    rows: list[WebhookRow] = Field(min_length=1, max_length=5000)
+
+
+class SessionRevokeRequest(Strict):
+    jti: str | None = Field(default=None, description="Boşsa mevcut oturum; başka jti yalnız admin")
+    reason: str | None = Field(default=None, max_length=500)
+
+
+class MembershipChange(Strict):
+    user_id: str
+    role: Literal["admin", "data_entry", "data_owner", "reviewer", "approver", "viewer", "supplier", "content_editor"]
+    action: Literal["grant", "revoke"]
+    reason: str | None = Field(default=None, max_length=500)

@@ -1,0 +1,18 @@
+id: kapsam-2
+tr: Kapsam 2
+en: Scope 2
+abbr: null
+aliases: ["scope 2", "kapsam2", "satın alınan elektrik", "purchased electricity"]
+kind: terim
+contexts: [envanter]
+definition: >-
+  Satın alınan elektrik, buhar, ısı ve soğutmanın üretiminde oluşan emisyonlar. Tüketim kurumun,
+  baca enerji üreticisinindir. İki hesap görünümü vardır: konum bazlı (şebeke ortalaması) ve piyasa
+  bazlı (sözleşmesel araçlar); ikisi yan yana raporlanır, toplanmaz.
+example: "Şebekeden alınan 1.200 MWh elektrik için konum bazlı ve piyasa bazlı iki ayrı sonuç üretilir."
+confused_with: "Elektriğin iletim kayıpları ve yakıtın üst aşamaları Kapsam 2 değil, Kapsam 3 kategori 3'tür."
+related_task: "Elektrik faturasını kaydetmek; varsa menşe garantisi veya tedarikçi faktörünü belgelemek."
+related_route: "/veri-girisi/"
+likely_department: "Enerji yönetimi / satın alma"
+source: "K03; K04 GHG Protocol Scope 2 Guidance; §14"
+status: editör onayı bekliyor

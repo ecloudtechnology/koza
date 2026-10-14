@@ -87,4 +87,6 @@ def test_preview_persists_nothing(env):
     assert r.status_code == 200, r.text
     assert r.json()["data"]["persisted"] is False
     assert r.json()["data"]["result"]["total_co2e_kg"] == "5000"
-    assert len(repo.runs) == 0 and len(repo.records) == 0 and len(repo.audit) == 0
+    # yalnız oturumun ilk görülme olayı (session.login, §25) yazılır; önizleme hiçbir iş olayı/koşum/kayıt üretmez
+    assert len(repo.runs) == 0 and len(repo.records) == 0
+    assert [e.action for e in repo.audit if e.action != "session.login"] == []

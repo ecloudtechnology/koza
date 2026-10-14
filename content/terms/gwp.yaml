@@ -2,6 +2,11 @@ id: gwp
 tr: Küresel ısınma potansiyeli
 en: Global warming potential
 abbr: GWP
+aliases: ["kuresel isinma potansiyeli", "global warming potential", "ısınma katsayısı"]
+kind: terim
+contexts: [envanter, urun]
+likely_department: "Sürdürülebilirlik"
+related_route: "/faktorler/"
 definition: "Bir sera gazının belirli bir zaman ufkunda (genelde 100 yıl) CO₂'ye göre ne kadar ısınma etkisi yarattığını gösteren katsayı. Gaz kütleleri GWP ile çarpılarak CO₂e'ye çevrilir. Hangi GWP setinin (hangi IPCC raporunun) kullanıldığı kaydedilir."
 example: "1 kg CH₄ × GWP 28 = 28 kg CO₂e (test seti). Faktör zaten CO₂e veriyorsa GWP tekrar uygulanmaz."
 confused_with: "CO₂e ile aynı şey değildir; CO₂e sonucun birimi, GWP dönüşüm katsayısıdır."

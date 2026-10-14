@@ -1,0 +1,19 @@
+id: birincil-ikincil-veri
+tr: Birincil ve ikincil veri
+en: Primary and secondary data
+abbr: null
+aliases: ["primary data", "secondary data", "birincil veri", "ikincil veri", "tedarikçiye özgü veri"]
+kind: terim
+contexts: [envanter, urun]
+definition: >-
+  Birincil veri, hesaplanan faaliyete özgü doğrudan ölçüm veya tedarikçinin kendi ürünü için verdiği
+  veridir. İkincil veri, sektör ortalaması, veri tabanı veya yayımlanmış faktör gibi genel kaynaklardan
+  gelir. Birincil veri her zaman üstün değildir: sınırı yanlış ya da eski ise kaliteli bir ikincil
+  veri daha güvenilir olabilir.
+example: "Tedarikçinin çelik için verdiği tesis bazlı faktör birincil; ulusal çelik ortalaması ikincil veridir."
+confused_with: "'Ölçülmüş / tahmini' niteliğiyle karıştırılır; birincil veri de tahmini olabilir."
+related_task: "Kapsam 3 kategori 1'de yöntem seçimi (tedarikçiye özgü, hibrit, ortalama, harcama)."
+related_route: "/envanter/"
+likely_department: "Satın alma / tedarikçi ilişkileri"
+source: "K11 Scope 3 Category 1; K05"
+status: editör onayı bekliyor

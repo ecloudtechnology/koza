@@ -1,0 +1,18 @@
+id: konum-bazli
+tr: Konum bazlı yöntem
+en: Location-based method
+abbr: null
+aliases: ["location based", "konum bazli", "şebeke ortalaması", "grid average"]
+kind: terim
+contexts: [envanter]
+definition: >-
+  Kapsam 2 hesabında, tüketilen elektriğin bulunduğu şebekenin ortalama emisyon faktörünü kullanan
+  yöntem. Kurumun hangi tedarikçiyle sözleşme yaptığına bakmaz; "bu şebekeden çekilen elektrik
+  ortalamada ne kadar emisyon üretir?" sorusuna cevap verir.
+example: "Türkiye şebeke ortalama faktörü × tüketim (faktör sürümü ve yılı kayıtlı olmalı)."
+confused_with: "Piyasa bazlı yöntemle karıştırılır; ikisi aynı tüketimin iki ayrı görünümüdür."
+related_task: "Kapsam 2 kaydında konum bazlı sonucu okumak."
+related_route: "/envanter/"
+likely_department: "Enerji yönetimi"
+source: "K04 GHG Protocol Scope 2 Guidance; §14"
+status: editör onayı bekliyor

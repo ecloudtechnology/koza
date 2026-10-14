@@ -1,0 +1,22 @@
+id: gri-102-climate-change-2025
+type: standart_guncellemesi
+status: yururlukte
+title: "GRI 102: Climate Change 2025 yayımlandı — 1 Ocak 2027 sonrası raporlar için geçerli"
+summary:
+  - "GRI, iklim değişikliği açıklamalarını yeni bir konu standardında (GRI 102: Climate Change 2025) topladı; Kapsam 1, 2 ve 3 açıklamaları, gazlar, sınırlar ve yöntem beyanı burada tanımlanıyor."
+  - "GRI'ye uygun rapor yayımlayan her kurum için geçerli; kaynak, standardın 1 Ocak 2027 ve sonrasında yayımlanan rapor ve materyaller için uygulanacağını belirtiyor."
+  - "2027'de yayımlanacak raporu bugünden planlayın: raporlama haritasında GRI 305 (2016) ↔ GRI 102 (2025) eşleştirmesini inceleyin ve açıklama boşluklarını görev olarak açın."
+publisher: "GRI"
+source_url: "https://globalreporting.org/pdf.ashx?id=29514"
+source_codes: [K14]
+published_at: null
+event_or_effective_at: 2027-01-01
+countries: ["global"]
+sectors: []
+relevance:
+  profile_ids: ["*"]
+  packages: []
+suggested_action: "Raporlama haritasında GRI 102 (2025) eşleştirmesini aç; eksik açıklama alanları için görev oluştur. Kimlik karışıklığına dikkat: 2016 tarihli 'GRI 102: General Disclosures' farklı bir standarttır."
+affected_route: "/raporlar/"
+last_checked: 2026-10-13
+editor_status: editör onayı bekliyor

@@ -3,9 +3,77 @@ title: {tr: "Kanıt ve kalite"}
 level: başlangıç
 goal: "Eksik veri, varsayım ve onayı anlamak"
 application: "Hatalı kaydı düzeltmek"
-duration_min: null
-status: iskelet — gövde yazılmadı, editör onayı yok
-prerequisites: []
-body: null
-sources: []
-review_date: null
+duration_min: 8
+field_duration_min: 3
+prerequisites: ["101-02"]
+status: editör onayı bekliyor
+review_date: 2026-10-14
+sources: [K03, K09]
+related_task:
+  route: "/inceleme/"
+  label: "İnceleme kuyruğunda bir kaydı kanıtıyla kontrol et; düzeltme iste veya onayla"
+explanation:
+  - >-
+    Bir sayı, kanıtı olduğu kadar güvenilirdir. Kanıt; fatura, sayaç fotoğrafı, tedarikçi beyanı veya
+    sistem çıktısı olabilir. Koza her kanıt dosyasının parmak izini (karma değerini) saklar; aynı
+    belge ikinci kez yüklenince sistem bunu fark eder ve mükerrer kayıt için gerekçe ister.
+  - >-
+    Veri niteliği kaydın bir parçasıdır: ölçülmüş mü, tahmini mi? Tahmin yasak değildir; etiketsiz
+    tahmin yasaktır. Bir ortalamadan, geçen yıldan veya harcamadan türetilen her değer "tahmini"
+    etiketi taşır ve bu etiket sonuca, rapora ve dışa aktarmaya kadar gider.
+  - >-
+    Varsayımlar yazılır. Isıl değer, dönüşüm oranı, tahsis temeli veya eksik ay için kullanılan
+    yaklaşım kaydın notunda ya da ilgili alanında kaynağıyla durur. Yazılmayan varsayım, bir yıl sonra
+    kimsenin açıklayamayacağı bir sayı demektir.
+  - >-
+    Onay, veriyi girenden farklı bir kişinin işidir. Veri giren taslağı hazırlar ve kontrole gönderir;
+    uzman kontrolör veya onaylayan kanıtı, niteliği ve hesabı kontrol eder, onaylar ya da düzeltme
+    ister. Kendi kaydını onaylamak varsayılan olarak kapalıdır; kurum bunu ancak yazılı politikayla açar.
+  - >-
+    Hata bulununca kayıt silinmez; yeni sürüm yazılır. Her düzeltme bir gerekçe ister ve eski sürüm
+    denetim izinde kalır. Onaylı bir kaydın verisi değişirse eski onay kendiliğinden geçersizleşir ve
+    kayıt yeniden kontrole gider. Geçmiş sessizce değişmez.
+field_summary:
+  - "Her girişe kanıt ekleyin: fatura ya da sayaç fotoğrafı. Kanıtsız sayı onaya gitmez."
+  - "Tahmin ettiğiniz değeri 'tahmini' olarak işaretleyin ve nasıl tahmin ettiğinizi nota yazın."
+  - "Yanlış girdiyseniz silmeyin; düzeltin ve gerekçe yazın. Eski sürüm kaybolmaz."
+business_example: >-
+  Bir tesisin Mart ayı doğal gaz kaydında miktar 12.500 Sm³ girilmiş, ama faturada 1.250 Sm³ yazıyor
+  (fazladan sıfır). Uzman kontrolör incelemede kanıtla karşılaştırıp "düzeltme istendi" kararı veriyor
+  ve nedenini yazıyor. Veri giren kaydı yeni sürümle düzeltiyor, gerekçe olarak "faturaya göre basamak
+  hatası" yazıyor. Eski sürüm ve inceleme kararı denetim izinde duruyor; yeni koşu yapılıp kayıt
+  yeniden onaya gidiyor.
+common_mistake: >-
+  Eksik ayı doldurmak için önceki ayın değerini "ölçülmüş" olarak kopyalamak. Değer tahmindir;
+  etiketi tahmini olmalı ve yaklaşım yazılmalıdır. Aksi hâlde rapor güvenilir görünen ama
+  savunulamayan bir sayı içerir.
+exercise:
+  prompt: "İnceleme kuyruğundan bir kaydı açın. Kanıtla miktarı ve dönemi karşılaştırın; veri niteliği ve notu kontrol edin. Uyumsuzluk varsa düzeltme isteyin ve nedenini yazın; uyumluysa neyi kontrol ettiğinizi yazarak onaylayın."
+  steps:
+    - "Kaydın kanıt dosyasını ve karma değerini görün; aynı kanıt başka kayıtta kullanılmış mı?"
+    - "Miktar, birim ve dönemi kanıtla satır satır karşılaştırın."
+    - "Veri niteliği 'tahmini' ise yaklaşımın notta yazılı olduğunu doğrulayın."
+    - "Kararınızı gerekçeyle kaydedin; görev ayrılığı nedeniyle kendi girdiğiniz kaydı onaylayamazsınız."
+  note: "Alıştırma için eğitim etiketli bir kayıt kullanın; gerçek onay kurumsal karardır."
+quiz:
+  - q: "Eksik Şubat faturası yerine Ocak değeri kullanıldı. Doğru kayıt nasıl olmalıdır?"
+    options: ["Miktar ölçülmüş, not boş", "Miktar tahmini, notta 'Ocak değeri esas alındı' ve kanıt olarak Ocak faturası", "Şubat sıfır girilir"]
+    correct: 1
+    explanations:
+      - "Yanlış. Değer Şubat'ta ölçülmemiştir; 'ölçülmüş' etiketi yanlış beyan olur."
+      - "Doğru. Tahmin etiketlenir, yaklaşım yazılır, dayanak eklenir; Şubat faturası gelince yeni sürümle düzeltilir."
+      - "Yanlış. Sıfır ölçülmüş bir değerdir; eksik veri sıfır değildir."
+  - q: "Veri giren kendi kaydını onaylayabilir mi?"
+    options: ["Evet, her zaman", "Varsayılan olarak hayır; kurum yazılı politikayla ve gerekçeyle açabilir", "Yalnız küçük kayıtlarda"]
+    correct: 1
+    explanations:
+      - "Yanlış. Görev ayrılığı temel kontroldür; veri giren ile onaylayan varsayılan olarak farklıdır."
+      - "Doğru. İstisna kurum politikasında gerekçeyle tanımlanır ve denetim izinde görünür."
+      - "Yanlış. Kayıt büyüklüğü görev ayrılığı kuralını değiştirmez."
+  - q: "Onaylı bir kaydın miktarı düzeltildi. Ne olur?"
+    options: ["Onay geçerli kalır", "Eski onay geçersizleşir, kayıt yeniden kontrole gider; eski sürüm ve onay denetim izinde kalır", "Kayıt silinip yeniden oluşturulur"]
+    correct: 1
+    explanations:
+      - "Yanlış. Onay belirli bir sürüm içindir; veri değişince onay o veriyi kapsamaz."
+      - "Doğru. Sürümleme geçmişi korur; yeni veri yeniden onaylanır."
+      - "Yanlış. Silmek izi koparır; düzeltme her zaman yeni sürümdür."

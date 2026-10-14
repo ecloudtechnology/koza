@@ -1,0 +1,25 @@
+id: example-template
+version: 0.1.0
+lesson_id: "101-05"
+note: >-
+  KOBİ tedarikçi için örnek dolu şablon (TDR-04). Tüm değerler KURGUSALDIR; öğretim amaçlıdır,
+  hiçbir hesap veya raporda veri olarak kullanılmaz (ÖĞR-04).
+fields:
+  product: "Soğuk çekilmiş çelik tel, 2 mm (ürün kodu ST-2MM)"
+  reference_unit: "1 kg ürün"
+  system_boundary: "Beşikten kapıya"
+  period_geo: "2025 takvim yılı, Gebze tesisi (Türkiye)"
+  method: "GHG Protocol Product Standard; tedarikçi iç hesabı"
+  verification_status: "İç kontrol"
+  documents: "Hesap özeti (PDF), tahsis açıklaması, enerji fatura özeti"
+  note: "Teslim: 30 gün. İletişim: satın alma sorumlusu."
+response:
+  value: "1,85"
+  unit: "kg CO₂e / kg ürün"
+  basis: "Şirket toplamından tahsis"
+  allocation_info: "2025 tesis toplam emisyonu, ürün hatlarına üretim kütlesiyle (kg) dağıtıldı; tel hattı payı %38."
+  system_boundary: "Beşikten kapıya: hadde girdisi (tedarikçi beyanı) + çekme, tavlama, kaplama"
+  period_geo: "2025, Gebze"
+  method: "GHG Protocol Product Standard, iç hesap tablosu v3"
+  verification_status: "İç kontrol"
+  documents: "hesap-ozeti-2025.pdf, tahsis-notu.docx"

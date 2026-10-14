@@ -1,0 +1,18 @@
+id: kanit
+tr: Kanıt
+en: Evidence
+abbr: null
+aliases: ["evidence", "kanıt", "belge", "fatura", "sayaç fotoğrafı", "destekleyici belge"]
+kind: terim
+contexts: [veri-girisi, envanter, raporlama]
+definition: >-
+  Bir kaydın dayandığı belge: fatura, sayaç okuması, teslim formu, tedarikçi beyanı, sistem çıktısı.
+  Koza her kanıt dosyasının karma değerini (parmak izini), sayfasını ve yükleyeni saklar; aynı belge
+  ikinci kez kullanılırsa mükerrer kontrolü devreye girer. Kanıtsız kayıt onaya gitmez.
+example: "Aralık doğal gaz kaydının kanıtı: fatura PDF'i (karma sha256:…), sayfa 1."
+confused_with: "Not alanıyla karıştırılır; not açıklamadır, kanıt belgedir."
+related_task: "Veri girişinde fatura dosyası eklemek; incelemede kanıtla karşılaştırmak."
+related_route: "/veri-girisi/"
+likely_department: "Muhasebe / tesis bakım (belgeyi tutan birim)"
+source: "§11 DAT-02; §21; T07"
+status: editör onayı bekliyor

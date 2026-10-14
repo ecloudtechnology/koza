@@ -1,0 +1,39 @@
+/* ogrenme modülü — 101, sözlük, protokoller, gündem */
+.ogr-path { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.5rem 0 1rem; }
+.ogr-path button { font-size: 0.85rem; }
+.ogr-path button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.ogr-lesson-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.4rem; }
+.ogr-lesson-list li { display: flex; gap: 0.6rem; align-items: center; padding: 0.5rem 0.7rem; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface); }
+.ogr-lesson-list li.done { border-color: var(--ok); }
+.ogr-lesson-list .n { font-family: var(--mono); font-size: 0.78rem; color: var(--ink-3); min-width: 3.2rem; }
+.ogr-lesson-list a { flex: 1; text-decoration: none; }
+.ogr-reader p { max-width: 68ch; }
+.ogr-section { margin-top: 1.25rem; }
+.ogr-section h3 { margin-top: 0; }
+.ogr-quiz fieldset { border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 0.75rem 1rem; margin: 0 0 0.75rem; }
+.ogr-quiz legend { font-weight: 600; padding: 0 0.3rem; }
+.ogr-quiz .opt { display: flex; gap: 0.5rem; align-items: flex-start; padding: 0.35rem 0.4rem; border-radius: 4px; font-weight: 400; }
+.ogr-quiz .opt input { margin-top: 0.3rem; width: auto; }
+.ogr-quiz .opt.right { background: var(--ok-soft); }
+.ogr-quiz .opt.wrong { background: var(--crit-soft); }
+.ogr-quiz .why { font-size: 0.85rem; margin: 0.2rem 0 0.4rem 1.7rem; color: var(--ink-2); }
+.ogr-chips { display: flex; flex-wrap: wrap; gap: 0.35rem; margin: 0.5rem 0 1rem; }
+.ogr-chips button { font-size: 0.8rem; padding: 0.25rem 0.65rem; border-radius: 999px; }
+.ogr-chips button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.ogr-help { margin-top: 0.75rem; border-top: 1px dashed var(--line); padding-top: 0.6rem; }
+.ogr-help .row button { font-size: 0.82rem; }
+.ogr-source summary { cursor: pointer; font-weight: 600; }
+.ogr-versions { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 0.75rem; }
+.ogr-versions .ver { border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 0.7rem 0.85rem; background: var(--surface-2); }
+.ogr-versions .ver.current { border-color: var(--accent); background: var(--accent-soft); }
+.ogr-cal { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.45rem; }
+.ogr-cal li { display: grid; grid-template-columns: max-content max-content 1fr; gap: 0.75rem; align-items: start; padding: 0.55rem 0.75rem; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface); }
+.ogr-cal li.internal { border-left: 4px solid var(--info); }
+.ogr-cal li.legal { border-left: 4px solid var(--copper); }
+.ogr-cal li.funding { border-left: 4px solid var(--ok); }
+.ogr-cal li.past { opacity: 0.7; }
+.ogr-cal .d { font-family: var(--mono); font-size: 0.82rem; white-space: nowrap; }
+.ogr-cal .k { display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.75rem; color: var(--ink-2); white-space: nowrap; }
+.ogr-agenda .summary li { margin-bottom: 0.3rem; }
+.ogr-muted { opacity: 0.65; }
+@media (max-width: 640px) { .ogr-cal li { grid-template-columns: 1fr; gap: 0.2rem; } }

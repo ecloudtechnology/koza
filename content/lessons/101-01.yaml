@@ -3,9 +3,79 @@ title: {tr: "Temel çerçeve"}
 level: başlangıç
 goal: "Çevresel, sosyal ve yönetişim boyutlarını ayırmak"
 application: "İşletmedeki etki örneklerini seçmek"
-duration_min: null
-status: iskelet — gövde yazılmadı, editör onayı yok
+duration_min: 7
+field_duration_min: 3
 prerequisites: []
-body: null
-sources: []
-review_date: null
+status: editör onayı bekliyor
+review_date: 2026-10-14
+sources: [K01, K09]
+related_task:
+  route: "/kurulum/"
+  label: "Kurum kurulumunda sektör profilini onayla ve kaynak envanterini başlat"
+explanation:
+  - >-
+    Sürdürülebilirlik, bir işletmenin çevreye, insanlara ve kendi yönetim biçimine olan etkilerini
+    görünür kılmak ve zamanla iyileştirmek demektir. Bu etkiler üç başlıkta toplanır: çevresel
+    (enerji, emisyon, su, atık, hammadde), sosyal (çalışan sağlığı ve güvenliği, eğitim, çalışma
+    koşulları, yerel topluluk) ve yönetişim (etik kurallar, yolsuzlukla mücadele, karar alma ve denetim).
+  - >-
+    Üç boyut birbirinin yerine geçmez. Bir fabrikanın enerji tüketimini azaltması çevresel bir
+    gelişmedir; iş kazalarını azaltması sosyal bir gelişmedir; ihale kararlarını yazılı kurala bağlaması
+    yönetişim gelişmesidir. Rapor yazarken ve veri toplarken her etki kendi başlığında kalır.
+  - >-
+    Hangi etkilerin önemli olduğu kurumdan kuruma değişir. Bir gıda tesisinde su ve soğutucu gazlar
+    öne çıkarken, bir yazılım şirketinde çalışan verisi ve satın alınan hizmetler öne çıkabilir.
+    Koza bu farkı sektör profiliyle yönetir: profil, öncelikli konuları ve veri sorularını önerir;
+    hangi konunun gerçekten önemli olduğuna kurum kendi değerlendirmesiyle karar verir.
+  - >-
+    Etki raporlaması (GRI yaklaşımı) kurumun dışarıya verdiği etkiyi anlatır; sürdürülebilirlikle
+    ilgili finansal açıklamalar (TSRS yaklaşımı) ise bu konuların kurumun finansal durumunu nasıl
+    etkilediğini anlatır. İkisi aynı veriden beslenebilir ama soruları farklıdır. Bu ayrım 101-07'de
+    ayrıntılı işlenir.
+  - >-
+    Bu modülün amacı tanım ezberlemek değil, işletmenizde gördüğünüz somut bir olayı doğru başlığa
+    koyabilmektir. Devamındaki modüller yalnız çevresel boyutun bir parçası olan sera gazı hesabını
+    derinleştirir; sosyal ve yönetişim verileri 101-10'da ele alınır.
+field_summary:
+  - "Her gözleminizi üç kutudan birine koyun: çevre (enerji, su, atık, gaz), insan (kaza, eğitim, mesai), yönetim (kural, karar, denetim)."
+  - "Bir kutuya girmeyen şey yanlış değildir; birden fazla kutuya giren şey de olur (ör. kimyasal sızıntı hem çevre hem güvenlik)."
+  - "Sahada fark ettiğiniz bir iyileştirme fikrini Green Kaizen üzerinden iletebilirsiniz; ne gördüğünüzü, ne önerdiğinizi ve hangi hat/ekipman olduğunu yazmak yeterlidir."
+business_example: >-
+  Bir metal işleme atölyesi yıl sonunda üç olay yaşadı: fırının doğal gaz tüketimi arttı, bir
+  çalışan preste parmağını yaraladı ve bir tedarikçi seçimi yazılı gerekçe olmadan yapıldı.
+  İlki çevresel (enerji ve Kapsam 1 emisyonu), ikincisi sosyal (iş sağlığı ve güvenliği), üçüncüsü
+  yönetişim (satın alma kuralı) başlığına girer. Üçü de aynı raporda ama ayrı bölümlerde yer alır.
+common_mistake: >-
+  "Sürdürülebilirlik eşittir karbon" sanmak. Karbon hesabı önemli ama yalnız çevresel boyutun bir
+  parçasıdır. Su, atık, iş kazası ve etik kuralları olmadan yapılan rapor eksik kalır; GRI ve TSRS
+  her ikisi de bu konuları ayrıca sorar.
+exercise:
+  prompt: "İşletmenizden altı somut olay veya veri seçin; her birini çevre, sosyal veya yönetişim başlığına yerleştirin ve bir cümleyle gerekçelendirin."
+  steps:
+    - "Son üç ayda gördüğünüz altı olayı yazın (fatura, kaza raporu, toplantı kararı olabilir)."
+    - "Her olay için 'kimi/neyi etkiledi?' sorusuna cevap verin: doğa mı, insan mı, karar süreci mi?"
+    - "Birden fazla başlığa giren olay varsa ikisini de yazın; bu normaldir."
+    - "Listeyi kurulum ekranındaki sektör profili önerisiyle karşılaştırın: profilin önerdiği öncelikler sizin listenizle örtüşüyor mu?"
+  note: "Bu alıştırma yalnız sınıflandırma çalışmasıdır; hiçbir sayı envantere girmez."
+quiz:
+  - q: "Bir fabrikada forkliftlerin dizelden elektriğe geçirilmesi hangi boyuta girer?"
+    options: ["Yönetişim", "Çevresel", "Sosyal"]
+    correct: 1
+    explanations:
+      - "Yanlış. Yönetişim, kararların nasıl alındığı ve denetlendiğiyle ilgilidir; burada konu yakıt değişiminin çevreye etkisidir."
+      - "Doğru. Yakıt türü değişimi enerji ve emisyon verisini etkiler; bu çevresel boyuttur (Kapsam 1 azalır, Kapsam 2 artabilir)."
+      - "Yanlış. Sosyal boyut çalışan, topluluk ve insan hakları etkilerini kapsar; forklift yakıtının değişmesi doğrudan insan etkisi değildir."
+  - q: "Etki raporlaması ile sürdürülebilirlikle ilgili finansal açıklamalar arasındaki temel fark nedir?"
+    options: ["Biri sayı, diğeri metin ister", "Biri kurumun dışarıya etkisini, diğeri konuların kurumun finansal durumuna etkisini sorar", "Biri yalnız büyük şirketler, diğeri KOBİ'ler içindir"]
+    correct: 1
+    explanations:
+      - "Yanlış. İkisi de sayı ve metin ister; fark biçimde değil, sorulan sorudadır."
+      - "Doğru. GRI yaklaşımı 'kurum neyi etkiliyor?', TSRS yaklaşımı 'bu konular kurumun finansal durumunu nasıl etkiliyor?' diye sorar."
+      - "Yanlış. Hangi kurumun hangi çerçeveye tabi olduğu büyüklükle değil, yürürlükteki düzenleme ve kurumun tercihiyle belirlenir; bu uygulamada TSRS uygulanabilirliği ayrıca değerlendirilir."
+  - q: "Sektör profili ne yapar?"
+    options: ["Kurumun hangi konuların önemli olduğuna karar verir", "Öncelikli konuları, veri sorularını ve dersleri önerir; karar kurumda kalır", "Emisyon hesabını otomatik yapar"]
+    correct: 1
+    explanations:
+      - "Yanlış. Profil yalnız önerir ve önceliklendirir; önemlilik kararını kurum kendi değerlendirmesiyle verir."
+      - "Doğru. Profil veridir: öncelikli Kapsam 3 kategorileri, kurulum soruları, payda tanımları ve ders yolları profilden gelir; kategori silmez, karar vermez."
+      - "Yanlış. Hesabı yalnız hesap motoru yapar; profil hangi kaynak türlerinin sorulacağını belirler, sayı üretmez."

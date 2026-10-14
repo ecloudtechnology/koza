@@ -1,0 +1,57 @@
+id: risk-rules
+version: 0.1.0
+status: draft
+note: >-
+  Risk temelli denetim (TDR-03): önce öz değerlendirme; puanlar ve eşikler bu dosyadadır, kodda değildir.
+  Yüksek risk ceza değil düzeltici plan ve saha ziyareti görevi üretir. Taslak sürüm; alan uzmanı onayı yok.
+questions:
+  - id: inventory_exists
+    text: {tr: "Kurumunuzun sera gazı envanteri (Kapsam 1–2) var mı?"}
+    options:
+      - {value: "yes_verified", label: "Evet, üçüncü taraf doğrulamalı", points: 0}
+      - {value: "yes", label: "Evet, iç hesap", points: 1}
+      - {value: "partial", label: "Kısmen (yalnız enerji faturaları)", points: 2}
+      - {value: "no", label: "Hayır", points: 3}
+  - id: product_data
+    text: {tr: "Ürün başına emisyon verisi (ürün karbon ayak izi veya tahsisli ürün faktörü) üretebiliyor musunuz?"}
+    options:
+      - {value: "yes", label: "Evet, tahsis yöntemi belgeli", points: 0}
+      - {value: "company_total_only", label: "Yalnız şirket toplamı var, tahsis yok", points: 2}
+      - {value: "no", label: "Hayır", points: 3}
+  - id: energy_records
+    text: {tr: "Enerji tüketimi (elektrik, doğal gaz, diğer yakıt) fatura ve sayaç kayıtlarıyla izleniyor mu?"}
+    options:
+      - {value: "monthly", label: "Evet, aylık kayıt", points: 0}
+      - {value: "annual", label: "Yalnız yıllık toplam", points: 1}
+      - {value: "no", label: "Düzenli kayıt yok", points: 3}
+  - id: responsible_person
+    text: {tr: "Sürdürülebilirlik / emisyon verisinden sorumlu bir kişi atanmış mı?"}
+    options:
+      - {value: "yes", label: "Evet", points: 0}
+      - {value: "no", label: "Hayır", points: 2}
+  - id: regulated_scope
+    text: {tr: "Tesisiniz ETS, CBAM ürün listesi veya benzeri bir düzenleme kapsamında olabilir mi?"}
+    options:
+      - {value: "no", label: "Hayır", points: 0}
+      - {value: "possibly", label: "Olabilir, kontrol edilmedi", points: 2}
+      - {value: "yes", label: "Evet, kapsamda", points: 1}
+      - {value: "unknown", label: "Bilmiyorum", points: 2}
+unanswered_points: 2
+outcomes:
+  - level: low
+    min_points: 0
+    label: "Düşük risk"
+    action: "Standart veri talebi yeterli; yıllık öz değerlendirme yenilenir."
+  - level: medium
+    min_points: 4
+    label: "Orta risk"
+    action: "Düzeltici plan önerilir; tamamlayıcı belge istenir; saha ziyareti gerekmez."
+  - level: high
+    min_points: 8
+    label: "Yüksek risk"
+    action: "Saha ziyareti görevi açılır; ceza yerine düzeltici plan ve koçluk."
+overrides:
+  - question_id: product_data
+    equals: "no"
+    level: high
+    reason: "Ürün verisi üretilemiyorsa veri talebi karşılanamaz; saha desteği gerekir."

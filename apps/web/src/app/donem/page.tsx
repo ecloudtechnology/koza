@@ -52,8 +52,19 @@ export default function Donem() {
               </dd>
               <dt>Açık görev</dt>
               <dd>{c.open_tasks.length}</dd>
-              <dt>Mutabakat</dt>
-              <dd className="muted">Sayaç–fatura ve stok uzlaştırması bu önizlemede yok (Dilim 2)</dd>
+              <dt>Uzlaştırma</dt>
+              <dd>
+                {store.reconciliation(p.id).length === 0 ? (
+                  <span className="badge ok">çakışan kayıt yok</span>
+                ) : (
+                  store.reconciliation(p.id).map((x) => (
+                    <div key={x.source_id} className="small" style={{ marginBottom: "0.4rem" }}>
+                      <span className="badge warn">uzlaştırma gerekli</span> <b>{x.source_name}</b>: {x.records.map((r) => `${r.period_start}→${r.period_end} ${r.quantity ?? "?"} ${r.unit ?? ""} (${r.data_quality})`).join(" · ")}
+                      <div className="muted">{x.note_tr}</div>
+                    </div>
+                  ))
+                )}
+              </dd>
             </dl>
             {c.records.length > 0 && (
               <ul className="small">

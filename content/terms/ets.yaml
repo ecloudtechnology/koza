@@ -1,0 +1,19 @@
+id: ets
+tr: Emisyon ticaret sistemi
+en: Emissions trading system
+abbr: ETS
+kind: terim
+aliases: ["ets", "emisyon ticareti", "karbon piyasası", "cap and trade", "ulusal ets"]
+contexts: [mevzuat]
+definition: >-
+  Toplam emisyona bir üst sınır koyup bu sınır altındaki tahsisatları tesisler arasında alınıp
+  satılabilir kılan düzenleme. Kapsamdaki tesis emisyonunu izler, raporlar, doğrulatır (MRV) ve
+  emisyonu kadar tahsisat teslim eder. Türkiye'de ulusal sistemin ikincil mevzuatı ve eşikleri
+  kaynaktan doğrulanmadan uygulamada etkinleştirilmez (K-06).
+example: "ETS kapsamındaki bir çimento tesisi Kapsam 1 sınırını ulusal MRV kılavuzuna eşler; tahsis ve alım-satım senaryo defterinde kalır."
+confused_with: "Karbon vergisi ile karıştırılır; ETS miktar sınırlar, vergi fiyat koyar."
+related_task: "Ulusal ETS/MRV regülasyon paketinin uygulanabilirlik değerlendirmesi."
+related_route: "/protokoller/"
+likely_department: "Çevre / hukuk / finans"
+source: "REG-01, REG-02, REG-05; K-06 açık karar"
+status: editör onayı bekliyor

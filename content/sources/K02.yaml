@@ -1,10 +1,33 @@
 code: K02
-title: "KGK TSRS ve sürdürülebilirlik kaynakları"
-publisher: "KGK"
-role: "Standartlar, yasal düzenlemeler, duyurular"
+title: "KGK TSRS ve sürdürülebilirlik kaynakları (TSRS 1 / TSRS 2)"
+publisher: "KGK (Kamu Gözetimi, Muhasebe ve Denetim Standartları Kurumu)"
+family: TSRS
+role: "Standartlar, yasal düzenlemeler ve güncel duyurular için resmî başlangıç noktası"
 urls:
   - "https://www.kgk.gov.tr/surdurulebilirlik"
   - "https://kgk.gov.tr/Portalv2Uploads/files/Duyurular/v2/Surdurulebilirlik/RaporlamaStandarti/TSRS_1.pdf"
+edition: null
+language: tr
+published_at: null
+effective_from: null
+transition_note: "Zorunlu kapsam ölçütleri, uygulama dönemi ve geçiş muafiyetleri KGK kararına bağlıdır; doğrulanana kadar uygulanabilirlik 'inceleme gerekli' (K-08)."
+retired_at: null
 checked_at: 2026-10-13
 license: "yalnız bağlantı; tam metin saklanmaz (K-12)"
-status: kart — sürüm/yürürlük alanları SRC altyapısıyla doldurulacak
+status: editör onayı bekliyor
+identity_note: "TSRS 1 (genel hükümler) ve TSRS 2 (iklimle ilgili açıklamalar) ayrı standartlardır; sürüm ve yayın tarihi kaynak izlemeyle doldurulacak."
+versions:
+  - label: "TSRS 1 (KGK yayını)"
+    edition: null
+    published_at: null
+    effective_from: null
+    url: "https://kgk.gov.tr/Portalv2Uploads/files/Duyurular/v2/Surdurulebilirlik/RaporlamaStandarti/TSRS_1.pdf"
+    note: "Yayın ve yürürlük tarihleri kaynakta doğrulanmadı."
+    current: true
+relevance:
+  - kind: country
+    value: "TR"
+    reason: "Türkiye'de kurulu kurumlar için TSRS uygulanabilirliği KGK kararına göre değerlendirilir."
+  - kind: package
+    value: "tsrs"
+    reason: "Profil TSRS paketini aday gösteriyor."

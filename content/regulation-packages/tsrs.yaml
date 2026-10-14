@@ -1,0 +1,82 @@
+id: tsrs
+version: 0.1.0
+status: active
+title: {tr: "TSRS — Türkiye Sürdürülebilirlik Raporlama Standartları"}
+scope:
+  tr: >-
+    Sürdürülebilirlikle ilgili finansal açıklamalar: kurum kapsamı ve dönemle ilişkili ayrı açıklama listesi.
+    Hangi kurumların zorunlu kapsamda olduğu güncel KGK kararına ve kurum profiline bağlıdır; eşikler
+    kaynak izleme üzerinden doğrulanır (K-08). GRI etki odağı ile TSRS finansal risk/fırsat odağı ayrı tutulur (§08).
+decision_owner: {decision_ref: "K-08", role: "Raporlama uzmanı"}
+spec_sections: ["§08", "§19", "§22", "REG-01", "REG-06"]
+sources: ["K02"]
+applicability_questions:
+  - id: scope_criteria
+    text: {tr: "Kurumunuz KGK'nın zorunlu uygulama kapsamı ölçütlerinden (aktif toplamı, net satış hasılatı, çalışan sayısı) en az ikisini aşıyor mu?"}
+    options:
+      - {value: "yes", label: "Evet"}
+      - {value: "no", label: "Hayır"}
+      - {value: "unknown", label: "Bilmiyorum / eşikler doğrulanmamış"}
+    applies_when: ["yes"]
+    excludes_when: ["no"]
+    rule_ref: "tsrs-scope-thresholds"
+    hint: "Eşik değerleri uygulamaya sabit yazılmaz; KGK kararından doğrulanır."
+  - id: listed_or_regulated
+    text: {tr: "Kurum halka açık, bankacılık/sigorta gibi düzenlenmiş sektörde veya zorunlu kapsam listesindeki bir türde mi?"}
+    options:
+      - {value: "yes", label: "Evet"}
+      - {value: "no", label: "Hayır"}
+      - {value: "unknown", label: "Bilmiyorum"}
+    applies_when: ["yes"]
+    excludes_when: []
+    rule_ref: "tsrs-entity-types"
+    hint: "Hayır cevabı tek başına paketi kapatmaz; eşik sorusuyla birlikte değerlendirilir."
+  - id: voluntary
+    text: {tr: "Zorunlu kapsamda olmasanız da gönüllü TSRS raporu hazırlamayı planlıyor musunuz?"}
+    options:
+      - {value: "yes", label: "Evet, gönüllü"}
+      - {value: "no", label: "Hayır"}
+      - {value: "unknown", label: "Karar verilmedi"}
+    applies_when: ["yes"]
+    excludes_when: []
+    rule_ref: null
+    hint: "Gönüllü uygulama kurum kararıdır; yükümlülük değil hazırlık görevi üretir."
+obligations:
+  - id: tsrs-disclosure-matrix
+    text: {tr: "TSRS açıklama matrisini kurum kapsamı ve dönemle hazırla; her sayısal kayıt bir açıklamanın tamamını karşılamaz."}
+    evidence: ["Yönetişim, strateji, risk yönetimi, metrik ve hedef metinleri", "Kanıt indeksi"]
+    rule_ref: "tsrs-standard-version"
+    task_role_hint: "approver"
+  - id: tsrs-ghg-link
+    text: {tr: "Sera gazı metriklerini onaylı envanter dönemine ve rapor manifestine bağla (konum ve piyasa bazlı Kapsam 2 ayrı)."}
+    evidence: ["Rapor manifesti ve karması", "Dönem kilidi"]
+    rule_ref: null
+    task_role_hint: "data_owner"
+required_evidence:
+  - "KGK kapsam kararı (kaynak sürümü)"
+  - "Finansal eşik verileri (finans onaylı)"
+rules:
+  - id: tsrs-scope-thresholds
+    text: "Zorunlu kapsam eşikleri (aktif toplamı, hasılat, çalışan sayısı). Değer: doğrulanmamış."
+    threshold: null
+    source_ref: "K02"
+    source_status: unverified
+    effective_from: null
+    last_checked: null
+    publication_status: unknown
+  - id: tsrs-entity-types
+    text: "Zorunlu kapsamdaki kurum türleri."
+    threshold: null
+    source_ref: "K02"
+    source_status: unverified
+    effective_from: null
+    last_checked: null
+    publication_status: unknown
+  - id: tsrs-standard-version
+    text: "Uygulanacak TSRS 1 / TSRS 2 sürümü ve geçiş muafiyetleri."
+    threshold: null
+    source_ref: "K02"
+    source_status: unverified
+    effective_from: null
+    last_checked: null
+    publication_status: unknown

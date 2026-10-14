@@ -1,0 +1,19 @@
+id: ghg-protocol
+tr: GHG Protocol (Sera Gazı Protokolü)
+en: Greenhouse Gas Protocol
+abbr: GHGP
+aliases: ["ghg protocol", "ghgp", "sera gazı protokolü", "corporate standard", "scope 3 standard"]
+kind: terim
+contexts: [envanter, urun]
+definition: >-
+  Sera gazı envanteri hesaplamak için en yaygın kullanılan protokol ailesi. Corporate Standard
+  kurumsal envanterin sınır ve ilkelerini, Scope 2 Guidance konum/piyasa bazlı hesabı, Scope 3
+  Standard ve hesap rehberi değer zinciri kategorilerini, Product Standard ürün düzeyi hesabı anlatır.
+  Bir hesap protokolüdür; hangi konunun raporlanacağına karar vermez.
+example: "Kapsam 1–2–3 tanımları, envanter sınırı yaklaşımı ve 15 Kapsam 3 kategorisi buradan gelir."
+confused_with: "GRI/TSRS ile karıştırılır; onlar raporlama standardı, bu hesap protokolüdür. Gönüllüdür; yükümlülük mevzuattan doğar."
+related_task: "Envanter sınırı yaklaşımını seçmek; Kapsam 2 yöntemini ve Kapsam 3 kategorilerini uygulamak."
+related_route: "/protokoller/"
+likely_department: "Sürdürülebilirlik"
+source: "K03; K04; K05; K06; K12"
+status: editör onayı bekliyor

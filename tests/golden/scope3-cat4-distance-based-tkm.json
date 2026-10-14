@@ -1,0 +1,70 @@
+{
+  "id": "scope3-cat4-distance-based-tkm",
+  "title_tr": "Kategori 4: 500 t.km × 0.1 = 50 kg",
+  "requirements": [
+    "§14"
+  ],
+  "note_tr": "Katsayılar kurgusaldır; yalnız yazılım testi içindir.",
+  "request": {
+    "activity": {
+      "id": "act-test-0002",
+      "version": 1,
+      "source_type": "scope3",
+      "fuel": null,
+      "quantity": "500",
+      "unit": "t.km",
+      "heating_value_basis": null,
+      "reference_conditions": null,
+      "calorific_value": null,
+      "basis_conversion": null,
+      "data_quality": "measured",
+      "period": {
+        "start": "2026-01-01",
+        "end": "2026-12-31"
+      },
+      "scope3": {
+        "category": 4,
+        "method": "distance_based",
+        "applicability": "applicable",
+        "not_applicable_reason": null,
+        "data_quality_dims": null,
+        "spend": null,
+        "sold_products": null
+      }
+    },
+    "factors": [
+      {
+        "id": "TEST-TRUCK-TKM",
+        "version": "1.0",
+        "value": "0.1",
+        "numerator_unit": "kg",
+        "gas": "CO2e",
+        "denominator_unit": "t.km",
+        "basis": null,
+        "reference_conditions": null,
+        "boundary": "well_to_wheel",
+        "gwp_set_id": "TEST-GWP",
+        "source_ref": "tests/golden — kurgusal",
+        "license": "test-only",
+        "valid_from": "2026-01-01",
+        "valid_to": null
+      }
+    ],
+    "method": {
+      "id": "ghgp-corporate-test",
+      "version": "0.2",
+      "gwp_set": {
+        "id": "TEST-GWP",
+        "CH4": "28",
+        "N2O": "265",
+        "R-410A": "2000"
+      }
+    }
+  },
+  "expected": {
+    "status": "computed",
+    "total_co2e_kg": "50",
+    "block_codes": [],
+    "category": 4
+  }
+}

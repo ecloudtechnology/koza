@@ -27,7 +27,7 @@ def test_author_cannot_approve_own_record_by_default(env):
     assert r.json()["data"]["approval"]["self_approval"] is False
 
 
-@pytest.mark.parametrize("env", [True], indirect=True)
+@pytest.mark.allow_self_approval
 def test_self_approval_allowed_with_policy_and_reason(env):
     client, _ = env
     rec = _in_review(client, token="tok-a-entry-approver")

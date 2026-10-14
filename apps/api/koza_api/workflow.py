@@ -51,6 +51,16 @@ PERIOD_MANAGE_ROLES = frozenset({ADMIN})
 REPORT_ROLES = frozenset({ADMIN, APPROVER, REVIEWER})
 EVIDENCE_ROLES = frozenset({ADMIN, DATA_ENTRY, DATA_OWNER})
 AUDIT_ROLES = frozenset({ADMIN, REVIEWER, APPROVER, VIEWER})
+CONTENT_EDITOR = "content_editor"
+IMPORT_ROLES = frozenset({ADMIN, DATA_ENTRY, DATA_OWNER})
+IMPORT_ROLLBACK_ROLES = frozenset({ADMIN, DATA_OWNER})
+EXPORT_ROLES = frozenset({ADMIN, DATA_OWNER, REVIEWER, APPROVER, VIEWER})
+CATALOG_READ_ROLES = READ_ROLES | {CONTENT_EDITOR}
+FACTOR_MANAGE_ROLES = frozenset({REVIEWER})  # faktör sürümü ekleme/etkinleştirme yalnız uzman kontrolör (§04, §18)
+SOURCE_WRITE_ROLES = frozenset({CONTENT_EDITOR, ADMIN})  # kaynak taslağı (§04 içerik editörü)
+SOURCE_APPROVE_ROLES = frozenset({REVIEWER})  # uzman onayı (§19 SRC-06)
+INTEGRATION_ROLES = frozenset({ADMIN, DATA_ENTRY, DATA_OWNER})
+MEMBERSHIP_ROLES = frozenset({ADMIN})
 
 # --- geçiş tabloları ----------------------------------------------------------
 
@@ -62,6 +72,18 @@ REVIEW_DECISION_STATES = frozenset({IN_REVIEW})
 def require_roles(ctx: TenantContext, roles: frozenset[str]) -> None:
     if not ctx.has_any(roles):
         raise forbidden()
+
+
+def require_admin(ctx: TenantContext) -> None:
+    """Yönetici işlemi: admin rolü + (politika açıksa) MFA doğrulanmış oturum (§25)."""
+    require_roles(ctx, PERIOD_MANAGE_ROLES)
+    if ctx.admin_mfa_required and not ctx.mfa_verified:
+        raise ApiError(
+            403,
+            "MFA_REQUIRED",
+            "Yönetici işlemleri için çok faktörlü doğrulanmış oturum gerekir.",
+            details={"policy": "KOZA_ADMIN_MFA=required", "hint": "Kimlik sağlayıcıda MFA ile yeniden giriş yapın."},
+        )
 
 
 def ensure_period_open(period: Period, record: Record | None = None) -> None:
@@ -191,7 +213,7 @@ def check_review_decision(
 
 
 def check_lock(ctx: TenantContext, period: Period, records: list[Record]) -> None:
-    require_roles(ctx, PERIOD_MANAGE_ROLES)
+    require_admin(ctx)
     if period.status == "locked":
         raise ApiError(409, "PERIOD_ALREADY_LOCKED", "Dönem zaten kilitli.")
     not_ready = [r.id for r in records if r.current.state != APPROVED]
@@ -205,7 +227,7 @@ def check_lock(ctx: TenantContext, period: Period, records: list[Record]) -> Non
 
 
 def check_reopen(ctx: TenantContext, period: Period, reason: str | None) -> None:
-    require_roles(ctx, PERIOD_MANAGE_ROLES)
+    require_admin(ctx)
     if period.status != "locked":
         raise ApiError(409, "PERIOD_NOT_LOCKED", "Dönem kilitli değil; yeniden açma gerekmez.")
     if not reason or len(reason.strip()) < 10:

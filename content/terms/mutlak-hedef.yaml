@@ -1,0 +1,18 @@
+id: mutlak-hedef
+tr: Mutlak hedef
+en: Absolute target
+abbr: null
+aliases: ["absolute target", "mutlak hedef", "toplam azaltım hedefi"]
+kind: terim
+contexts: [raporlama, yonetim]
+definition: >-
+  Toplam emisyonu belirli bir baz yıla göre belirli bir miktarda veya oranda azaltmayı amaçlayan hedef.
+  Yoğunluk hedefinden farkı, üretim artsa bile toplamın düşmesini istemesidir. Hedefin türü, baz yılı
+  ve kapsadığı kapsamlar hedef kartında yazar.
+example: "2024 baz yılına göre 2030'da Kapsam 1–2 toplamını yüzde otuz azaltmak (örnek)."
+confused_with: "Yoğunluk hedefiyle karıştırılır; biri toplamı, diğeri birim başına değeri hedefler."
+related_task: "Hedef kartı tanımlamak; ilerlemeyi aynı sınır ve yöntemle izlemek."
+related_route: "/analiz/"
+likely_department: "Üst yönetim / sürdürülebilirlik"
+source: "K01; K03; §22"
+status: editör onayı bekliyor

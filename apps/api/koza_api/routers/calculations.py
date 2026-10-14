@@ -9,12 +9,12 @@ from fastapi import APIRouter, Request
 
 from .. import serializers, workflow
 from ..audit import record_event
-from ..calc import build_engine_request, run_engine
+from ..calc import build_engine_request, classify_run, load_aggregate, run_engine
 from ..deps import Ctx, Repo
 from ..envelope import ok
 from ..errors import ApiError, not_found
 from ..repo import CalculationRun, RecordVersion
-from ..schemas import CalculateRequest, FactorRef, MethodRef, PreviewRequest
+from ..schemas import AggregateRequest, CalculateRequest, FactorRef, MethodRef, PreviewRequest
 
 router = APIRouter(prefix="/v1", tags=["calculations"])
 
@@ -102,3 +102,40 @@ def calculate(record_id: str, body: CalculateRequest, request: Request, repo: Re
     data = {**serializers.run(run), "record_state": record.current.state, "record_version": new_version,
             "supersedes_run_ids": previous_ids}
     return ok(request, data, status_code=201, headers={"ETag": f'"{new_version}"'})
+
+
+@router.post("/calculations/aggregate", summary="Toplama (koza_calc.aggregate; kurumsal ve ürün ayrı; saklanmaz)")
+def aggregate(body: AggregateRequest, request: Request, repo: Repo, ctx: Ctx):
+    """Dönemdeki kayıtların koşumlarını politikayla motora verir: onaylı/kilitli kayıtlar onaylı koşumla, politika başka
+    durumları içeriyorsa güncel veri sürümünün son koşumuyla. Ürün çalışmaları `context=product` ile ayrı gider ve
+    kurumsal toplama girmez (kural 8). Motor 0.2 yoksa 503 AGGREGATE_UNAVAILABLE; API toplam üretmez (kural 1)."""
+    workflow.require_roles(ctx, workflow.READ_ROLES)
+    period = repo.get_period(ctx.tenant_id, body.period_id)
+    if period is None:
+        raise not_found("Dönem")
+    aggregate_fn, engine_version = load_aggregate()
+    include = set(body.policy.include_states)
+    results, without_run = [], []
+    for record in sorted(repo.list_records(ctx.tenant_id, period.id), key=lambda r: r.id):
+        cur = record.current
+        run = None
+        approved_id = serializers.approved_run_id(repo, record)
+        if approved_id:
+            run = repo.get_run(ctx.tenant_id, approved_id)
+        elif cur.state in include:
+            runs = [r for r in serializers.current_runs(repo, record) if r.status != "blocked"]
+            run = runs[-1] if runs else None
+        if run is None:
+            without_run.append({"record_id": record.id, "state": cur.state, "quantity_state": cur.quantity_state})
+            continue
+        labels = classify_run(cur.source_type, run.request)
+        scope2 = (run.request.get("activity") or {}).get("scope2") or {}
+        results.append({"record_id": record.id, **labels, "state": cur.state, "result": run.result,
+                        "scope2_method_used": scope2.get("method") if labels["scope"] == 2 else None})
+    engine_request = {"results": results, "policy": {"include_states": sorted(include), "scope2_method": body.policy.scope2_method}}
+    result = aggregate_fn(engine_request)
+    if not isinstance(result, dict):
+        raise ApiError(502, "CALC_ENGINE_BAD_RESPONSE", "Hesap motoru beklenmeyen yanıt verdi.")
+    return ok(request, {"persisted": False, "engine_version": engine_version, "period_id": period.id,
+                        "request": engine_request, "result": result, "records_without_run": without_run},
+              meta={"note": "Toplam motor çıktısıdır; API hiçbir sayı üretmez. Ürün sonuçları kurumsal toplama eklenmez."})

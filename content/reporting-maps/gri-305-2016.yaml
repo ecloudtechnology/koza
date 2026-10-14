@@ -1,0 +1,74 @@
+id: gri-305-2016
+framework: GRI
+title: "GRI 305: Emisyonlar"
+version: "2016"
+applicable_from: null
+source: K01
+note_tr: "Koza'nın motor çıktısı yalnız sayısal unsurları besler. Her açıklama için baz yıl, konsolidasyon yaklaşımı, kullanılan standart/yöntem ve varsayımların anlatımı ayrı kanıt ister. GRI 102 (2025) yürürlüğe girdiğinde (1 Ocak 2027) 305-1/2/3 eşleştirmesi 102-5/6/7 ile birlikte okunur."
+items:
+  - id: "305-1"
+    title_tr: "Doğrudan (Kapsam 1) sera gazı emisyonları"
+    elements:
+      - koza: corporate.scope1_kg
+        relation: partial
+        note_tr: "Brüt Kapsam 1 toplamı (yalnız onaylı/kilitli kayıtlar; eksik kaynak varsa 'hesaplanan envanter toplamı')."
+      - koza: biogenic_co2_kg
+        relation: conditional
+        note_tr: "Biyojenik CO₂ ayrı raporlanır; yalnız ilgili kayıt varsa."
+      - koza: method.gwp_set
+        relation: partial
+        note_tr: "Kullanılan GWP seti ve kaynağı; yöntem sürümüyle birlikte."
+      - koza: boundary.approach
+        relation: partial
+        note_tr: "Konsolidasyon yaklaşımı (operasyonel kontrol / finansal kontrol / özkaynak)."
+      - koza: factor_sources
+        relation: partial
+        note_tr: "Emisyon faktörü kimlikleri, sürümleri ve kaynak referansları."
+      - koza: base_year
+        relation: partial
+        note_tr: "Baz yıl ve yeniden hesaplama politikası Koza veri modelinde henüz yok."
+    narrative: ["gazlar ve kapsanan kaynaklar", "baz yıl seçimi ve gerekçesi", "yeniden hesaplama politikası", "varsayımlar", "standart ve yöntem beyanı"]
+  - id: "305-2"
+    title_tr: "Enerji dolaylı (Kapsam 2) sera gazı emisyonları"
+    elements:
+      - koza: corporate.scope2_kg.location
+        relation: partial
+        note_tr: "Konum bazlı Kapsam 2 toplamı."
+      - koza: corporate.scope2_kg.market
+        relation: conditional
+        note_tr: "Piyasa bazlı toplam; sözleşmesel araç varsa. Konum ve piyasa bazlı değerler toplanmaz."
+      - koza: method.gwp_set
+        relation: partial
+        note_tr: "GWP seti ve kaynağı."
+      - koza: boundary.approach
+        relation: partial
+        note_tr: "Konsolidasyon yaklaşımı."
+      - koza: factor_sources
+        relation: partial
+        note_tr: "Şebeke / tedarikçi / artık karışım faktör kaynakları."
+      - koza: base_year
+        relation: partial
+        note_tr: "Baz yıl alanı yok."
+    narrative: ["kapsanan gazlar", "baz yıl", "yeniden hesaplama politikası", "sözleşmesel araç kalite ölçütleri", "standart ve yöntem beyanı"]
+  - id: "305-3"
+    title_tr: "Diğer dolaylı (Kapsam 3) sera gazı emisyonları"
+    elements:
+      - koza: corporate.scope3_kg
+        relation: partial
+        note_tr: "Kapsam 3 toplamı (yalnız veri girilen kategoriler)."
+      - koza: corporate.scope3_by_category
+        relation: partial
+        note_tr: "Kategori kırılımı; eksik kategori 'bilinmiyor' veya 'uygulanmaz' olarak ayrı listelenir, sıfır yazılmaz."
+      - koza: quality.estimated_share
+        relation: partial
+        note_tr: "Tahmini veri payı (kayıt sayısı ve kg bazında ayrı)."
+      - koza: excluded_records
+        relation: partial
+        note_tr: "Hariç tutulan kayıtlar ve nedenleri."
+      - koza: factor_sources
+        relation: partial
+        note_tr: "Faktör ve yöntem kaynakları."
+      - koza: base_year
+        relation: partial
+        note_tr: "Baz yıl alanı yok."
+    narrative: ["kapsanan kategoriler ve faaliyetler", "baz yıl", "veri kaynağı ve yöntem seçimi gerekçesi", "varsayımlar", "standart ve yöntem beyanı"]

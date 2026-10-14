@@ -1,6 +1,16 @@
 id: tahsis
 tr: Tahsis (paylaştırma)
 en: Allocation
+aliases: ["allocation", "paylaştırma", "dağıtım"]
+kind: terim
+contexts: [envanter, urun, mevzuat]
+variants:
+  - context: urun
+    definition: "Ortak bir sürecin (ör. aynı fırın, aynı kazan) emisyonunun ürünler arasında kütle, enerji veya ekonomik değer temeliyle bölünmesi (ISO 14044 / GHG Protocol Ürün Standardı)."
+  - context: mevzuat
+    definition: "Emisyon ticaret sisteminde tesise ücretsiz verilen emisyon izni (ücretsiz tahsis). Hesapla değil, kuralla belirlenir; senaryo defterinde kalır."
+likely_department: "Sürdürülebilirlik / üretim planlama"
+related_route: "/urun/"
 definition: "Birden fazla ürün, tesis veya kuruma ait ortak bir emisyonun ilgili paylara uygun bir temelle (kütle, enerji, ekonomik değer, fiziksel ilişki) bölünmesi. Tahsis temeli, payda dönemi ve oranı kaydedilir; dağıtılan toplam sınırı aşamaz."
 example: "Aynı kazanın iki üretim hattına buhar vermesi: emisyon hatlara buhar tüketimine göre paylaştırılır."
 confused_with: "Ücretsiz tahsis (ETS'de kurumlara verilen emisyon izni) farklı bir kavramdır ve senaryo defterinde kalır."

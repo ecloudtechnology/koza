@@ -5,11 +5,14 @@ import { PREVIEW_USERS, ROLE_LABEL, PERMISSIONS } from "@/lib/domain";
 import { profileById } from "@/lib/content";
 import { resetAll } from "@/lib/store";
 import { useStore } from "@/lib/useStore";
-import { Loading, Notice, PageHeader } from "@/components/ui";
+import { ErrorBox, Loading, Notice, PageHeader } from "@/components/ui";
 
 export default function Ayarlar() {
   const { store, ready } = useStore();
   const [confirm, setConfirm] = useState(false);
+  const [err, setErr] = useState<unknown>(null);
+  const [reason, setReason] = useState("");
+  const [until, setUntil] = useState("");
   if (!ready || !store) return <Loading />;
   const t = store.tenant;
   return (
@@ -42,6 +45,48 @@ export default function Ayarlar() {
           <p className="small">
             <Link href="/kurulum/">Kurulumu düzenle</Link>
           </p>
+          <h3>Görev ayrılığı politikası (§04)</h3>
+          <p className="small">Varsayılan: veri giren ile onaylayan farklıdır. Küçük ekip istisnası gerekçe, izin veren ve süre ile kaydedilir ve raporda görünür.</p>
+          <ErrorBox error={err} />
+          {t.policy.allow_self_approval ? (
+            <div className="actions">
+              <button
+                className="danger"
+                disabled={store.role !== "admin"}
+                onClick={() => {
+                  setErr(null);
+                  try {
+                    store.setPolicy({ allow_self_approval: false, reason: "", until: null });
+                  } catch (e) {
+                    setErr(e);
+                  }
+                }}
+              >
+                İstisnayı kapat
+              </button>
+            </div>
+          ) : (
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                setErr(null);
+                try {
+                  store.setPolicy({ allow_self_approval: true, reason, until: until || null });
+                  setReason("");
+                } catch (ex) {
+                  setErr(ex);
+                }
+              }}
+            >
+              <div className="row">
+                <input placeholder="İstisna gerekçesi (ör. 3 kişilik ekip, pilot süresince)" value={reason} onChange={(e) => setReason(e.target.value)} style={{ maxWidth: 420 }} aria-label="İstisna gerekçesi" />
+                <input type="date" value={until} onChange={(e) => setUntil(e.target.value)} aria-label="Bitiş tarihi" style={{ maxWidth: 170 }} />
+                <button type="submit" disabled={store.role !== "admin"}>
+                  Küçük ekip istisnasını aç
+                </button>
+              </div>
+            </form>
+          )}
         </div>
       ) : (
         <p className="muted">Kurum yok.</p>

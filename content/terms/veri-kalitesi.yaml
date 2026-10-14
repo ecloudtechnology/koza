@@ -1,0 +1,18 @@
+id: veri-kalitesi
+tr: Veri kalitesi (veri niteliği)
+en: Data quality
+abbr: null
+aliases: ["data quality", "veri niteliği", "ölçülmüş", "tahmini", "measured", "estimated"]
+kind: terim
+contexts: [envanter, urun, veri-girisi, raporlama]
+definition: >-
+  Bir verinin ne kadar güvenilir olduğunu anlatan etiket ve ölçütler. Koza'da her kayıt en az
+  "ölçülmüş" ya da "tahmini" niteliği taşır; ayrıca zaman, coğrafya ve teknoloji uyumu ile kanıt
+  varlığı kaliteyi belirler. Nitelik etiketi hesap sonucuna, rapora ve dışa aktarmaya kadar taşınır.
+example: "Eksik ay için önceki ay değeri kullanıldıysa nitelik 'tahmini', notta yaklaşım yazılı."
+confused_with: "Tahmin yasak sanılır; yasak olan etiketsiz tahmindir."
+related_task: "Veri girişinde niteliği seçmek; incelemede niteliği kanıtla kontrol etmek."
+related_route: "/inceleme/"
+likely_department: "Veri sahibi birim / uzman kontrolör"
+source: "K03 (hesap ilkeleri); K05; §21"
+status: editör onayı bekliyor

@@ -1,0 +1,18 @@
+id: baz-yil
+tr: Baz yıl
+en: Base year
+abbr: null
+aliases: ["base year", "baz yil", "referans yıl", "temel yıl"]
+kind: terim
+contexts: [raporlama, yonetim]
+definition: >-
+  Hedeflerin ve zaman içindeki karşılaştırmaların ölçüldüğü referans dönem. Envanter sınırı, yöntem
+  veya önemli bir yapısal değişiklik (satın alma, tesis kapanışı) olduğunda baz yıl yeniden hesaplanır
+  ki karşılaştırma elma ile elma olsun. Yeniden hesaplama politikası yazılı olur.
+example: "2024 baz yıl; 2026'da yeni tesis eklendiğinde baz yıl aynı sınırla yeniden hesaplanır."
+confused_with: "İlk raporlama yılı ile karıştırılır; baz yıl hedefe bağlı bir seçimdir."
+related_task: "Hedef kartında baz dönemi seçmek; sınır değişince yeniden hesap kararı."
+related_route: "/analiz/"
+likely_department: "Sürdürülebilirlik / finans"
+source: "K03; K01"
+status: editör onayı bekliyor

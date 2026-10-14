@@ -1,0 +1,19 @@
+id: alan-tedarikci
+tr: "Tedarikçi kutusu — bu kutuya ne yazacağım?"
+en: Supplier field
+abbr: null
+aliases: ["tedarikçi", "satıcı", "supplier", "enerji sağlayıcı"]
+kind: alan-yardimi
+contexts: [veri-girisi]
+definition: >-
+  Faturayı düzenleyen kurumun adını yazın (gaz dağıtım şirketi, elektrik tedarikçisi, yakıt satıcısı).
+  Aynı tedarikçi için her seferinde aynı yazımı kullanın; mükerrer kontrolü ve filtreler bu ada
+  göre çalışır.
+example: "Faturadaki 'Düzenleyen: Örnek Gaz Dağıtım A.Ş.' → Örnek Gaz Dağıtım A.Ş."
+confused_with: "Sayaç okuyan firma veya ödeme yapılan banka ile karıştırılır."
+related_task: "Veri girişi — tedarikçi alanı"
+related_route: "/veri-girisi/"
+field_help: {route: "/veri-girisi/", field_id: "sup", field_label: "Tedarikçi"}
+likely_department: "Satın alma / muhasebe"
+source: "§11"
+status: editör onayı bekliyor

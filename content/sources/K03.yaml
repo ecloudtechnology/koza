@@ -1,9 +1,36 @@
 code: K03
-title: "GHG Protocol Corporate Standard"
-publisher: "GHG Protocol"
-role: "Kurumsal envanter, sınır ve hesap ilkeleri"
+title: "GHG Protocol Corporate Accounting and Reporting Standard (revised edition)"
+publisher: "GHG Protocol (WRI / WBCSD)"
+family: GHG Protocol
+role: "Kurumsal envanter, sınır yaklaşımı ve hesap ilkeleri"
 urls:
   - "https://ghgprotocol.org/corporate-standard"
+edition: "revised edition"
+language: en
+published_at: null
+effective_from: null
+transition_note: "Gönüllü protokol; yürürlük tarihi kavramı yoktur. Gözden geçirme çalışmaları varsa kaynak izleme ile takip edilir; taslak sürüm yükümlülük üretmez."
+retired_at: null
 checked_at: 2026-10-13
 license: "yalnız bağlantı; tam metin saklanmaz (K-12)"
-status: kart — sürüm/yürürlük alanları SRC altyapısıyla doldurulacak
+status: editör onayı bekliyor
+identity_note: null
+versions:
+  - label: "Corporate Standard — revised edition"
+    edition: "revised edition"
+    published_at: null
+    effective_from: null
+    url: "https://ghgprotocol.org/corporate-standard"
+    note: "Güncel baskı. Yayın yılı kaynak sayfasından doğrulanacak."
+    current: true
+  - label: "Corporate Standard — ilk baskı"
+    edition: "first edition"
+    published_at: null
+    effective_from: null
+    url: null
+    note: "Önceki baskı; gözden geçirilmiş baskıyla değiştirildi. Resmî URL doğrulanmadı."
+    current: false
+relevance:
+  - kind: always
+    value: null
+    reason: "Kapsam 1–2 envanteri ve envanter sınırı bu protokole göre kurulur."

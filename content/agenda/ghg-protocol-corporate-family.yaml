@@ -1,0 +1,22 @@
+id: ghg-protocol-corporate-family
+type: standart_guncellemesi
+status: yururlukte
+title: "GHG Protocol kurumsal standart ailesi Koza'nın hesap dayanağı olarak kayıtlı"
+summary:
+  - "Corporate Standard, Scope 2 Guidance, Scope 3 Standard ve hesap rehberi Koza'da kaynak kartı olarak kayıtlı; Kapsam tanımları, envanter sınırı ve 15 kategori bu kaynaklardan gelir."
+  - "Kurumsal envanter kuran her kurumu ilgilendirir; hesap motoru bu protokollerin sınır ve yöntem kurallarını uygular, raporlama standartları (GRI/TSRS) ise ne açıklanacağını söyler."
+  - "Envanter sınırı yaklaşımınızın (operasyonel/finansal kontrol, özkaynak payı) kurulumda seçili ve gerekçeli olduğunu doğrulayın; Kapsam 2'de konum ve piyasa bazlı sonuçların ayrı tutulduğunu kontrol edin."
+publisher: "GHG Protocol (WRI / WBCSD)"
+source_url: "https://ghgprotocol.org/corporate-standard"
+source_codes: [K03, K04, K05, K06]
+published_at: null
+event_or_effective_at: null
+countries: ["global"]
+sectors: []
+relevance:
+  profile_ids: ["*"]
+  packages: []
+suggested_action: "Kurulumda envanter sınırı yaklaşımını ve gerekçesini kontrol et; GHG Protocol'ün gözden geçirme çalışmaları kaynak izleme (SRC-02) ile takip edilir, taslak sürüm yükümlülük üretmez."
+affected_route: "/kurulum/"
+last_checked: 2026-10-13
+editor_status: editör onayı bekliyor

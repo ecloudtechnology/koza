@@ -6,6 +6,9 @@ listelenmeyen alan kontrol edilmez. Listelerde uzunluk eşit olmalı ve her
 öğe sırayla alt küme eşleşmesiyle karşılaştırılır. `block_codes` ve
 `warning_codes` yanıttaki `blocks`/`warnings` listelerinden türetilir ve
 sırasız karşılaştırılır.
+
+Kayıt `request` taşıyorsa `calculate()`, `aggregate_request` taşıyorsa
+`aggregate()` koşulur (0.2).
 """
 
 from __future__ import annotations
@@ -13,6 +16,7 @@ from __future__ import annotations
 import json
 import os
 
+from .aggregate import aggregate
 from .engine import calculate
 
 DERIVED_UNORDERED = ("block_codes", "warning_codes")
@@ -63,9 +67,12 @@ def _show(value: object) -> str:
 def run_fixture(fixture: dict) -> dict:
     """Ayrıştırılmış tek bir altın kaydı koşar; {"id","ok","diff"} döner."""
     fixture_id = fixture.get("id") if isinstance(fixture, dict) else None
-    if not isinstance(fixture, dict) or "request" not in fixture or "expected" not in fixture:
-        return {"id": fixture_id, "ok": False, "diff": ["kayıtta 'request' ve 'expected' alanları gerekli"]}
-    result = calculate(fixture["request"])
+    if not isinstance(fixture, dict) or "expected" not in fixture or not ("request" in fixture or "aggregate_request" in fixture):
+        return {"id": fixture_id, "ok": False, "diff": ["kayıtta 'request' (veya 'aggregate_request') ve 'expected' alanları gerekli"]}
+    if "aggregate_request" in fixture:
+        result = aggregate(fixture["aggregate_request"])
+    else:
+        result = calculate(fixture["request"])
     diffs: list[str] = []
     _subset_diff(fixture["expected"], _derived_view(result), "", diffs)
     return {"id": fixture_id, "ok": not diffs, "diff": diffs}

@@ -1,9 +1,29 @@
 code: K10
-title: "Scope 3 Category 15"
-publisher: "GHG Protocol"
-role: "Yatırım türlerine göre hesap"
+title: "Scope 3 Calculation Guidance — Chapter 15: Investments"
+publisher: "GHG Protocol (WRI / WBCSD)"
+family: GHG Protocol
+role: "Yatırım türlerine göre hesap ve sınır değerlendirmesi"
 urls:
   - "https://ghgprotocol.org/sites/default/files/2022-12/Chapter15.pdf"
+edition: null
+language: en
+published_at: null
+effective_from: null
+transition_note: null
+retired_at: null
 checked_at: 2026-10-13
 license: "yalnız bağlantı; tam metin saklanmaz (K-12)"
-status: kart — sürüm/yürürlük alanları SRC altyapısıyla doldurulacak
+status: editör onayı bekliyor
+identity_note: null
+versions:
+  - label: "Chapter 15 (Scope 3 Calculation Guidance)"
+    edition: null
+    published_at: null
+    effective_from: null
+    url: "https://ghgprotocol.org/sites/default/files/2022-12/Chapter15.pdf"
+    note: "Rehberin bölüm dosyası."
+    current: true
+relevance:
+  - kind: scope3_category
+    value: 15
+    reason: "Profil kategori 15'i (yatırımlar) öncelikli gösteriyor."

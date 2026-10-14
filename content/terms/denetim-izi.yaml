@@ -1,0 +1,18 @@
+id: denetim-izi
+tr: Denetim izi
+en: Audit trail
+abbr: null
+aliases: ["audit trail", "denetim izi", "izlenebilirlik", "audit log", "değişiklik geçmişi"]
+kind: terim
+contexts: [yonetim, raporlama]
+definition: >-
+  Kim, ne zaman, neyi, hangi sürümde ve neden değiştirdi sorularına cevap veren kayıt zinciri.
+  Her kayıt değişikliği, onay, hesap koşusu, dönem kilidi ve rapor üretimi bir denetim olayı bırakır;
+  eski sürümler silinmez. Bu iz, sonuçtan faktöre ve kanıta geri gitmeyi sağlar.
+example: "Bir kaydın miktarı düzeltildiğinde denetim izinde eski değer, yeni değer, gerekçe, kullanıcı ve zaman görünür."
+confused_with: "Günlük (log) dosyasıyla karıştırılır; denetim izi iş anlamı taşıyan, kullanıcıya gösterilen bir kayıttır."
+related_task: "Denetim izi ekranında bir kaydın geçmişini okumak."
+related_route: "/denetim-izi/"
+likely_department: "İç denetim / sürdürülebilirlik"
+source: "§20 AuditEvent; §21; kural 9"
+status: editör onayı bekliyor

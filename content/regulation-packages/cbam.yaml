@@ -1,0 +1,97 @@
+id: cbam
+version: 0.1.0
+status: active
+title: {tr: "CBAM — AB Sınırda Karbon Düzenleme Mekanizması"}
+scope:
+  tr: >-
+    AB'ye ihraç edilen, mekanizma kapsamındaki ürün gruplarının gömülü emisyonunun ürün bağlamında
+    hesaplanması ve ithalatçıya (AB müşterisine) iletilmesi. Gömülü emisyon ürün çalışmasıdır (§17, REG-03);
+    kurumsal Kapsam 1–2 toplamına eklenmez. Menşe ülkede ödenen karbon fiyatının mahsup kanıt formatı
+    açık karardır (K-07).
+decision_owner: {decision_ref: "K-07", role: "Raporlama uzmanı"}
+spec_sections: ["§08", "§17", "§19", "REG-01", "REG-03", "REG-04", "REG-06"]
+sources: ["SRC-CBAM-RESMI-METIN"]
+applicability_questions:
+  - id: exports_to_eu
+    text: {tr: "Kurumunuz AB üyesi ülkelere doğrudan veya aracı ile ürün ihraç ediyor mu?"}
+    options:
+      - {value: "yes", label: "Evet"}
+      - {value: "no", label: "Hayır"}
+      - {value: "unknown", label: "Bilmiyorum"}
+    applies_when: ["yes"]
+    excludes_when: ["no"]
+    rule_ref: null
+    hint: "Aracı ihracatçı üzerinden giden ürün de sayılır; emin değilseniz 'bilmiyorum' seçin, inceleme görevi açılır."
+  - id: product_groups
+    text: {tr: "İhraç edilen ürünler mekanizmanın ürün grubu listesinde mi? (demir-çelik, alüminyum, çimento, gübre, elektrik, hidrojen ve ekleri)"}
+    options:
+      - {value: "yes", label: "Evet, en az bir ürün listede"}
+      - {value: "no", label: "Hayır, hiçbiri listede değil"}
+      - {value: "unknown", label: "Bilmiyorum / GTİP kontrolü gerekli"}
+    applies_when: ["yes"]
+    excludes_when: ["no"]
+    rule_ref: "cbam-product-list"
+    hint: "Kapsam GTİP (CN) kodlarıyla tanımlıdır; liste kaynak izleme üzerinden doğrulanır, uygulama içine sabit yazılmaz."
+  - id: reporting_window
+    text: {tr: "İhracat, raporlama yükümlülüğünün bulunduğu dönem içinde mi gerçekleşiyor?"}
+    options:
+      - {value: "yes", label: "Evet"}
+      - {value: "no", label: "Hayır"}
+      - {value: "unknown", label: "Bilmiyorum"}
+    applies_when: ["yes"]
+    excludes_when: ["no"]
+    rule_ref: "cbam-phase-dates"
+    hint: "Geçiş ve kesin dönem tarihleri kaynaktan doğrulanana kadar sonuç 'inceleme gerekli' kalır."
+obligations:
+  - id: cbam-product-emissions
+    text: {tr: "Kapsam dahilindeki her ürün için gömülü emisyonu ürün çalışmasında hesapla (sınır, referans birim, tahsis açık)."}
+    evidence: ["Ürün çalışması kaydı ve sürümü (§17)", "Tesis Kapsam 1 kayıtları ve kanıtları", "Tahsis gerekçesi"]
+    rule_ref: "cbam-method"
+    task_role_hint: "data_owner"
+  - id: cbam-importer-communication
+    text: {tr: "AB müşterisine (ithalatçı) iletilecek gömülü emisyon bilgisini ürün ve dönem bazında hazırla."}
+    evidence: ["Ürün çalışması çıktısı", "Dönem ve tesis kimliği", "Yöntem ve doğrulama durumu"]
+    rule_ref: null
+    task_role_hint: "data_owner"
+  - id: cbam-paid-carbon-price
+    text: {tr: "Menşe ülkede ödenen karbon maliyeti varsa kanıt paketini hazırla (format K-07 açık; ulusal ETS paketi açıksa üretilir)."}
+    evidence: ["Finansın kaydettiği ödeme girişleri", "Kanıt dosyası karması", "MRV izleme planı sürümü"]
+    rule_ref: "cbam-paid-price-deduction"
+    task_role_hint: "approver"
+required_evidence:
+  - "Ürün çalışması (§17) sonucu ve sürümü"
+  - "Tesis düzeyi Kapsam 1 kayıtları"
+  - "GTİP kod listesi kontrolü (kaynak sürümü ile)"
+rules:
+  - id: cbam-product-list
+    text: "Kapsam dahilindeki ürün grupları ve GTİP kodları (kaynak metninden doğrulanacak)."
+    threshold: null
+    source_ref: "SRC-CBAM-RESMI-METIN"
+    source_status: unverified
+    effective_from: null
+    last_checked: null
+    publication_status: unknown
+  - id: cbam-phase-dates
+    text: "Geçiş dönemi ve kesin dönem başlangıç tarihleri; raporlama sıklığı."
+    threshold: null
+    source_ref: "SRC-CBAM-RESMI-METIN"
+    source_status: unverified
+    effective_from: null
+    last_checked: null
+    publication_status: unknown
+  - id: cbam-method
+    text: "Gömülü emisyon hesap yöntemi (gerçek veri / varsayılan değer koşulları)."
+    threshold: null
+    source_ref: "SRC-CBAM-RESMI-METIN"
+    source_status: unverified
+    effective_from: null
+    last_checked: null
+    publication_status: unknown
+  - id: cbam-paid-price-deduction
+    text: "Menşe ülkede ödenen karbon fiyatının mahsubu için kanıt formatı ve koşullar (K-07)."
+    threshold: null
+    source_ref: "SRC-CBAM-RESMI-METIN"
+    source_status: unverified
+    effective_from: null
+    last_checked: null
+    publication_status: unknown

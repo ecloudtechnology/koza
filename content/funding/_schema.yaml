@@ -1,0 +1,16 @@
+# Destek kartı şeması (§09 takvim ve destekler; K-15: yalnız resmî çağrı metinleri).
+# Tutar ve son tarih kaynak olmadan yazılmaz (null). "Size uygun olabilir" ön değerlendirmedir; hak kazanım değildir.
+id: string
+title: string
+program_owner: string
+official_url: string
+eligibility: [string]        # yararlanıcı koşulları (sade)
+open_status: open | closed | unknown   # unknown → "durum kaynakta doğrulanmadı"
+call_date: date | null
+deadline: date | null
+amount_note: string | null   # yalnız kaynaklı; yoksa null
+relevance:
+  profile_ids: [string]      # "*" = herkes
+  packages: [string]
+last_checked: date | null
+editor_status: string

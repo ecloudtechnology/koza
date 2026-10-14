@@ -1,0 +1,19 @@
+id: idempotency
+tr: Tekrar güvenliği (idempotency)
+en: Idempotency
+abbr: null
+aliases: ["idempotency", "idempotent", "tekrar güvenli", "mükerrer gönderim", "çift kayıt"]
+kind: terim
+contexts: [veri-girisi, yonetim]
+definition: >-
+  Aynı işlemin yanlışlıkla iki kez gönderilmesinin (çift tıklama, bağlantı kopması) iki ayrı kayıt
+  yaratmamasını sağlayan ilke. Uygulama, aynı belge ve dönem için ikinci kaydı fark eder ve gerekçe
+  ister; sunucu tarafında ise her yazma isteği bir tekrar anahtarı taşır. Sade anlamı: "Bir daha
+  bastım diye iki fatura olmaz."
+example: "Aynı fatura numarası ve dönemle ikinci kayıt girişi, 'iki ayrı sayaç' gibi bir gerekçe olmadan kabul edilmez."
+confused_with: "Mükerrer belge (aynı kanıtın başka kayıtta kullanımı) ile ilişkili ama aynı şey değildir; biri belge, diğeri istek düzeyindedir."
+related_task: "Mükerrer aday uyarısında gerekçe yazmak (T07)."
+related_route: "/veri-girisi/"
+likely_department: "—"
+source: "§11; §27; T07"
+status: editör onayı bekliyor

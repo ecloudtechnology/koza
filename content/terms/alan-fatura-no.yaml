@@ -1,0 +1,19 @@
+id: alan-fatura-no
+tr: "Fatura numarası kutusu — bu kutuya ne yazacağım?"
+en: Invoice number field
+abbr: null
+aliases: ["fatura numarası", "fatura no", "belge numarası", "invoice number"]
+kind: alan-yardimi
+contexts: [veri-girisi]
+definition: >-
+  Faturanın üzerindeki belge/seri numarasını yazın. Bu numara mükerrer kontrolünde kullanılır: aynı
+  tedarikçi, aynı numara ve aynı dönemle ikinci kayıt gerekçe ister. Sayaç numarası veya abone
+  numarası değildir.
+example: "Fatura üstünde 'Fatura No: GAZ2025001234' → GAZ2025001234."
+confused_with: "Abone/tesisat numarası ile karıştırılır; onlar her ay aynıdır, fatura numarası her belgede farklıdır."
+related_task: "Veri girişi — fatura numarası alanı"
+related_route: "/veri-girisi/"
+field_help: {route: "/veri-girisi/", field_id: "inv", field_label: "Fatura numarası"}
+likely_department: "Muhasebe"
+source: "§11; T07"
+status: editör onayı bekliyor

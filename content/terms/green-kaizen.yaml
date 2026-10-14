@@ -1,0 +1,19 @@
+id: green-kaizen
+tr: Green Kaizen (yeşil sürekli iyileştirme)
+en: Green Kaizen
+abbr: null
+aliases: ["green kaizen", "kaizen", "yeşil kaizen", "öneri sistemi", "sürekli iyileştirme"]
+kind: terim
+contexts: [yonetim]
+definition: >-
+  Saha çalışanlarının enerji, atık, fire ve güvenlikle ilgili küçük iyileştirme önerilerini üç
+  alanla (ne gördüm, ne öneriyorum, hangi alan/hat/ekipman) ilettiği, elçinin ön değerlendirdiği ve
+  uygulanan önerinin ölçülen etkisiyle geri bildirildiği döngü. Öneriler puanlanmaz, kişiler
+  sıralanmaz; veri birim düzeyinde toplulaştırılır.
+example: "Operatör, kompresör hattında gece boşta çalışan ekipmanı bildirir; uygulanınca ölçülen enerji farkı öneri sahibine geri döner."
+confused_with: "Performans değerlendirme ile karıştırılır; Green Kaizen kişisel puanlama aracı değildir."
+related_task: "Green Kaizen ekranında öneri girmek (KZN-01)."
+related_route: "/kaizen/"
+likely_department: "Üretim / saha"
+source: "KZN-01…03; kural 11"
+status: editör onayı bekliyor

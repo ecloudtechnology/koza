@@ -1,0 +1,18 @@
+id: mense-garantisi
+tr: Menşe garantisi
+en: Guarantee of origin
+abbr: GO / YEK-G
+aliases: ["mense garantisi", "yek-g", "guarantee of origin", "yenilenebilir sertifika", "I-REC"]
+kind: terim
+contexts: [envanter, mevzuat]
+definition: >-
+  Belirli bir miktar elektriğin yenilenebilir kaynaktan üretildiğini belgeleyen, takip edilebilir
+  sertifika. Piyasa bazlı Kapsam 2 hesabında kullanılabilmesi için kalite koşullarını (tek sayım,
+  dönem ve piyasa uyumu, iptal kaydı) sağlaması gerekir.
+example: "Tedarikçiden alınan 1.000 MWh'lik sertifika, iptal belgesiyle birlikte Kapsam 2 kaydına kanıt olarak eklenir."
+confused_with: "'Yeşil tarife' pazarlama ifadesiyle karıştırılır; belge ve iptal kaydı yoksa sertifika yoktur."
+related_task: "Kapsam 2 kaydına sözleşmesel araç kanıtı eklemek."
+related_route: "/veri-girisi/"
+likely_department: "Enerji yönetimi / satın alma"
+source: "K04; K16"
+status: editör onayı bekliyor

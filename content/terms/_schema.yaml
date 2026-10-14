@@ -1,0 +1,23 @@
+# Terim şeması (§10). Tanımlar özgün kısa açıklamadır; standart metni kopyalanmaz (K-12).
+id: string                   # dosya adı ile aynı, ASCII
+tr: string                   # Türkçe başlık
+en: string                   # İngilizce karşılık
+abbr: string | null          # kısaltma
+aliases: [string]            # arama için eş anlamlı / yaygın yazım (ör. "co2e", "karbon eşdeğeri")
+kind: terim | alan-yardimi   # alan-yardimi: "bu kutuya ne yazacağım?" girdileri
+contexts: [string]           # envanter | urun | raporlama | mevzuat | veri-girisi | yonetim
+definition: string           # sade, özgün tanım
+variants:                    # aynı terimin standarda/bağlama göre farklı kullanımı (tek tanıma zorlanmaz)
+  - context: string
+    definition: string
+example: string
+confused_with: string | null
+related_task: string         # ilgili uygulama görevi (metin)
+related_route: string | null # tek adımda gidilecek rota
+field_help:                  # yalnız alan-yardimi
+  route: string              # ör. "/veri-girisi/"
+  field_id: string           # formdaki id (ör. "q")
+  field_label: string
+likely_department: string | null   # "bilgiyi bulamıyorum" yolu için olası departman
+source: string               # K-kodları ve şartname bölümü
+status: string               # "editör onayı bekliyor"

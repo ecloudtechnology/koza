@@ -1,0 +1,38 @@
+# Tedarikçi veri programı içerik şeması (TDR-01…04, §14, §21)
+# Dosyalar "id" alanıyla ayrılır; gen-content hepsini content["supplier-program"] dizisine alır.
+#
+# id: segmentation        → TDR-01 önceliklendirme parametreleri (yoğunluk ağırlıkları, ilk dalga payı)
+# id: risk-rules          → TDR-03 öz değerlendirme soruları, puanlar ve sonuç eşikleri (kod sabiti değil)
+# id: request-template    → §14 standart veri talebi alanları + TDR-02 gizlilik / toplulaştırılmış kullanım metni
+# id: example-template    → TDR-04 KOBİ için örnek DOLU şablon (kurgusal; üretim verisi değildir)
+
+segmentation:
+  id: segmentation
+  version: semver
+  intensity_classes: [{value: high|medium|low|unknown, label: string, weight: integer, note: string}]
+  first_wave_percent: integer      # ilk dalga: sıralı listenin ilk yüzde kaçı (TDR-01: 20)
+  note: string
+
+risk-rules:
+  id: risk-rules
+  version: semver
+  status: draft | review | approved
+  questions: [{id, text: {tr}, options: [{value, label, points: integer}]}]
+  unanswered_points: integer       # cevapsız soru sıfır sayılmaz (kural 2)
+  outcomes: [{level: high|medium|low, min_points: integer, label: string, action: string}]
+  overrides: [{question_id, equals: value, level, reason}]   # tek cevapla doğrudan sonuç
+
+request-template:
+  id: request-template
+  version: semver
+  confidentiality: {title: string, text: string, aggregated_use_text: string}
+  fields: [{id, label, hint, required: boolean, kind: text|textarea|select, options?: [string]}]
+  response_fields: [{id, label, hint, required: boolean, kind, options?}]
+
+example-template:
+  id: example-template
+  version: semver
+  lesson_id: string                # /101 dersi
+  fields: {field_id: value}
+  response: {field_id: value}
+  note: string

@@ -2,7 +2,11 @@
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
-import { DOCS } from "@/lib/content";
+import docsJson from "@/generated/docs.json";
+import type { DocEntry } from "@/lib/content";
+
+// Belgeler yalnız bu sayfada yüklenir (büyük paket; diğer sayfaların ilk yüklemesini şişirmez)
+const DOCS = docsJson as unknown as DocEntry[];
 import { Loading, Markdown } from "@/components/ui";
 
 export default function Page() {

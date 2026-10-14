@@ -1,0 +1,19 @@
+id: gri
+tr: GRI Standartları
+en: Global Reporting Initiative Standards
+abbr: GRI
+aliases: ["gri", "global reporting initiative", "gri standartları", "GRI 1", "GRI 102", "GRI 305"]
+kind: terim
+contexts: [raporlama]
+definition: >-
+  Kurumların ekonomi, çevre ve insanlar üzerindeki etkilerini raporlamak için kullandığı, GRI
+  tarafından yayımlanan standart seti. GRI 1 Foundation (2021) yapıyı ve ilkeleri kurar; konu
+  standartları (ör. GRI 102 Climate Change 2025, GRI 103 Energy 2025) hangi açıklamaların yapılacağını
+  sıralar. Etki odaklıdır; hesap yöntemi değil, raporlama çerçevesidir.
+example: "Kapsam 1 emisyonu için GRI 102 Climate Change 2025'teki ilgili açıklama; 1 Ocak 2027'den önce yayımlanan raporlarda GRI 305 (2016) eşleştirmesi."
+confused_with: "GHG Protocol ile karıştırılır: GRI ne raporlanacağını, GHG Protocol nasıl hesaplanacağını söyler. GRI 102 (2016 General Disclosures) ile GRI 102 Climate Change 2025 farklı standartlardır."
+related_task: "Raporlama haritasında GRI açıklama indeksini okumak; kaynak kartını incelemek."
+related_route: "/protokoller/"
+likely_department: "Sürdürülebilirlik / kurumsal iletişim"
+source: "K01; K14; K15"
+status: editör onayı bekliyor

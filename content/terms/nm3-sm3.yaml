@@ -1,0 +1,19 @@
+id: nm3-sm3
+tr: Nm³ ve Sm³ (normal / standart metreküp)
+en: Normal and standard cubic metre
+abbr: Nm³ / Sm³
+aliases: ["nm3", "sm3", "normal metreküp", "standart metreküp", "metreküp", "m3"]
+kind: terim
+contexts: [veri-girisi, envanter]
+definition: >-
+  Gaz hacminin referans sıcaklık ve basınca göre ifade edilmiş birimleri. Nm³ genellikle 0 °C ve
+  101,325 kPa, Sm³ genellikle 15 °C ve 101,325 kPa koşulunu belirtir; aynı gaz miktarı iki birimde
+  farklı sayı verir. Faturadaki birim ve varsa referans koşulu aynen kaydedilir; motor dönüşümü iz
+  bırakarak yapar.
+example: "Faturada 'Sm³' yazıyorsa Sm³ seçilir; 'm³' yazıyor ve koşul belirtilmemişse referans koşulu alanı boş kalır ve doğrulama istenir."
+confused_with: "Düz m³ ile karıştırılır; referans koşulu olmadan hacim enerjiye güvenle çevrilemez."
+related_task: "Doğal gaz kaydında birim ve referans koşulu girmek."
+related_route: "/veri-girisi/"
+likely_department: "Enerji yönetimi / gaz tedarikçisi"
+source: "K03; §13; T06"
+status: editör onayı bekliyor

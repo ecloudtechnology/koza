@@ -1,4 +1,4 @@
-"""Kurumlar arası erişim testleri için kurulum. apps/api/tests/conftest.py ile aynı katalog ve motor."""
+"""Kurumlar arası erişim testleri için kurulum. apps/api/tests ile aynı katalog, motor ve iki depo (memory/postgres)."""
 
 from __future__ import annotations
 
@@ -15,8 +15,18 @@ CATALOG = json.loads((REPO_ROOT / "tests" / "fixtures" / "test_catalog.json").re
 ENGINE_KIND = T.ensure_calc_engine()
 
 
-@pytest.fixture
-def env():
-    app, repo = T.build_app(CATALOG)
+@pytest.fixture(scope="session")
+def postgres_repo():
+    repo, note = T.prepare_postgres()
+    if repo is None:
+        pytest.skip(f"PostgreSQL yok: {note}")
+    yield repo
+    T.teardown_postgres(repo)
+
+
+@pytest.fixture(params=["memory", "postgres"])
+def env(request):
+    repo = request.getfixturevalue("postgres_repo") if request.param == "postgres" else None
+    app, repo = T.build_app(CATALOG, repo=repo)
     with TestClient(app) as client:
         yield client, repo

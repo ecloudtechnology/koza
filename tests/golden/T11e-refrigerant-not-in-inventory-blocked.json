@@ -1,0 +1,67 @@
+{
+  "id": "T11e-refrigerant-not-in-inventory-blocked",
+  "title_tr": "Ekipman envanter dışında → Kapsam 1 ataması yapılmaz",
+  "requirements": [
+    "T11",
+    "§12"
+  ],
+  "note_tr": "Katsayılar kurgusaldır; yalnız yazılım testi içindir.",
+  "request": {
+    "activity": {
+      "id": "act-test-0002",
+      "version": 1,
+      "source_type": "refrigerant",
+      "fuel": null,
+      "quantity": "10",
+      "unit": "kg",
+      "heating_value_basis": null,
+      "reference_conditions": null,
+      "calorific_value": null,
+      "basis_conversion": null,
+      "data_quality": "measured",
+      "period": {
+        "start": "2026-01-01",
+        "end": "2026-12-31"
+      },
+      "refrigerant": {
+        "gas": "R-134a",
+        "charge_type": "leak_measured",
+        "equipment_in_inventory": false
+      }
+    },
+    "factors": [
+      {
+        "id": "TEST-GWP-R134A",
+        "version": "1.0",
+        "value": "1000",
+        "numerator_unit": "kg",
+        "gas": "R-134a",
+        "denominator_unit": "kg",
+        "basis": null,
+        "reference_conditions": null,
+        "boundary": "fugitive",
+        "gwp_set_id": "TEST-GWP",
+        "source_ref": "tests/golden — kurgusal",
+        "license": "test-only",
+        "valid_from": "2026-01-01",
+        "valid_to": null
+      }
+    ],
+    "method": {
+      "id": "ghgp-corporate-test",
+      "version": "0.2",
+      "gwp_set": {
+        "id": "TEST-GWP",
+        "CH4": "28",
+        "N2O": "265",
+        "R-410A": "2000"
+      }
+    }
+  },
+  "expected": {
+    "status": "blocked",
+    "block_codes": [
+      "EQUIPMENT_NOT_IN_INVENTORY"
+    ]
+  }
+}

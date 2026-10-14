@@ -22,8 +22,8 @@ def codes(result):
 
 
 def test_engine_version_exported():
-    assert ENGINE_VERSION == "0.1.0"
-    assert calculate(make_request())["engine_version"] == "0.1.0"
+    assert ENGINE_VERSION == "0.2.0"
+    assert calculate(make_request())["engine_version"] == "0.2.0"
 
 
 def test_all_contract_codes_have_turkish_messages():
@@ -301,7 +301,9 @@ def test_factor_numerator_must_be_mass():
 
 
 def test_unsupported_source_type():
-    assert codes(calculate(make_request(make_activity(source_type="mobile_combustion")))) == ["UNSUPPORTED_SOURCE_TYPE"]
+    # 0.2: hareketli yanma artık destekleniyor; tanınmayan tür bloke olur.
+    assert codes(calculate(make_request(make_activity(source_type="bilinmeyen_tur")))) == ["UNSUPPORTED_SOURCE_TYPE"]
+    assert codes(calculate(make_request(make_activity(source_type=None)))) == ["UNSUPPORTED_SOURCE_TYPE"]
 
 
 def test_duplicate_gas_blocks():

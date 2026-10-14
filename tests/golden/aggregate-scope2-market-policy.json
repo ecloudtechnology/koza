@@ -1,0 +1,214 @@
+{
+  "id": "aggregate-scope2-market-policy",
+  "title_tr": "Toplama: politika piyasa bazlı → Kapsam 2 = 20 t, konum sonucu alternatif olarak döner, toplanmaz",
+  "requirements": [
+    "K-17",
+    "§13"
+  ],
+  "note_tr": "Katsayılar kurgusaldır; yalnız yazılım testi içindir.",
+  "aggregate_request": {
+    "results": [
+      {
+        "record_id": "r-s1-gas",
+        "context": "corporate",
+        "scope": 1,
+        "category": null,
+        "state": "approved",
+        "result": {
+          "engine_version": "0.2.0",
+          "status": "computed",
+          "blocks": [],
+          "warnings": [],
+          "total_co2e_kg": "5000",
+          "coverage": "co2_only",
+          "claim_tr": "Yalnız CO₂ bileşeni; tam CO₂e sonucu değildir.",
+          "value_state": "known",
+          "context": "corporate"
+        },
+        "scope2_method_used": null
+      },
+      {
+        "record_id": "r-s1-est",
+        "context": "corporate",
+        "scope": 1,
+        "category": null,
+        "state": "approved",
+        "result": {
+          "engine_version": "0.2.0",
+          "status": "review_required",
+          "blocks": [],
+          "warnings": [
+            {
+              "code": "DATA_QUALITY_ESTIMATED",
+              "message_tr": "tahmini"
+            }
+          ],
+          "total_co2e_kg": "1000",
+          "coverage": "co2e_factor",
+          "claim_tr": "CO₂e bazlı faktörle hesaplandı; GWP ikinci kez uygulanmadı.",
+          "value_state": "known",
+          "context": "corporate"
+        },
+        "scope2_method_used": null
+      },
+      {
+        "record_id": "r-s2-el",
+        "context": "corporate",
+        "scope": 2,
+        "category": null,
+        "state": "locked",
+        "result": {
+          "engine_version": "0.2.0",
+          "status": "computed",
+          "blocks": [],
+          "warnings": [],
+          "total_co2e_kg": null,
+          "coverage": null,
+          "claim_tr": "Konum ve piyasa bazlı sonuçlar aynı tüketimin alternatif görünümleridir; toplanmaz.",
+          "value_state": "known",
+          "context": "corporate",
+          "results": {
+            "location_based": {
+              "engine_version": "0.2.0",
+              "status": "computed",
+              "blocks": [],
+              "warnings": [],
+              "total_co2e_kg": "40000",
+              "coverage": "co2e_factor",
+              "claim_tr": "CO₂e bazlı faktörle hesaplandı; GWP ikinci kez uygulanmadı.",
+              "value_state": "known",
+              "context": "corporate"
+            },
+            "market_based": {
+              "engine_version": "0.2.0",
+              "status": "computed",
+              "blocks": [],
+              "warnings": [],
+              "total_co2e_kg": "20000",
+              "coverage": "co2e_factor",
+              "claim_tr": "CO₂e bazlı faktörle hesaplandı; GWP ikinci kez uygulanmadı.",
+              "value_state": "known",
+              "context": "corporate"
+            }
+          },
+          "scope": 2
+        },
+        "scope2_method_used": null
+      },
+      {
+        "record_id": "r-s3-c1",
+        "context": "corporate",
+        "scope": 3,
+        "category": 1,
+        "state": "locked",
+        "result": {
+          "engine_version": "0.2.0",
+          "status": "computed",
+          "blocks": [],
+          "warnings": [],
+          "total_co2e_kg": "2000",
+          "coverage": "co2e_factor",
+          "claim_tr": "CO₂e bazlı faktörle hesaplandı; GWP ikinci kez uygulanmadı.",
+          "value_state": "known",
+          "context": "corporate"
+        },
+        "scope2_method_used": null
+      },
+      {
+        "record_id": "r-prod",
+        "context": "product",
+        "scope": null,
+        "category": null,
+        "state": "approved",
+        "result": {
+          "engine_version": "0.2.0",
+          "status": "computed",
+          "blocks": [],
+          "warnings": [],
+          "total_co2e_kg": "1200",
+          "coverage": "carbon_only",
+          "claim_tr": "Ürün karbon ayak izi (beşikten kapıya); yalnız karbon. Tam LCA veya EPD belgesi değildir.",
+          "value_state": "known",
+          "context": "product",
+          "product": {
+            "study_id": "ps-test-001"
+          }
+        },
+        "scope2_method_used": null
+      },
+      {
+        "record_id": "r-draft",
+        "context": "corporate",
+        "scope": 1,
+        "category": null,
+        "state": "draft",
+        "result": {
+          "engine_version": "0.2.0",
+          "status": "computed",
+          "blocks": [],
+          "warnings": [],
+          "total_co2e_kg": "99999",
+          "coverage": "co2e_factor",
+          "claim_tr": "CO₂e bazlı faktörle hesaplandı; GWP ikinci kez uygulanmadı.",
+          "value_state": "known",
+          "context": "corporate"
+        },
+        "scope2_method_used": null
+      },
+      {
+        "record_id": "r-unknown",
+        "context": "corporate",
+        "scope": 3,
+        "category": 2,
+        "state": "approved",
+        "result": {
+          "engine_version": "0.2.0",
+          "status": "blocked",
+          "blocks": [],
+          "warnings": [],
+          "total_co2e_kg": null,
+          "coverage": null,
+          "claim_tr": "",
+          "value_state": "unknown",
+          "context": "corporate"
+        },
+        "scope2_method_used": null
+      },
+      {
+        "record_id": "r-na",
+        "context": "corporate",
+        "scope": 3,
+        "category": 14,
+        "state": "approved",
+        "result": {
+          "engine_version": "0.2.0",
+          "status": "computed",
+          "blocks": [],
+          "warnings": [],
+          "total_co2e_kg": null,
+          "coverage": null,
+          "claim_tr": "uygulanamaz",
+          "value_state": "not_applicable",
+          "context": "corporate"
+        },
+        "scope2_method_used": null
+      }
+    ],
+    "policy": {
+      "include_states": [
+        "approved",
+        "locked"
+      ],
+      "scope2_method": "market_based"
+    }
+  },
+  "expected": {
+    "status": "computed",
+    "corporate": {
+      "scope2_kg": "20000",
+      "scope2_method": "market_based",
+      "scope2_alternative_kg": "40000",
+      "total_kg": "28000"
+    }
+  }
+}

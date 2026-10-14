@@ -1,11 +1,82 @@
 id: "101-06"
 title: {tr: "Yaşam döngüsü"}
-level: başlangıç
+level: orta
 goal: "Sistem sınırı ve referans birimi anlamak"
 application: "Dahil edilen aşamaları işaretlemek"
-duration_min: null
-status: iskelet — gövde yazılmadı, editör onayı yok
-prerequisites: []
-body: null
-sources: []
-review_date: null
+duration_min: 10
+field_duration_min: null
+prerequisites: ["101-03"]
+status: editör onayı bekliyor
+review_date: 2026-10-14
+sources: [K08, K12, K13]
+related_task:
+  route: "/urun/"
+  label: "Ürün çalışması tanımla: fonksiyonel birim ve sistem sınırını seç"
+explanation:
+  - >-
+    Kurumsal envanter "bu kurum bir yılda ne kadar saldı?" sorusuna cevap verir. Yaşam döngüsü
+    çalışması ise "bu ürün, ömrü boyunca ne kadar etki yarattı?" diye sorar. Aynı ham veriyi
+    kullanabilirler ama sorular, sınırlar ve sonuç birimleri farklıdır. Ürün sonucu kurumsal toplama
+    eklenmez; iki ayrı defter gibi düşünün.
+  - >-
+    Her ürün çalışması bir fonksiyonel birimle başlar: ürünün sağladığı işlevin ölçülebilir tanımı.
+    "Bir şişe" değil, "1.000 litre içeceği altı ay korumak" gibi. Fonksiyonel birim olmadan iki ürün
+    karşılaştırılamaz; referans akış ise bu işlevi sağlamak için gereken ürün miktarıdır.
+  - >-
+    Sistem sınırı, hangi aşamaların hesaba dahil olduğunu söyler. Kapıdan kapıya yalnız kendi
+    tesisinizi; beşikten kapıya hammadde çıkarımından ürünün tesisten çıkışına kadarını; beşikten
+    mezara dağıtım, kullanım ve ömür sonunu da kapsar. Sınır seçimi çalışma amacını yansıtır ve
+    sonucun yanında mutlaka yazılır; sınırsız bir ürün sayısı anlamsızdır.
+  - >-
+    Ortak süreçlerde tahsis gerekir: aynı fırından iki ürün çıkıyorsa fırının emisyonu bir temelle
+    (kütle, enerji, ekonomik değer) paylaştırılır. Tahsis temeli kayda girer; farklı temel farklı
+    sonuç verir ve bu bir hata değil, açıklanması gereken bir seçimdir.
+  - >-
+    ISO 14040 ve 14044 yaşam döngüsü değerlendirmesinin (LCA) genel çerçevesidir ve su, asitlenme,
+    toksisite gibi birçok etki kategorisini kapsar. ISO 14067 ve GHG Protocol Ürün Standardı yalnız
+    sera gazına odaklanır. Yalnız karbon hesaplamak LCA yapmak değildir; "ürün karbon ayak izi"
+    ile "LCA" aynı şey gibi sunulmaz.
+  - >-
+    Veri tabanındaki bir faktörün gerçek sınırı sizin seçiminizle değişmez. Beşikten kapıya bir
+    hammadde faktörü, "beşikten mezara" işaretlediniz diye kullanım aşamasını kapsamaz; eksik aşama
+    açıkça eksik kalır.
+field_summary: null
+business_example: >-
+  Bir tekstil firması iki kumaş seçeneğini karşılaştırmak istiyor. Fonksiyonel birim: "1 m² kumaşla
+  50 yıkamaya dayanan bir giysi yüzeyi". Sınır: beşikten kapıya (lif üretimi, iplik, dokuma, boya).
+  Boyahane iki kumaşa da hizmet verdiği için boyahane enerjisi kütleye göre tahsis edildi. Kullanım
+  aşaması (yıkama) sınır dışı bırakıldı ve bu açıkça yazıldı; sonuç kurumun yıllık envanterine eklenmedi.
+common_mistake: >-
+  "Beşikten beşiğe" ifadesini otomatik geri dönüşüm kredisi sanmak. Döngüsel senaryoda geri
+  dönüşümün nasıl sayıldığı (hangi tahsis ve ömür sonu yöntemi) açıkça seçilir; sihirli bir
+  kısayol yoktur.
+exercise:
+  prompt: "Bir ürününüz için yaşam döngüsü aşamalarını listeleyin (hammadde, üretim, dağıtım, kullanım, ömür sonu) ve çalışma amacınıza göre hangilerinin sınır içinde olduğunu işaretleyin; her dışarıda bırakılan aşama için bir cümle gerekçe yazın."
+  steps:
+    - "Ürünün işlevini bir cümleyle yazın; bundan fonksiyonel birimi türetin."
+    - "Aşamaları sıralayın; sınır içi / sınır dışı işaretleyin."
+    - "Ortak süreç varsa tahsis temelini seçin ve yazın."
+    - "Ürün ekranında çalışmayı tanımlayın; sonucun kurumsal toplama eklenmediğini doğrulayın."
+  note: "Ürün çalışması ayrı hesap bağlamıdır; kurumsal envantere girmez (§17, REG-03)."
+quiz:
+  - q: "Fonksiyonel birim ne işe yarar?"
+    options: ["Ürünün fiyatını belirler", "İki ürünü aynı işlev üzerinden karşılaştırılabilir kılar", "Kapsam 1 toplamını hesaplar"]
+    correct: 1
+    explanations:
+      - "Yanlış. Fonksiyonel birim ekonomik değil, işlevsel bir tanımdır."
+      - "Doğru. Sonuç 'işlev başına' ifade edilince farklı ürünler adil biçimde karşılaştırılır."
+      - "Yanlış. Fonksiyonel birim ürün çalışmasına aittir; kurumsal kapsam toplamıyla ilgisi yoktur."
+  - q: "Ürün karbon ayak izi sonucu kurumun yıllık Kapsam 1–2 toplamına eklenir mi?"
+    options: ["Evet, toplam daha eksiksiz olur", "Hayır; ürün bağlamı ayrı defterdir, kurumsal toplama eklenmez", "Yalnız beşikten mezara ise eklenir"]
+    correct: 1
+    explanations:
+      - "Yanlış. Ürün sonucu farklı sınır ve birimle hesaplanır; toplama eklemek çifte sayım ve anlam kayması yaratır."
+      - "Doğru. Ürün ve kurumsal envanter aynı ham veriyi paylaşabilir ama sonuçları ayrı tutulur."
+      - "Yanlış. Sınır genişliği bu kuralı değiştirmez."
+  - q: "ISO 14067 ile ISO 14040/14044 arasındaki fark nedir?"
+    options: ["14067 yalnız sera gazına odaklanır; 14040/14044 birçok etki kategorisini kapsayan LCA çerçevesidir", "Biri ürün, diğeri kurum içindir", "Fark yoktur"]
+    correct: 0
+    explanations:
+      - "Doğru. Ürün karbon ayak izi sera gazıyla sınırlıdır; LCA su, asitlenme, toksisite gibi etkileri de kapsar."
+      - "Yanlış. Üçü de ürün/sistem düzeyinde çalışır; kurumsal envanter GHG Protocol Corporate Standard'ın alanıdır."
+      - "Yanlış. Kapsadıkları etki kategorileri farklıdır; karbon hesabı LCA'nın yalnız bir kesitidir."

@@ -1,0 +1,19 @@
+id: tsrs
+tr: Türkiye Sürdürülebilirlik Raporlama Standartları
+en: Türkiye Sustainability Reporting Standards
+abbr: TSRS
+aliases: ["tsrs", "tsrs 1", "tsrs 2", "kgk", "türkiye sürdürülebilirlik raporlama"]
+kind: terim
+contexts: [raporlama, mevzuat]
+definition: >-
+  Kamu Gözetimi Kurumu'nun (KGK) yayımladığı, sürdürülebilikle ilgili finansal risk ve fırsat
+  açıklamalarını düzenleyen standartlar. Hangi kurumların hangi dönemden itibaren zorunlu kapsamda
+  olduğu KGK kararlarıyla belirlenir; bu uygulamada TSRS uygulanabilirliği ilgili karar kaynaktan
+  doğrulanana kadar "inceleme gerekli" durumundadır (K-08).
+example: "Halka açık bir şirket TSRS açıklama matrisini yönetişim, strateji, risk yönetimi, metrik ve hedef başlıklarıyla hazırlar; sera gazı metriklerini onaylı envantere bağlar."
+confused_with: "GRI ile karıştırılır; TSRS finansal önemlilik, GRI etki önemliliği sorar. İkisi aynı veriden beslenebilir ama ayrı listelerdir."
+related_task: "Protokoller sekmesinde TSRS uygulanabilirlik değerlendirmesi; regülasyon paketini açmak."
+related_route: "/protokoller/"
+likely_department: "Finans / sürdürülebilirlik / hukuk"
+source: "K02 KGK; §08"
+status: editör onayı bekliyor

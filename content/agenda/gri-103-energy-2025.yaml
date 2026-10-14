@@ -1,0 +1,22 @@
+id: gri-103-energy-2025
+type: standart_guncellemesi
+status: yururlukte
+title: "GRI 103: Energy 2025 yayımlandı — 1 Ocak 2027 sonrası raporlar için geçerli"
+summary:
+  - "GRI, enerji açıklamalarını güncelleyen yeni konu standardını (GRI 103: Energy 2025) yayımladı; enerji tüketimi ve ilgili açıklamalar bu standartta tanımlanıyor."
+  - "Enerji tüketimi her kurumun çekirdek gösterge paketindedir; GRI raporunda enerji bölümü 1 Ocak 2027 ve sonrasında yayımlanan raporlarda bu standarda göre hazırlanır (kaynakta belirtilmiştir)."
+  - "Enerji verisinin yakıt türü ve kaynak bazında ayrıştırılmış olduğunu kontrol edin; GRI 302 (2016) ile farkları raporlama haritasında izleyin."
+publisher: "GRI"
+source_url: "https://www.globalreporting.org/publications/documents/english/gri-103-energy-2025/"
+source_codes: [K15]
+published_at: null
+event_or_effective_at: 2027-01-01
+countries: ["global"]
+sectors: []
+relevance:
+  profile_ids: ["*"]
+  packages: []
+suggested_action: "Enerji kayıtlarının yakıt/kaynak bazında ayrıştırıldığını doğrula; 2027 raporu için GRI 103 (2025) açıklama listesini raporlama haritasına ekle."
+affected_route: "/envanter/"
+last_checked: 2026-10-13
+editor_status: editör onayı bekliyor

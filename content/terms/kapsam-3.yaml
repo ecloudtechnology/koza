@@ -1,0 +1,19 @@
+id: kapsam-3
+tr: Kapsam 3
+en: Scope 3
+abbr: null
+aliases: ["scope 3", "kapsam3", "değer zinciri emisyonları", "value chain emissions", "dolaylı emisyon"]
+kind: terim
+contexts: [envanter, raporlama]
+definition: >-
+  Kurumun değer zincirinde oluşan, Kapsam 2 dışındaki tüm dolaylı emisyonlar. On beş kategoriye
+  ayrılır: sekizi yukarı yönlü (satın alınan mal ve hizmetlerden kiralanan varlıklara), yedisi aşağı
+  yönlü (aşağı yönlü taşımadan yatırımlara). Her kategori için uygulanır / uygulanmaz / inceleme
+  gerekli kararı gerekçesiyle tutulur; veri eksikliği uygulanamazlık değildir.
+example: "Tedarikçinin ürettiği çeliğin emisyonu kategori 1, çalışanların işe gelişi kategori 7, satılan buzdolabının kullanımdaki elektriği kategori 11."
+confused_with: "Ürün karbon ayak izi ile karıştırılır; Kapsam 3 kurum düzeyi, ürün ayak izi ürün düzeyidir ve toplanmaz."
+related_task: "Profilin öncelikli kategorileri için departman veri planı ve görevler."
+related_route: "/gorevler/"
+likely_department: "Satın alma / lojistik / İK (kategoriye göre)"
+source: "K06 Scope 3 Standard; K05 hesap rehberi; §15–§16"
+status: editör onayı bekliyor

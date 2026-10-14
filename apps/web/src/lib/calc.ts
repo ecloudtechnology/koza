@@ -64,6 +64,15 @@ def _calc(req_json):
     return json.dumps(calculate(json.loads(req_json)), ensure_ascii=False)
 def _golden(fixtures_json):
     return json.dumps(run_fixtures(json.loads(fixtures_json)), ensure_ascii=False)
+def _aggregate(req_json):
+    from koza_calc import aggregate
+    return json.dumps(aggregate(json.loads(req_json)), ensure_ascii=False)
+def _supported():
+    try:
+        from koza_calc import SUPPORTED
+        return json.dumps(SUPPORTED, ensure_ascii=False)
+    except Exception:
+        return "null"
 `);
       return { py, files: manifest.files };
     })().catch((e) => {
@@ -84,6 +93,41 @@ export async function calculate(request: unknown): Promise<CalcResult> {
   const fn = py.globals.get("_calc") as (s: string) => string;
   const out = fn(JSON.stringify(request));
   return JSON.parse(out) as CalcResult;
+}
+
+// Toplama (CONTRACT-v0.2 §7): yalnız motor toplar; arayüz yeni sayı üretmez.
+export async function aggregate(request: unknown): Promise<AggregateResult> {
+  const { py } = await engineReady();
+  const fn = py.globals.get("_aggregate") as (s: string) => string;
+  return JSON.parse(fn(JSON.stringify(request))) as AggregateResult;
+}
+
+export async function supportedMatrix(): Promise<Record<string, unknown> | null> {
+  const { py } = await engineReady();
+  const fn = py.globals.get("_supported") as () => string;
+  return JSON.parse(fn()) as Record<string, unknown> | null;
+}
+
+export interface AggregateResult {
+  engine_version: string;
+  corporate: {
+    scope1_kg: string | null;
+    scope2_kg: string | null;
+    scope2_method: string | null;
+    scope2_alternative_kg?: string | null;
+    scope3_kg: string | null;
+    scope3_by_category: Record<string, string>;
+    total_kg: string | null;
+    label_tr: string;
+    excluded: { record_id: string; reason: string }[];
+    coverage_notes_tr: string[];
+    estimated_share_by_count: string | null;
+    estimated_share_by_kg: string | null;
+  };
+  product: Record<string, { total_kg: string | null; claim_tr: string }>;
+  biogenic_co2_kg: string | null;
+  not_applicable: string[];
+  unknown: string[];
 }
 
 export interface GoldenRun {

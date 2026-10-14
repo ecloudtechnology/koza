@@ -1,0 +1,19 @@
+id: alan-miktar
+tr: "Miktar kutusu — bu kutuya ne yazacağım?"
+en: Quantity field
+abbr: null
+aliases: ["miktar", "tüketim", "quantity", "ne yazacağım", "miktar kutusu"]
+kind: alan-yardimi
+contexts: [veri-girisi]
+definition: >-
+  Faturadaki tüketim miktarını yazın; ödeme tutarını değil. Yalnız rakam ve ondalık ayraç girin,
+  birimi yandaki kutudan seçin. Miktar okunamıyorsa boş bırakın: sistem doğrulama görevi açar, sıfır
+  yazmayın. "1.234" gibi belirsiz yazımda sistem hangisini kastettiğinizi sorar.
+example: "Faturada 'Tüketim: 1.250 Sm³' → miktar 1250, birim Sm³."
+confused_with: "Fatura tutarı (TL) bu kutuya girmez; tutar hesap girdisi değildir."
+related_task: "Veri girişi — miktar alanı"
+related_route: "/veri-girisi/"
+field_help: {route: "/veri-girisi/", field_id: "q", field_label: "Miktar (faturadaki tüketim)"}
+likely_department: "Muhasebe (fatura) / tesis bakım (sayaç)"
+source: "§10 örnek yardım davranışı; §11"
+status: editör onayı bekliyor

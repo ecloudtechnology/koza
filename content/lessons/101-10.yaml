@@ -3,9 +3,77 @@ title: {tr: "Diğer konular"}
 level: başlangıç
 goal: "Su, atık, çalışan ve etik verilerini tanımak"
 application: "İlgili veri sahibini bulmak"
-duration_min: null
-status: iskelet — gövde yazılmadı, editör onayı yok
-prerequisites: []
-body: null
-sources: []
-review_date: null
+duration_min: 7
+field_duration_min: 3
+prerequisites: ["101-01"]
+status: editör onayı bekliyor
+review_date: 2026-10-14
+sources: [K01, K09]
+related_task:
+  route: "/gorevler/"
+  label: "Su, atık, İSG ve eğitim verileri için veri sahibi görevleri aç"
+explanation:
+  - >-
+    Sera gazı dışındaki konular raporun çoğu zaman daha büyük kısmıdır. Çekirdek gösterge paketi her
+    kurumda su, atık, iş kazası, eğitim saati ve faaliyet çıktısını içerir; sektör profili buna kendi
+    göstergelerini ekler. Her göstergenin bir tanımı, birimi, veri sahibi, güncelleme sıklığı ve kalite
+    kuralı vardır.
+  - >-
+    Su üç ayrı sayıdır: çekilen su (şebeke, kuyu, yüzey), deşarj edilen su ve tüketilen su (çekim eksi
+    deşarj). Yalnız fatura miktarını yazmak çoğu zaman çekimi verir; tüketim ayrı hesaplanır. Veri
+    genellikle tesis bakım veya çevre biriminde, su faturalarında ve deşarj izin kayıtlarında bulunur.
+  - >-
+    Atık türüne, tehlikeli olup olmadığına ve bertaraf yöntemine göre ayrılır: geri dönüşüm, geri
+    kazanım, düzenli depolama, yakma. Atık teslim formları ve lisanslı taşıyıcı belgeleri kanıttır;
+    çevre sorumlusu veri sahibidir. Fire (üretim kaybı) atıkla ilişkilidir ama ayrı izlenir.
+  - >-
+    Çalışan verisi iş kazası sayısı ve ağırlığı, çalışılan saat, eğitim saati ve işgücü yapısını kapsar.
+    Eğitim saati kişi bazında değil, birim düzeyinde toplulaştırılarak raporlanır; kişisel performans
+    sıralaması yapılmaz. Bu verinin sahibi insan kaynakları ve iş sağlığı güvenliği birimidir.
+  - >-
+    Etik ve yönetişim verisi sayıdan çok politika ve olaydır: etik kural metni, şikâyet mekanizması,
+    yolsuzlukla ilgili vaka sayısı, eğitim verilen çalışan oranı. Hukuk, iç denetim veya uyum birimi
+    veri sahibidir. Bu veriler kanıtla (politika belgesi, kayıt) desteklenir.
+field_summary:
+  - "Su faturası, atık teslim formu ve kaza tutanağı da veridir; sahadan geçen bu belgelerin fotoğrafı kanıt olur."
+  - "Atığı türüne göre ayrı yazın: tehlikeli mi, geri dönüşüme mi gitti, kaç kg."
+  - "Kimin elinde hangi belge varsa veri sahibi odur; bulamıyorsanız görev açın, sayı uydurmayın."
+business_example: >-
+  Bir süt işleme tesisi çekirdek paketi doldururken su için tesis bakım biriminden şebeke faturası
+  ve kuyu sayacı okumalarını, atık için çevre sorumlusundan aylık teslim formlarını, kaza ve eğitim
+  için İSG ve İK biriminden birim bazlı toplamları, etik için uyum biriminden politika belgesini aldı.
+  Her gösterge için bir veri sahibi rolü atandı; kişi adı değil, rol yazıldı.
+common_mistake: >-
+  Eğitim saatini kişi listesi hâlinde raporlamak ya da "en çok eğitim alan çalışan" gibi sıralamalar
+  üretmek. Öğrenme ve öneri verisi birim düzeyinde toplulaştırılır; kişi bazlı sıralama bu üründe
+  yapılmaz.
+exercise:
+  prompt: "Çekirdek paketteki beş gösterge (su, atık, iş kazası, eğitim saati, faaliyet çıktısı) için veri sahibi rolünü, kaynak belgeyi ve güncelleme sıklığını yazın. Sahibi belirsiz olan her gösterge için görev açın."
+  steps:
+    - "Göstergeleri listeleyin; her biri için 'bu belge kimin elinden geçiyor?' diye sorun."
+    - "Kaynak belgeyi yazın (fatura, teslim formu, tutanak, eğitim kaydı)."
+    - "Sıklığı belirleyin: aylık, üç aylık, yıllık."
+    - "Sahibi olmayan göstergeler için görevler ekranından 'eksik bilgi' görevi açın."
+  note: "Bu alıştırma veri sahibi planı üretir; gösterge değeri girmez."
+quiz:
+  - q: "Su tüketimi nasıl bulunur?"
+    options: ["Su faturasındaki miktar doğrudan tüketimdir", "Çekilen su eksi deşarj edilen su; fatura genellikle yalnız çekimi verir", "Çalışan sayısı çarpı ortalama"]
+    correct: 1
+    explanations:
+      - "Yanlış. Fatura çekimi gösterir; deşarj düşülmeden tüketim bilinmez."
+      - "Doğru. Üç sayı ayrı izlenir: çekim, deşarj, tüketim."
+      - "Yanlış. Bu bir tahmindir; kullanılacaksa 'tahmini' etiketiyle ve yaklaşımı yazılarak kullanılır."
+  - q: "Eğitim saati raporda nasıl sunulur?"
+    options: ["Çalışan adı ve saatiyle liste hâlinde", "Birim düzeyinde toplam olarak; kişi bazlı sıralama yapılmaz", "Yalnız yöneticiler için"]
+    correct: 1
+    explanations:
+      - "Yanlış. Kişi listesi hem gereksiz hem de kişisel performans sıralamasına kapı açar; ürün bunu yapmaz."
+      - "Doğru. Öğrenme verisi birim düzeyinde toplulaştırılır; bireysel ayrıntı kurum politikası ve kullanıcı bilgilendirmesiyle sınırlıdır."
+      - "Yanlış. Gösterge tüm çalışanları kapsar; rol ayrımı yoktur."
+  - q: "Tehlikeli atık teslim formu hangi gösterge için kanıttır ve veri sahibi kimdir?"
+    options: ["Su — tesis bakım", "Atık — çevre sorumlusu", "İş kazası — İSG"]
+    correct: 1
+    explanations:
+      - "Yanlış. Su verisi fatura ve sayaçlardan gelir."
+      - "Doğru. Atık teslim formu türü, miktarı ve bertaraf yöntemini belgeler; çevre sorumlusu veri sahibidir."
+      - "Yanlış. Kaza verisi tutanak ve İSG kayıtlarından gelir."

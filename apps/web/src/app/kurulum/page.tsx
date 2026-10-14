@@ -2,7 +2,9 @@
 import Link from "next/link";
 import { useState } from "react";
 import { PROFILES, profileById, suggestProfile, type Profile } from "@/lib/content";
-import { SOURCE_TYPE_LABEL, type SourceType } from "@/lib/domain";
+import { SCOPE3_CATEGORIES, SOURCE_TYPE_LABEL, type SourceType } from "@/lib/domain";
+import { FUELS, REFRIGERANT_GASES } from "@/modules/kayit/schemas";
+import { setSourceMeta, sourceMeta } from "@/modules/kayit/store";
 import { useStore } from "@/lib/useStore";
 import { ErrorBox, Loading, Notice, PageHeader } from "@/components/ui";
 
@@ -288,17 +290,30 @@ function StepSources({ store, onDone, onBack, setErr }: { store: S; onDone: () =
   const [answers, setAnswers] = useState<Record<string, "yes" | "no" | "unknown">>({});
   const [facility, setFacility] = useState(facs[0]?.id ?? "");
   const [names, setNames] = useState<Record<string, string>>({});
+  const [extra, setExtra] = useState<Record<string, SourceExtra>>({});
+  const [manual, setManual] = useState<{ type: SourceType; name: string; control: "owned" | "leased" | "unknown"; extra: SourceExtra }>({ type: "stationary_combustion", name: "", control: "owned", extra: {} });
   const sources = store.sources();
+
+  // Tür-özgü alanlarla kaynak oluşturma: yakıt (yakma), gaz listesi (soğutucu), şebeke bölgesi (elektrik), kategori (değer zinciri)
+  const createSource = (st: SourceType, name: string, control: "owned" | "leased" | "unknown", x: SourceExtra) => {
+    const fuel = st === "stationary_combustion" || st === "mobile_combustion" ? (x.fuel ?? (st === "stationary_combustion" ? "natural_gas" : "diesel")) : null;
+    const src = store.addSource({ facility_id: facility, name: name || SOURCE_TYPE_LABEL[st] || st, source_type: st, fuel, control, created_from: "onboarding" });
+    if (st === "refrigerant" || st === "purchased_electricity" || st === "purchased_steam" || st === "purchased_heat" || st === "purchased_cooling" || st === "scope3" || st === "purchased_goods") {
+      setSourceMeta(store, src.id, { gases: x.gases ?? [], grid_region: st.startsWith("purchased_") && st !== "purchased_goods" ? (x.grid_region ?? "TR") : null, scope3_category: st === "purchased_goods" ? (x.scope3_category ?? 1) : st === "scope3" ? (x.scope3_category ?? null) : null });
+    }
+    return src;
+  };
+
   return (
     <div className="stack">
       <form
         onSubmit={(e) => {
           e.preventDefault();
           try {
+            if (!facility) throw new Error("Önce tesis seçin.");
             for (const q of profile.onboarding_questions) {
               if (answers[q.id] === "yes") {
-                const st = q.creates_source_type as SourceType;
-                store.addSource({ facility_id: facility, name: names[q.id] || SOURCE_TYPE_LABEL[st] || st, source_type: st, fuel: st === "stationary_combustion" ? "natural_gas" : null, control: "owned", created_from: "onboarding" });
+                createSource(q.creates_source_type as SourceType, names[q.id] ?? "", "owned", extra[q.id] ?? {});
               }
               if (answers[q.id] === "unknown") {
                 store.createTask({ title: `Kaynak envanteri sorusu yanıtsız: "${q.text.tr}"`, detail: "Bilinmeyen yanıt kaynak yaratmaz ve silmez; ilgili departmanla doğrulanmalı (ONB-03).", kind: "missing_info", related_record_id: null, requirement_ids: ["ONB-03"] });
@@ -312,7 +327,7 @@ function StepSources({ store, onDone, onBack, setErr }: { store: S; onDone: () =
       >
         <fieldset>
           <legend>Kaynak envanteri soruları (ONB-03) — profil: {profile.title.tr} v{profile.version}</legend>
-          <p className="small">Sorular sektör profilinden gelir (SEK-02). Cevaplar kaynak envanterini oluşturur; hiçbir kategori otomatik silinmez.</p>
+          <p className="small">Sorular sektör profilinden gelir (SEK-02). Cevaplar kaynak envanterini ve Kapsam 3 ön değerlendirmesini oluşturur; hiçbir kategori otomatik silinmez.</p>
           <div className="field">
             <label htmlFor="fac">Tesis</label>
             <select id="fac" value={facility} onChange={(e) => setFacility(e.target.value)}>
@@ -323,25 +338,28 @@ function StepSources({ store, onDone, onBack, setErr }: { store: S; onDone: () =
               ))}
             </select>
           </div>
-          {profile.onboarding_questions.map((q) => (
-            <div key={q.id} className="field">
-              <label>{q.text.tr}</label>
-              <div className="row">
-                {(["yes", "no", "unknown"] as const).map((v) => (
-                  <label key={v} className="small" style={{ fontWeight: 400 }}>
-                    <input type="radio" style={{ width: "auto" }} name={q.id} checked={answers[q.id] === v} onChange={() => setAnswers({ ...answers, [q.id]: v })} /> {v === "yes" ? "Evet" : v === "no" ? "Hayır" : "Bilmiyorum"}
-                  </label>
-                ))}
+          {profile.onboarding_questions.map((q) => {
+            const st = q.creates_source_type as SourceType;
+            return (
+              <div key={q.id} className="field">
+                <label>{q.text.tr}</label>
+                <div className="row">
+                  {(["yes", "no", "unknown"] as const).map((v) => (
+                    <label key={v} className="small" style={{ fontWeight: 400 }}>
+                      <input type="radio" style={{ width: "auto" }} name={q.id} checked={answers[q.id] === v} onChange={() => setAnswers({ ...answers, [q.id]: v })} /> {v === "yes" ? "Evet" : v === "no" ? "Hayır" : "Bilmiyorum"}
+                    </label>
+                  ))}
+                </div>
+                {answers[q.id] === "yes" && (
+                  <>
+                    <input placeholder={`Kaynak adı (ör. ${st === "stationary_combustion" ? "Ana kazan — doğal gaz" : SOURCE_TYPE_LABEL[st] ?? st})`} value={names[q.id] ?? ""} onChange={(e) => setNames({ ...names, [q.id]: e.target.value })} />
+                    <SourceTypeFields st={st} value={extra[q.id] ?? {}} onChange={(x) => setExtra({ ...extra, [q.id]: x })} />
+                  </>
+                )}
+                <span className="hint">Oluşturacağı kaynak türü: {SOURCE_TYPE_LABEL[st] ?? st} — veri girişi bu tür için hazırdır.</span>
               </div>
-              {answers[q.id] === "yes" && (
-                <input placeholder={`Kaynak adı (ör. ${q.creates_source_type === "stationary_combustion" ? "Ana kazan — doğal gaz" : SOURCE_TYPE_LABEL[q.creates_source_type as SourceType] ?? q.creates_source_type})`} value={names[q.id] ?? ""} onChange={(e) => setNames({ ...names, [q.id]: e.target.value })} />
-              )}
-              <span className="hint">
-                Oluşturacağı kaynak türü: {SOURCE_TYPE_LABEL[q.creates_source_type as SourceType] ?? q.creates_source_type}
-                {q.creates_source_type !== "stationary_combustion" && " — bu türde veri girişi sonraki dilimlerde (envanterde 'veri girişi henüz yok' olarak görünür)"}
-              </span>
-            </div>
-          ))}
+            );
+          })}
           <div className="actions">
             <button className="primary" type="submit">
               Kaynakları oluştur ve devam et
@@ -349,15 +367,62 @@ function StepSources({ store, onDone, onBack, setErr }: { store: S; onDone: () =
           </div>
         </fieldset>
       </form>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          try {
+            if (!facility) throw new Error("Önce tesis seçin.");
+            createSource(manual.type, manual.name, manual.control, manual.extra);
+            setManual({ ...manual, name: "", extra: {} });
+          } catch (ex) {
+            setErr(ex);
+          }
+        }}
+      >
+        <fieldset>
+          <legend>Başka kaynak ekle (soru listesinde olmayan türler)</legend>
+          <div className="row">
+            <div className="field">
+              <label htmlFor="mt">Kaynak türü</label>
+              <select id="mt" value={manual.type} onChange={(e) => setManual({ ...manual, type: e.target.value as SourceType, extra: {} })}>
+                {(Object.keys(SOURCE_TYPE_LABEL) as SourceType[]).filter((k) => k !== "other" && k !== "purchased_goods").map((k) => (
+                  <option key={k} value={k}>
+                    {SOURCE_TYPE_LABEL[k]}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="field">
+              <label htmlFor="mn">Ad</label>
+              <input id="mn" value={manual.name} onChange={(e) => setManual({ ...manual, name: e.target.value })} placeholder="ör. Forklift filosu" />
+            </div>
+            <div className="field">
+              <label htmlFor="mc">Kontrol ilişkisi</label>
+              <select id="mc" value={manual.control} onChange={(e) => setManual({ ...manual, control: e.target.value as "owned" | "leased" | "unknown" })}>
+                <option value="owned">Kurumun</option>
+                <option value="leased">Kiralık</option>
+                <option value="unknown">Bilinmiyor</option>
+              </select>
+            </div>
+          </div>
+          <SourceTypeFields st={manual.type} value={manual.extra} onChange={(x) => setManual({ ...manual, extra: x })} />
+          <div className="actions">
+            <button type="submit">Kaynağı ekle</button>
+          </div>
+        </fieldset>
+      </form>
       {sources.length > 0 && (
         <div className="card">
           <h3>Mevcut kaynaklar ({sources.length})</h3>
           <ul className="small">
-            {sources.map((s) => (
-              <li key={s.id}>
-                {s.name} · {SOURCE_TYPE_LABEL[s.source_type]} {s.fuel && `· ${s.fuel}`}
-              </li>
-            ))}
+            {sources.map((s) => {
+              const m = sourceMeta(store, s.id);
+              return (
+                <li key={s.id}>
+                  {s.name} · {SOURCE_TYPE_LABEL[s.source_type]} {s.fuel && `· ${s.fuel}`} {m?.grid_region && `· şebeke ${m.grid_region}`} {m?.gases?.length ? `· ${m.gases.join(", ")}` : ""} {m?.scope3_category && `· kat. ${m.scope3_category}`}
+                </li>
+              );
+            })}
           </ul>
         </div>
       )}
@@ -369,8 +434,69 @@ function StepSources({ store, onDone, onBack, setErr }: { store: S; onDone: () =
   );
 }
 
+type SourceExtra = { fuel?: string; gases?: string[]; grid_region?: string; scope3_category?: number };
+
+function SourceTypeFields({ st, value, onChange }: { st: SourceType; value: SourceExtra; onChange: (x: SourceExtra) => void }) {
+  if (st === "stationary_combustion" || st === "mobile_combustion") {
+    return (
+      <div className="field">
+        <label>Yakıt</label>
+        <select value={value.fuel ?? (st === "stationary_combustion" ? "natural_gas" : "diesel")} onChange={(e) => onChange({ ...value, fuel: e.target.value })}>
+          {FUELS[st].map((o) => (
+            <option key={o.value} value={o.value}>
+              {o.label}
+            </option>
+          ))}
+        </select>
+      </div>
+    );
+  }
+  if (st === "refrigerant") {
+    const gases = value.gases ?? [];
+    return (
+      <div className="field">
+        <label>Soğutucu gazlar (ekipman etiketinden)</label>
+        <div className="row">
+          {REFRIGERANT_GASES.filter((g) => g.value !== "other" && g.value !== "unknown").map((g) => (
+            <label key={g.value} className="check">
+              <input type="checkbox" checked={gases.includes(g.value)} onChange={(e) => onChange({ ...value, gases: e.target.checked ? [...gases, g.value] : gases.filter((x) => x !== g.value) })} /> {g.label}
+            </label>
+          ))}
+        </div>
+        <span className="hint">Gaz türü bilinmiyorsa boş bırakın; kayıt girişinde "bilmiyorum" seçilir ve hesap bekler (§12).</span>
+      </div>
+    );
+  }
+  if (st === "purchased_electricity" || st === "purchased_steam" || st === "purchased_heat" || st === "purchased_cooling") {
+    return (
+      <div className="field">
+        <label>Şebeke bölgesi (ülke/bölge)</label>
+        <input value={value.grid_region ?? "TR"} onChange={(e) => onChange({ ...value, grid_region: e.target.value })} placeholder="TR" style={{ maxWidth: 160 }} />
+        <span className="hint">Konum bazlı faktör bu bölgeye göre seçilir (§13).</span>
+      </div>
+    );
+  }
+  if (st === "scope3" || st === "purchased_goods") {
+    return (
+      <div className="field">
+        <label>Kapsam 3 kategorisi</label>
+        <select value={String(value.scope3_category ?? (st === "purchased_goods" ? 1 : ""))} onChange={(e) => onChange({ ...value, scope3_category: e.target.value ? Number(e.target.value) : undefined })}>
+          <option value="">— seçin —</option>
+          {SCOPE3_CATEGORIES.map((c) => (
+            <option key={c.n} value={c.n}>
+              {c.n} — {c.tr}
+            </option>
+          ))}
+        </select>
+        <span className="hint">Kategori yalnız bu kaynağın varsayılanıdır; her kayıtta seçilir ve kategori değerlendirmesi envanterde tutulur (T10).</span>
+      </div>
+    );
+  }
+  return null;
+}
+
 function StepFirst({ store, onBack }: { store: S; onBack: () => void }) {
-  const ng = store.sources().filter((s) => s.source_type === "stationary_combustion" && s.fuel === "natural_gas");
+  const ng = store.sources();
   return (
     <div className="stack">
       <div className="card">
@@ -380,7 +506,7 @@ function StepFirst({ store, onBack }: { store: S; onBack: () => void }) {
         </p>
         {ng.length === 0 ? (
           <Notice kind="warn">
-            <p>Doğal gaz yakan kaynak tanımlı değil. Bu önizlemede yalnız sabit yakma / doğal gaz kaydı desteklenir (Dilim 1). Geri dönüp "Yakıt yakan ekipman var mı?" sorusuna evet deyin.</p>
+            <p>Henüz kaynak tanımlı değil. Geri dönüp kaynak envanteri sorularını yanıtlayın; ilk görev olarak bir fatura (doğal gaz veya elektrik) kaydı önerilir.</p>
           </Notice>
         ) : (
           <div className="actions">
@@ -395,8 +521,8 @@ function StepFirst({ store, onBack }: { store: S; onBack: () => void }) {
         <h3>İlk ay planı (öneri, yasal süre değildir)</h3>
         <ol className="small">
           <li>Hafta 1 — kurum ve kaynak envanteri (bu adım)</li>
-          <li>Hafta 2 — kanıtlı temel tüketim (doğal gaz; elektrik Dilim 2)</li>
-          <li>Hafta 3 — satın alma, lojistik, atık veri talepleri (Dilim 7)</li>
+          <li>Hafta 2 — kanıtlı temel tüketim (doğal gaz, elektrik, diğer yakıtlar)</li>
+          <li>Hafta 3 — satın alma, lojistik, atık veri talepleri (Kapsam 3, tedarikçi programı)</li>
           <li>Hafta 4 — uzman kontrolü ve kapanış provası (İnceleme, Dönem)</li>
         </ol>
       </div>

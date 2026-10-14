@@ -1,0 +1,20 @@
+/* disiliskiler modülü — tedarikçi, regülasyon, senaryo ekranları */
+.dis-tabs { display: flex; flex-wrap: wrap; gap: 0.35rem; margin: 0 0 1rem; padding: 0; list-style: none; }
+.dis-tabs button { font-size: 0.85rem; padding: 0.4rem 0.8rem; border-radius: 999px; }
+.dis-tabs button[aria-selected="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.dis-banner { border: 2px solid var(--copper); background: var(--copper-soft); border-radius: var(--radius); padding: 0.85rem 1.1rem; margin-bottom: 1rem; }
+.dis-banner b { color: var(--copper); }
+.dis-pkg { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 0.8rem; margin-bottom: 1rem; }
+.dis-pkg button.pkg { display: grid; gap: 0.3rem; text-align: left; padding: 0.85rem 1rem; border-radius: var(--radius); background: var(--surface); border: 1px solid var(--line); font-weight: 400; align-content: start; }
+.dis-pkg button.pkg[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-soft); }
+.dis-pkg button.pkg .t { font-weight: 600; font-size: 0.92rem; }
+.dis-rule { display: grid; grid-template-columns: max-content 1fr; gap: 0.2rem 0.8rem; font-size: 0.85rem; padding: 0.5rem 0.7rem; border: 1px solid var(--line); border-radius: var(--radius-sm); margin-bottom: 0.4rem; }
+.dis-rule .k { color: var(--ink-3); }
+.dis-supplier-view { border: 2px dashed var(--info); border-radius: var(--radius); padding: 1rem 1.25rem; background: var(--info-soft); }
+.dis-conf { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 0.9rem 1.1rem; max-width: 76ch; }
+.dis-conf p { font-size: 0.92rem; }
+.dis-trace { font-family: var(--mono); font-size: 0.78rem; white-space: pre-wrap; background: var(--surface-2); border-radius: var(--radius-sm); padding: 0.6rem 0.8rem; border: 1px solid var(--line); }
+.dis-mini { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0.5rem; max-width: 900px; }
+.dis-mini input, .dis-mini select { max-width: none; }
+.dis-wave { font-weight: 700; color: var(--copper); }
+.dis-pre { max-height: 360px; overflow: auto; font-size: 0.8rem; }

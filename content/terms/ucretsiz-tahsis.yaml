@@ -1,0 +1,18 @@
+id: ucretsiz-tahsis
+tr: Ücretsiz tahsis
+en: Free allocation
+abbr: null
+aliases: ["ücretsiz tahsisat", "free allocation", "tahsisat", "allowance"]
+kind: terim
+contexts: [mevzuat]
+definition: >-
+  Emisyon ticaret sisteminde tesise belirli kurallara (ör. ürün benchmark'ı) göre bedelsiz verilen
+  emisyon izni miktarı. Hesaplanan bir emisyon değil, kuralla belirlenen bir haktır; envanteri
+  değiştirmez ve yalnız senaryo defterinde ele alınır. Benchmark değerleri koda yazılmaz.
+example: "Tesisin yıllık emisyonu ile ücretsiz tahsisatı arasındaki fark (açık/fazla) senaryo defterinde hesaplanır."
+confused_with: "Ürün/süreç tahsisi (allocation) ile karıştırılır; o bir hesap paylaştırma yöntemidir."
+related_task: "Senaryo defterinde tahsis senaryosu (REG-05)."
+related_route: "/protokoller/"
+likely_department: "Finans / çevre"
+source: "REG-05; K-06"
+status: editör onayı bekliyor

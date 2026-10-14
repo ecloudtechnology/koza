@@ -1,0 +1,18 @@
+id: kalinti-karisim
+tr: Kalıntı karışım
+en: Residual mix
+abbr: null
+aliases: ["residual mix", "kalinti karisim", "artık karışım"]
+kind: terim
+contexts: [envanter]
+definition: >-
+  Sertifikası ayrıca satılmış yenilenebilir üretimin çıkarılmasından sonra şebekede kalan elektriğin
+  emisyon faktörü. Piyasa bazlı yöntemde sözleşmesel aracı olmayan tüketim için kullanılır; yayımlanmış
+  bir kalıntı karışım faktörü yoksa bu durum açıkça belirtilir.
+example: "Sertifikasız 700 MWh × kalıntı karışım faktörü (kaynak ve yılı kayıtlı)."
+confused_with: "Şebeke ortalaması (konum bazlı faktör) ile karıştırılır; kalıntı karışım genelde ortalamadan yüksektir."
+related_task: "Piyasa bazlı Kapsam 2 hesabında sertifikasız kısmın faktörünü seçmek."
+related_route: "/faktorler/"
+likely_department: "Enerji yönetimi"
+source: "K04"
+status: editör onayı bekliyor

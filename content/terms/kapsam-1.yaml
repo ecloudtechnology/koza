@@ -1,0 +1,18 @@
+id: kapsam-1
+tr: Kapsam 1
+en: Scope 1
+abbr: null
+aliases: ["scope 1", "kapsam1", "doğrudan emisyon", "direct emissions"]
+kind: terim
+contexts: [envanter]
+definition: >-
+  Kurumun sahip olduğu veya kontrol ettiği kaynaklardan doğrudan çıkan sera gazı emisyonları.
+  Dört ana şablonu vardır: sabit yanma (kazan, fırın, jeneratör), hareketli yanma (araç, forklift),
+  proses emisyonları (kimyasal dönüşüm) ve kaçak emisyonlar (soğutucu gaz sızıntısı).
+example: "Fabrikadaki doğal gaz kazanı, şirket araçlarının dizeli ve klima gazının yıllık dolum farkı Kapsam 1'dir."
+confused_with: "Kiralık ekipman her zaman Kapsam 3 sanılır; envanter sınırı yaklaşımına göre Kapsam 1 olabilir."
+related_task: "Kurulumda yakıt yakan ekipmanı kaynak olarak eklemek; veri girişinde fatura kaydı."
+related_route: "/kurulum/"
+likely_department: "Tesis bakım / enerji yönetimi"
+source: "K03 GHG Protocol Corporate Standard; §13"
+status: editör onayı bekliyor

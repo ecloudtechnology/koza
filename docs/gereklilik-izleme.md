@@ -1,56 +1,49 @@
 # Gereklilik izleme matrisi
 
-Güncelleme: 2026-10-13. Kaynak: `docs/gereklilik-izleme.json` (arayüzdeki Proje durumu sekmesi aynı dosyayı okur). Bu dosya betikle üretilir; düzenleme JSON'da yapılır.
+Güncelleme: 2026-10-14. Kaynak: `docs/gereklilik-izleme.json` (arayüzdeki Proje durumu sekmesi aynı dosyayı okur; bu dosya betikle üretilir, düzenleme JSON'da yapılır).
 
-Durumlar: **tamam** — Uygulandı ve testi/gösterimi var; **kısmi** — Kısmen uygulandı; eksik açıkça yazılı; **planlı** — Henüz yok; dilimi belli; **karar bekliyor** — Karar kaydındaki açık karar olmadan yapılamaz
+Durumlar: **tamam** — Uygulandı; test veya ekran gösterimi var; **tamam · karar bekliyor** — Uygulandı; ürün kararı grup/uzman onayı bekliyor (karar kaydı)
 
-| Kimlik | Gereklilik | Dilim | Durum | Nerede | Kanıt / not |
-| --- | --- | --- | --- | --- | --- |
-| `ONB-01` | Kurum profili: ad, sektör (NACE), ülke, tesisler, dönem | 1 | tamam | apps/web /kurulum adım 1–3 | Önizleme: kurulum akışı; kaldığı adımdan devam (setupProgress) |
-| `ONB-02` | Kuruluş ve envanter sınırı; bilinmiyorsa uzman görevi | 1 | tamam | /kurulum adım 3; Store.setBoundary | 'Bilmiyorum' → pending_expert + görev (expert_decision) |
-| `ONB-03` | Kaynak envanteri soruları profilden; kategori silinmez | 1 | tamam | /kurulum adım 4; content/sector-profiles/*.yaml onboarding_questions | Sorular YAML'dan; 'bilmiyorum' görev açar, hiçbir şey silmez |
-| `DAT-01` | Faaliyet ve kurum seçimi | 1 | tamam | /veri-girisi | Kaynak + dönem seçimi; kapsam önerisi açıklamalı |
-| `DAT-02` | Belge yükle / elle gir / içe aktar | 1 | kısmi | /veri-girisi; apps/api POST /v1/evidence/uploads | Dosya karması + üst veri; dosya içeriği saklanmaz; OCR ve Excel içe aktarma yok *Nesne deposu ve tarama Dilim 2; içe aktarma (§11) sonraki dilim* |
-| `DAT-03` | Okunan alanları doğrula | 1 | kısmi | /veri-girisi | OCR olmadığı için alanlar elle; ayraç belirsizliği (1.234) sorulur *OCR Dilim 2+* |
-| `DAT-04` | Eksik bağlamı cevapla (esas, koşul, ısıl değer, nitelik) | 1 | tamam | /veri-girisi; Store.applyMissingInfoTasks | 'Bilmiyorum' seçenekleri; eksik → görev; sıfır atanmaz |
-| `DAT-05` | Hesap ve sınır önerisini incele | 1 | tamam | /kayit; packages/calc-engine; apps/api POST /v1/calculations/preview | Önizleme ve kaydedilen koşu aynı motor (Pyodide ile tarayıcıda, FastAPI'de sunucuda) |
-| `DAT-06` | Taslağı kaydet veya kontrole gönder (ayrı eylemler) | 1 | tamam | /veri-girisi, /kayit; apps/api POST /v1/activities/{id}/submit | Taslak kaydet ≠ kontrole gönder; gönderim hesap koşusu ister |
-| `MTH-01…05` | Kapsam 3 yöntem seçme sözleşmesi | 7 | planlı | — | — |
-| `SRC-01…07` | Kaynak yaşam döngüsü ve değişiklik izleme | 8 | planlı | — | Kaynak kartları (K01–K16) yalnız bağlantı olarak content/sources |
-| `AI-01…06` | Asistan yanıt sözleşmesi | 3 | planlı | /asistan (açıklama sayfası) | Sohbet kutusu kasıtlı olarak yok (kural 10) |
-| `T01` | 100 GJ × 50 kg CO₂/GJ → yalnız CO₂ bileşeni 5 t | 1 | tamam | tests/golden/T01-co2-only.json; packages/calc-engine/tests | pytest 109 geçti; /altin-set tarayıcıda |
-| `T02` | CO₂e faktörüne ikinci GWP yok | 1 | tamam | tests/golden/T02-*.json | gwp_applied=false; CO2e+gaz karışımı bloke |
-| `T03` | m³ / Nm³ koşulu bilinmiyor → eşitleme engeli | 1 | tamam | tests/golden/T03-*.json | UNIT_CONDITIONS_UNKNOWN; koşul verilince ideal gaz oranı izde |
-| `T04` | Üst ısıl değer ile alt esaslı faktör → onay yok | 1 | tamam | tests/golden/T04-*.json | BASIS_MISMATCH; kaynaklı oranla review_required |
-| `T05` | Elektrik için iki yöntem ayrı | 2 | planlı | — | — |
-| `T06` | Belge tüketimin bir kısmını kapsıyor | 2 | planlı | — | — |
-| `T07` | Aynı fatura yeniden yükleniyor → mükerrer kontrol | 1 | tamam | Store.addEvidence/duplicateCandidates; apps/api evidence tests | SHA-256 eş karma, fatura no, dönem+miktar; gerekçeyle devam + görev |
-| `T08` | Kategori 1 kapıdan kapıya veri → üst aşama eksikliği | 7 | planlı | — | BOUNDARY_MIX engeli motorda hazır |
-| `T09` | Yaşam döngüsü faktörüne üst aşama ekleme → çakışma | 7 | planlı | — | — |
-| `T10` | Veri bulunmayan Kapsam 3 kategorisi sıfır/uygulanamaz yapılmaz | 7 | planlı | — | value_state (known/unknown/not_applicable) DB ve API'de hazır |
-| `T11` | Soğutucu yeni dolum ≠ kaçak | 2 | planlı | — | — |
-| `T12` | Satış grubu ömür boyu hesabı tekrar eklenmez | 7 | planlı | — | — |
-| `T13` | Faktör güncellenince eski onaylı sonuç korunur | 1 | tamam | /faktorler; Store.publishFactorVersion; apps/api tests | Yeni koşu eskisini silmez (superseded_by); etkilenen kayıt listesi |
-| `T14` | Başka kuruma ait kayıt kimliği reddedilir | 0 | tamam | tests/isolation/test_tenant_isolation.py; db/migrations RLS | 13 işlemde 404; RLS FORCE PostgreSQL 15 üzerinde doğrulandı; önizlemede istemci gösterimi |
-| `T15` | Belgede kötü amaçlı talimat veri olarak kalır | 3 | planlı | — | — |
-| `T16` | Kaynaksız hukuki soruya kesin hüküm yok | 3 | planlı | — | — |
-| `T17` | Kilitli dönem düzenleme → yetkili yeniden açma | 1 | tamam | /donem; Store.lockPeriod/reopenPeriod; apps/api periods | PERIOD_LOCKED 409; gerekçe + etki analizi; eski rapor korunur |
-| `T18` | İki kullanıcı aynı sürümü değiştiriyor → çakışma | 1 | tamam | Store.updateRecord expected_version; apps/api If-Match | VERSION_CONFLICT 409; veri ezilmez (ikinci sekmeyle denenebilir) |
-| `T19` | Rapor yeniden oluşturma → aynı manifest | 1 | tamam | /raporlar; Store.createReport; apps/api reports | Kanonik JSON SHA-256; 'önceki sürümle aynı' rozeti |
-| `T20` | Yeni başlayan birimi bilmiyor → taslak korunur | 1 | tamam | /veri-girisi; tests/golden/T20-*.json | Birim/esas 'bilmiyorum' → taslak + görev; motor UNIT_UNKNOWN/BASIS_UNKNOWN |
-| `§20` | Çekirdek veri modeli, tenant_id, append-only, RLS | 0 | tamam | db/migrations/0001_init.sql | up→smoke→down→up PostgreSQL 15; değer durumu CHECK |
-| `§27` | API sözleşmesi: /v1, idempotency, ETag, hata modeli | 0 | kısmi | apps/api; docs/api/openapi.yaml | 17 uç, 37 test; InMemoryRepo; PostgresRepo stub *Nesne deposu, kuyruk, OIDC yok* |
-| `§28` | Ekran durum sözleşmesi ve erişilebilirlik | 1 | kısmi | apps/web | Yükleniyor/boş/hata/yetki yok/çakışma/başarılı durumları; klavye odak; tablolar yatay kaydırma *WCAG denetimi yapılmadı; uygunluk beyanı yok* |
-| `SEK-01` | NACE ile profil önerisi, kullanıcı onayı, tesis bazlı profil | 4 | kısmi | /kurulum; lib/content.suggestProfile | Öneri + onay + tesis profili alanı *NACE düzeyi ve çok faaliyet kuralı K-03 açık* |
-| `SEK-02` | Profil şeması ve içeriği YAML | 4 | tamam | content/sector-profiles/_schema.yaml, genel, agir-sanayi, gida-icecek | Kod sektöre göre dallanmaz; gen-content YAML→JSON |
-| `SEK-03` | Profil yalnız önerir, silmez | 4 | tamam | Store.sources/onboarding | 'Hayır' kaynak yaratmaz; hiçbir kategori silinmez |
-| `SEK-04` | Profil sürümü değişince geçmiş değişmez; fark önizlemesi | 4 | planlı | — | Tenant profile_version saklanır |
-| `SEK-05` | Uygun profil yoksa genel; içerik görevi | 4 | tamam | /kurulum | genel öneri + content görevi |
-| `GÖS-01…04` | Gösterge sözlüğü ve veri sözleşmesi | 4 | planlı | /analiz (açıklama) | Profillerde payda tanımları hazır |
-| `AKS-01…05` | Karar kapısı ve aksiyon motoru | 6 | planlı | — | — |
-| `KZN-01…03` | Green Kaizen | 5 | karar bekliyor | — | K-09 (KVKK) kararı bekliyor |
-| `REG-01…06` | Regülasyon paketleri | 8 | karar bekliyor | — | K-06, K-07, K-08 açık; eşikler koda yazılmaz |
-| `TDR-01…04` | Tedarikçi veri programı | 7 | planlı | — | — |
-| `ÖĞR-01…04` | Rol bazlı öğrenme | 5 | kısmi | content/lessons (10 iskelet), profiller lesson_paths | Gövde yok; içerik editörü onayı yok |
+| Kimlik | Gereklilik | Durum | Nerede | Kanıt |
+| --- | --- | --- | --- | --- |
+| `ONB-01` | Kurum profili: ad, sektör (NACE), ülke, tesisler, dönem | tamam | /kurulum | Kurulum akışı; kaldığı adımdan devam; vitest store.test |
+| `ONB-02` | Envanter sınırı; bilinmiyorsa uzman görevi | tamam | /kurulum, Store.setBoundary | 'Bilmiyorum' → pending_expert + görev |
+| `ONB-03` | Kaynak envanteri soruları profilden; tüm kaynak türleri | tamam | /kurulum, content/sector-profiles | Yakıt/gaz/şebeke/kategori alanları; hiçbir kategori silinmez |
+| `DAT-01…06` | Rehberli veri girişi: tüm §11 seçenekleri, şema-güdümlü form, OCR, kanıt, taslak/gönder | tamam | /veri-girisi, src/modules/kayit/schemas.ts | 24 şema; 38 vitest; OCR Tesseract (tur+eng) alan bazlı onay; asistan önerisi onayla |
+| `§11 içe aktarma` | CSV/XLSX eşleme, önizleme, satır hataları, idempotent, geri alma | tamam | /ice-aktar, src/modules/kayit/importer.ts | Dosya ve satır karması; yalnız taslaklar geri alınır |
+| `§12 Kapsam 1` | Sabit/mobil yakma, proses, soğutucu (yeni dolum ≠ kaçak) | tamam | koza_calc engine/refrigerant; /kayit | T11 fixture'ları; birim/esas/koşul engelleri |
+| `§13 Kapsam 2` | Konum ve piyasa bazlı; araçlar; kalan tüketim; toplanmaz | tamam | koza_calc scope2; /kayit yöntem seçici | T05/T06 fixture'ları; araç > tüketim bloke |
+| `§14–§16 Kapsam 3` | 15 kategori, yöntem matrisi (MTH-01…05), kalite boyutları, harcama, ömür boyu | tamam | koza_calc scope3 + SUPPORTED; /veri-girisi; /envanter | T08–T10, T12 fixture'ları; kategori değerlendirmesi unknown/NA |
+| `§17 Ürün` | Ürün çalışması: dört sınır sorusu, tahsis, kısmi/ürün karbon ayak izi; kurumsal toplama girmez | tamam | /urun, src/modules/urun-rapor | 15 vitest; aggregate ürün bölümü ayrı |
+| `§18 Motor` | Deterministik Decimal motor, iz kaydı, sürümlü faktör/yöntem, hata davranışı | tamam | packages/calc-engine (0.2.0) | 200 pytest; 77 altın örnek; tarayıcıda Pyodide aynı kod |
+| `§19 SRC-01…07` | Kaynak sürümü, karma, değişiklik kartı, uzman onayı, görev | tamam | /regulasyon, /protokoller, content/sources | Yayın/yürürlük/görülme/kontrol tarihleri ayrı; doğrulanmamış kural → review_required |
+| `§20 Veri modeli` | tenant_id, RLS, append-only, değer durumu | tamam | db/migrations | PostgreSQL 15 up→down→up; CHECK ve tetikleyiciler |
+| `§21 İş akışı` | Durumlar, inceleme, onay geçersizliği, kapanış, kilit/yeniden açma, uzlaştırma | tamam | Store, /inceleme, /donem; apps/api workflow | T17, T18; uzlaştırma listesi; 37 API testi |
+| `§22 Analiz ve rapor` | Yoğunluk (payda+dönem şartı), fark ayrıştırması, hedef kartı, rapor paketi, GRI/TSRS indeksi, dışa aktarma, yayım | tamam | /analiz, /raporlar, content/reporting-maps | aggregate() toplamları; JSON/CSV/DOCX/yazdır; T19 |
+| `§23 Karbon dışı` | Çekirdek gösterge paketi: su, atık, İSG, eğitim, çıktı | tamam | content/indicators, /analiz | GÖS-04 veri sözleşmesi; düzeltme kuyruğu |
+| `§24 AI-01…06` | Kaynaklı asistan: kaynak, koşul, belirsizlik, eylem; araç sınırları; belge güvenliği | tamam | /asistan, src/modules/asistan | 12 değerlendirme senaryosu; 34 vitest; T15/T16 |
+| `§25 Güvenlik` | Yetki sunucuda, izolasyon, denetim izi, hız sınırı, CSV enjeksiyon, imzalı bağlantı | tamam | apps/api, db/migrations, docs/uretime-gecis.md | İzolasyon testleri; üretim adımları yönergede |
+| `§26–§27 API` | /v1 uçları, idempotency, ETag, hata zarfı, içe aktarma, kaynak sürümleri, toplama | tamam | apps/api, docs/api/openapi.yaml | pytest; openapi üretildi |
+| `§28 Ekran durumları` | İlk kullanım/yükleniyor/boş/kısmi/hata/yetki yok/çakışma/başarılı; klavye; hata sözlüğü | tamam | src/components/ui.tsx, /hatalar | Hata sözlüğü kaynak/neden/sonuç/eylem; hata sınırı; 404 |
+| `T01–T04` | CO₂ bileşeni, çift GWP yok, m³ koşulu, esas uyumu | tamam | tests/golden | pytest + tarayıcı altın set |
+| `T05–T06` | Elektrik iki yöntem; belge kısmi kapsama | tamam | tests/golden/T05-*, T06-* | fixture'lar geçer |
+| `T07` | Aynı fatura yeniden yükleme | tamam | Store.addEvidence/duplicateCandidates | vitest; karma + fatura no + dönem |
+| `T08–T10` | Kat.1 kapıdan kapıya; üst aşama çakışması; veri yok → sıfır değil | tamam | tests/golden/T08-*, T09-*, T10-* | fixture'lar geçer |
+| `T11` | Soğutucu yeni dolum kaçak sayılmaz | tamam | tests/golden/T11-* | not_applicable; top-up review |
+| `T12` | Ömür boyu satış grubu tekrar eklenmez | tamam | tests/golden/T12-*; src/modules/kayit/store.ts lifetime_groups | motor grup bilgisi + depo kontrolü (vitest) |
+| `T13` | Faktör güncellenince eski sonuç korunur | tamam | /faktorler, Store.publishFactorVersion | vitest; etkilenen kayıt listesi |
+| `T14` | Başka kurumun kaydı reddedilir | tamam | tests/isolation; RLS | 13 işlemde 404; vitest izolasyon |
+| `T15–T16` | Belgede talimat veridir; kaynaksız hukuki soruya hüküm yok | tamam | src/modules/asistan | E06/E05/E10 senaryoları |
+| `T17–T19` | Kilitli dönem; sürüm çakışması; rapor manifesti | tamam | Store, /donem, /raporlar | vitest + API testleri |
+| `T20` | Birim bilinmiyor → taslak korunur | tamam | /veri-girisi, tests/golden/T20-* | görev + motor UNIT_UNKNOWN |
+| `SEK-01…05` | NACE profil önerisi, profil = veri, önerir/silmez, sürüm değişince geçmiş değişmez, genel profil | tamam · karar bekliyor | /kurulum, content/sector-profiles | Profiller taslak; alan uzmanı onayı K-02, NACE düzeyi K-03 |
+| `GÖS-01…04` | Gösterge sözlüğü, çekirdek paket, yoğunluk şartı, veri sözleşmesi | tamam | /analiz, content/indicators | 17 vitest (performans) |
+| `AKS-01…05` | Tetikleyici → ön değerlendirme → seçenek → pilot → ölçüm → kapı | tamam | /aksiyon | Etki ölçülmeden kapanmaz testi; gölge fiyat senaryo satırı |
+| `KZN-01…03` | Green Kaizen: 3 alanlı öneri, elçi değerlendirmesi, geri bildirim; birim toplulaştırma | tamam · karar bekliyor | /kaizen | Kişi bazlı sıralama yok testi; KVKK görüşü K-09 |
+| `REG-01…06` | Paketler (CBAM, ulusal ETS/MRV, TSRS, AB tedarik), uygulanabilirlik, MRV planı, kanıt paketi, senaryo, eşik koda yazılmaz | tamam · karar bekliyor | /regulasyon, /senaryo, content/regulation-packages | Doğrulanmamış kural → review_required; resmî metin K-06/K-07/K-08 |
+| `TDR-01…04` | Segmentasyon, gizlilik taahhüdü kapısı, öz değerlendirme, KOBİ dersi | tamam | /tedarikci, content/supplier-program | 23 vitest (disiliskiler); dış gönderim açık yetki |
+| `ÖĞR-01…04` | Rol bazlı ders yolları, 3 dk saha dersi, ders→görev, eğitim saati birim toplamı | tamam | /101, content/lessons | 10 ders tam içerik; 21 vitest (ogrenme) |
+| `§07–§10` | 101, protokoller (kaynak kartı + uygulanabilirlik), gündem/takvim/destek, sözlük (48 terim) ve yardım yolları | tamam | /101, /protokoller, /gundem, /sozluk | Taslak yayın görev üretmez; geçmiş tarih yaklaşan değil; TSRS review_required (K-08) |
+| `Yönetişim (v1.1)` | Hedef kartı, RACI, iki hedefin durumu, memnuniyet toplulaştırması | tamam · karar bekliyor | /analiz | RACI varsayılanı forum tablosundan; ölçüm yöntemi K-10 |
 
-Özet: tamam 22, kısmi 6, planlı 16, karar bekliyor 2 (toplam 46).
+Özet: tamam 35, tamam · karar bekliyor 4 (toplam 39).

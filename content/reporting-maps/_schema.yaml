@@ -1,0 +1,20 @@
+# Raporlama eşleştirme şeması (§22 GRI gereklilik indeksi / TSRS açıklama matrisi).
+# Bu dosyalar VERİDİR (kural 5, 6). Standart metni kopyalanmaz; yalnız tanımlayıcı ve kısa başlık,
+# Koza veri unsurlarıyla ilişki ve ayrı kanıt isteyen anlatı gereklilikleri tutulur (K-12 lisans kararı).
+# Bir sayısal kayıt bir açıklamanın tamamını karşılamaz; indeks "tam uyum" rozeti ÜRETMEZ.
+
+id: string                   # ör. gri-305-2016
+framework: GRI | TSRS
+title: string                # yalnız başlık (standart adı), metin değil
+version: string              # yayın yılı/sürüm
+applicable_from: date | null # yürürlük (geçiş) tarihi; null = yürürlükte
+source: string               # content/sources kodu (K01, K14, K02 …)
+note_tr: string              # uygulama notu (Koza'nın özgün kısa açıklaması)
+items:
+  - id: string               # açıklama tanımlayıcısı (ör. "305-1", "102-5", "TSRS2-MT-GHG-S1")
+    title_tr: string         # kısa başlık (özgün ifade)
+    elements:                # Koza veri unsurları (apps/web/src/modules/urun-rapor/report.ts ELEMENTS)
+      - koza: string         # unsur kimliği
+        relation: full | partial | conditional
+        note_tr: string
+    narrative: [string]      # ayrı kanıt isteyen anlatı gereklilikleri: politika, yönetim yaklaşımı, risk, varsayım …

@@ -1,0 +1,46 @@
+{
+  "id": "aggregate-scope1-only-no-scope2-policy",
+  "title_tr": "Toplama: yalnız Kapsam 1 kaydı; Kapsam 2 yöntemi gerekmez",
+  "requirements": [
+    "K-17"
+  ],
+  "note_tr": "Katsayılar kurgusaldır; yalnız yazılım testi içindir.",
+  "aggregate_request": {
+    "results": [
+      {
+        "record_id": "r-s1-gas",
+        "context": "corporate",
+        "scope": 1,
+        "category": null,
+        "state": "approved",
+        "result": {
+          "engine_version": "0.2.0",
+          "status": "computed",
+          "blocks": [],
+          "warnings": [],
+          "total_co2e_kg": "5000",
+          "coverage": "co2_only",
+          "claim_tr": "Yalnız CO₂ bileşeni; tam CO₂e sonucu değildir.",
+          "value_state": "known",
+          "context": "corporate"
+        },
+        "scope2_method_used": null
+      }
+    ],
+    "policy": {
+      "include_states": [
+        "approved"
+      ]
+    }
+  },
+  "expected": {
+    "status": "computed",
+    "corporate": {
+      "scope1_kg": "5000",
+      "scope2_kg": "0",
+      "scope3_kg": "0",
+      "total_kg": "5000",
+      "scope2_alternative_kg": null
+    }
+  }
+}

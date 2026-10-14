@@ -1,0 +1,36 @@
+# Gösterge sözlüğü şeması (GÖS-01, GÖS-02, GÖS-04)
+# Gösterge kod değil veridir. Çekirdek paket her profilde vardır; sektöre özgü göstergeler ve
+# yoğunluk paydaları sektör profilinden (content/sector-profiles) okunur, koda yazılmaz (kural 5).
+# Dosya başına bir paket; paketler sürümlüdür. Değer girişi apps/web "performans/indicator_values" tablosundadır.
+
+id: string                   # paket kimliği, ör. "cekirdek"
+version: semver
+status: draft | review | approved | retired
+title: {tr: string}
+note: string                 # paketin kapsamı ve sınırı
+
+indicators:
+  - id: string               # kalıcı kimlik; değer satırları bu kimliğe bağlanır
+    name: {tr: string, en: string}
+    family: energy | emissions | water | waste | ohs | people | output
+    definition: string       # GÖS-01 tanım (ne sayılır, ne sayılmaz)
+    unit: string             # kanonik birim; değer satırının birimi buna eşit olmalı (GÖS-04 birim testi)
+    source_system: string    # GÖS-01 kaynak sistem (fatura, sayaç, ERP, İK, İSG kaydı…)
+    owner_role: string       # GÖS-01 veri sahibi ROLÜ (kişi değil)
+    frequency: monthly | quarterly | annual
+    access: all | data_owner | restricted   # GÖS-01 erişim düzeyi; restricted = §23 hassas (kişi/İSG ayrıntısı)
+    entry: manual | engine_runs | profile_denominator | ratio
+      # manual: dönem başına değer girilir
+      # engine_runs: değer yalnız kayıtlı hesap koşularından okunur (kural 1); elle girilmez
+      # profile_denominator: somut biçimi profilin intensity_denominators listesidir; değer "den:<payda id>" kimliğiyle girilir
+      # ratio: iki girilen göstergenin oranıdır; payda yoksa hesaplanmaz (GÖS-03, §23)
+    ratio: {numerator: string, denominator: string} | null   # yalnız entry=ratio
+    quality:                 # GÖS-04 veri sözleşmesi
+      allow_negative: boolean
+      max: string | null     # ondalık dize; aşılırsa düzeltme kuyruğu (makul üst sınır; eşik değil, sözleşme kuralı)
+      consistency:           # aynı dönem ve tesisteki başka bir göstergeyle ilişki
+        - {rule: lte | gte, other: string, message: string}
+    dimensions:              # isteğe bağlı kırılımlar (atık türü, tehlike, işleme)
+      - id: string
+        name: {tr: string}
+        values: [{id: string, tr: string}]

@@ -97,7 +97,12 @@ export type SourceType =
   | "refrigerant"
   | "process"
   | "purchased_electricity"
-  | "purchased_goods"
+  | "purchased_steam"
+  | "purchased_heat"
+  | "purchased_cooling"
+  | "scope3"
+  | "product_process"
+  | "purchased_goods" // geriye uyum: kurulumdan gelen kategori 1 kaynağı (scope3 kategori 1 olarak işlenir)
   | "other";
 
 export const SOURCE_TYPE_LABEL: Record<SourceType, string> = {
@@ -106,9 +111,38 @@ export const SOURCE_TYPE_LABEL: Record<SourceType, string> = {
   refrigerant: "Soğutucu gaz",
   process: "Proses emisyonu",
   purchased_electricity: "Satın alınan elektrik",
-  purchased_goods: "Satın alınan mal ve hizmet",
+  purchased_steam: "Satın alınan buhar",
+  purchased_heat: "Satın alınan ısı",
+  purchased_cooling: "Satın alınan soğutma",
+  scope3: "Değer zinciri (Kapsam 3)",
+  product_process: "Ürün çalışması süreci",
+  purchased_goods: "Satın alınan mal ve hizmet (Kapsam 3 kat. 1)",
   other: "Diğer",
 };
+
+export const SCOPE_OF_SOURCE: Record<SourceType, 1 | 2 | 3 | 0> = {
+  stationary_combustion: 1, mobile_combustion: 1, refrigerant: 1, process: 1,
+  purchased_electricity: 2, purchased_steam: 2, purchased_heat: 2, purchased_cooling: 2,
+  scope3: 3, purchased_goods: 3, product_process: 0, other: 0,
+};
+
+export const SCOPE3_CATEGORIES: { n: number; tr: string; owner_hint: string }[] = [
+  { n: 1, tr: "Satın alınan mal ve hizmetler", owner_hint: "Satın alma" },
+  { n: 2, tr: "Sermaye malları", owner_hint: "Satın alma / finans" },
+  { n: 3, tr: "Yakıt ve enerji üst aşamaları", owner_hint: "Enerji / teknik" },
+  { n: 4, tr: "Yukarı yönlü taşıma ve dağıtım", owner_hint: "Lojistik" },
+  { n: 5, tr: "Operasyon atıkları", owner_hint: "Çevre sorumlusu" },
+  { n: 6, tr: "İş seyahatleri", owner_hint: "Seyahat / idari işler" },
+  { n: 7, tr: "İşe gidiş geliş", owner_hint: "İnsan kaynakları" },
+  { n: 8, tr: "Kiralanan varlıklar (kiracı)", owner_hint: "İdari işler / finans" },
+  { n: 9, tr: "Aşağı yönlü taşıma ve dağıtım", owner_hint: "Lojistik / satış" },
+  { n: 10, tr: "Satılan ürünlerin işlenmesi", owner_hint: "Satış / Ar-Ge" },
+  { n: 11, tr: "Satılan ürünlerin kullanımı", owner_hint: "Ar-Ge / satış" },
+  { n: 12, tr: "Satılan ürünlerin ömür sonu", owner_hint: "Ar-Ge / çevre" },
+  { n: 13, tr: "Kiraya verilen varlıklar", owner_hint: "Finans" },
+  { n: 14, tr: "Franchise", owner_hint: "Satış / hukuk" },
+  { n: 15, tr: "Yatırımlar", owner_hint: "Finans" },
+];
 
 export interface EmissionSource {
   id: string;
@@ -158,6 +192,9 @@ export interface ActivityRecordVersion {
   evidence_ids: string[];
   duplicate_override_reason: string | null; // T07
   note: string;
+  // Kategoriye özgü doğrulanan ayrıntı (§20 ActivityDetail): soğutucu, Kapsam 2 araçları, Kapsam 3 yöntem alanları,
+  // ürün bağlamı. Şema sürümü detail.schema_version'da; hesap isteği bu alandan kurulur (CONTRACT-v0.2).
+  detail: Record<string, unknown> | null;
 }
 
 export interface ActivityRecord {
@@ -328,6 +365,13 @@ export const PERMISSIONS: Record<string, Role[]> = {
 
 export function can(role: Role, action: string): boolean {
   return (PERMISSIONS[action] ?? []).includes(role);
+}
+
+/** Modüller kendi eylem yetkilerini kaydeder (src/modules/<ad>/permissions.ts). Aynı anahtar iki kez verilirse birleştirilir. */
+export function registerPermissions(perms: Record<string, Role[]>): void {
+  for (const [k, roles] of Object.entries(perms)) {
+    PERMISSIONS[k] = Array.from(new Set([...(PERMISSIONS[k] ?? []), ...roles]));
+  }
 }
 
 // Durum geçişleri (§21): sunucu tarafı denetlenir; burada aynı tablo önizleme için.

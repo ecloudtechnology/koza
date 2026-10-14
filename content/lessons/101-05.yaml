@@ -3,9 +3,79 @@ title: {tr: "Değer zinciri"}
 level: başlangıç
 goal: "15 kategoriye aşinalık kazanmak"
 application: "Departman veri planı"
-duration_min: null
-status: iskelet — gövde yazılmadı, editör onayı yok
-prerequisites: []
-body: null
-sources: []
-review_date: null
+duration_min: 10
+field_duration_min: null
+prerequisites: ["101-04"]
+status: editör onayı bekliyor
+review_date: 2026-10-14
+sources: [K05, K06, K11]
+related_task:
+  route: "/gorevler/"
+  label: "Öncelikli Kapsam 3 kategorileri için departman veri görevleri aç"
+explanation:
+  - >-
+    Kapsam 3, kurumun değer zincirindeki dolaylı emisyonları on beş kategoride toplar. İlk sekizi
+    yukarı yönlüdür (kuruma gelen mal, hizmet ve akışlar): satın alınan mal ve hizmetler, sermaye
+    malları, yakıt ve enerji üst aşamaları, yukarı yönlü taşıma, operasyon atıkları, iş seyahatleri,
+    işe gidiş geliş ve kiralanan varlıklar. Kalan yedisi aşağı yönlüdür (kurumdan çıkan ürün ve
+    ilişkiler): aşağı yönlü taşıma, satılan ürünlerin işlenmesi, kullanımı ve ömür sonu, kiraya
+    verilen varlıklar, franchise ve yatırımlar.
+  - >-
+    Her kategorinin verisi farklı bir departmanda durur. Satın alma kategori 1 ve 2'nin, lojistik 4 ve
+    9'un, insan kaynakları 7'nin, Ar-Ge ve satış 11 ve 12'nin, finans 15'in verisini tutar. Bu yüzden
+    Kapsam 3 bir kişinin değil, bir veri planının işidir: hangi kategori, hangi veri, kimden, hangi
+    dönemde, hangi kanıtla.
+  - >-
+    Tüm kategoriler her kurum için aynı ağırlıkta değildir. Sektör profili öncelik sırası önerir
+    (ör. ağır sanayide 1, 3 ve 4; gıdada 1, 4, 5 ve 12). Öncelik, kategoriyi silmek değildir: diğer
+    kategoriler için de "uygulanır / uygulanmaz / inceleme gerekli" kararı gerekçesiyle kaydedilir.
+  - >-
+    Veri eksikliği uygulanamazlık değildir. "Tedarikçiden veri alamadık" demek kategori 1'in yok
+    olduğu anlamına gelmez; kategori vardır, verisi eksiktir ve rapor bunu söyler. Uygulanmaz kararı
+    yalnız o faaliyet kurumda gerçekten yoksa verilir (ör. franchise yoksa kategori 14).
+  - >-
+    Kategori 1'de birden fazla yöntem vardır: tedarikçiye özgü veri, hibrit, ortalama veri ve harcama
+    bazlı yaklaşım. Harcama bazlı yaklaşım ön tarama için uygundur ama sonucu "tahmini" olarak
+    etiketlenir. Tedarikçi verisi her zaman üstün değildir; yanlış sınırda veya eski ise iyi bir
+    ortalama veriden daha kötü olabilir.
+field_summary: null
+business_example: >-
+  Bir ambalaj üreticisi Kapsam 3 planını şöyle kurdu: kategori 1 için satın alma müdürlüğünden
+  yıllık hammadde miktarları (ton, kalem bazında); kategori 4 için lojistik biriminden sevkiyat
+  listesi (ton-km); kategori 5 için çevre sorumlusundan atık teslim formları; kategori 6 ve 7 için
+  idari işler ve insan kaynaklarından seyahat ve servis kayıtları. Her satırın veri sahibi, dönemi
+  ve kanıt türü yazıldı; eksik olanlar görev olarak açıldı.
+common_mistake: >-
+  Veri gelmeyen kategoriye "uygulanmaz" yazmak. Bu, raporu olduğundan küçük gösterir ve
+  denetimde geri döner. Doğru etiket "uygulanır, veri eksik" ya da "inceleme gerekli"dir;
+  uygulanmaz kararı gerekçe ister.
+exercise:
+  prompt: "Profilinizin öncelikli kategorileri için bir departman veri planı tablosu doldurun: kategori, gereken veri, veri sahibi departman, dönem, kanıt türü, mevcut durum (var / eksik / uygulanmaz-gerekçeli)."
+  steps:
+    - "Kurulumdaki profilden öncelikli kategorileri okuyun."
+    - "Her kategori için hangi departmanın veriyi tuttuğunu yazın (satın alma, lojistik, İK, finans, Ar-Ge)."
+    - "Eksik olan her satır için görevler ekranından bir 'eksik bilgi' görevi açın."
+    - "Uygulanmaz dediğiniz kategoriler için bir cümlelik gerekçe yazın."
+  note: "Plan tablosu bir çalışma belgesidir; kategorilere sayı yazmaz, envantere girmez."
+quiz:
+  - q: "Çalışanların kendi araçlarıyla işe gelişinden doğan emisyon hangi kategoridedir?"
+    options: ["Kategori 6 — iş seyahatleri", "Kategori 7 — işe gidiş geliş", "Kapsam 1 — araç yakıtı"]
+    correct: 1
+    explanations:
+      - "Yanlış. İş seyahati, çalışanın iş için yaptığı yolculuktur (uçak, otel, kiralık araç); günlük işe geliş ayrı kategoridir."
+      - "Doğru. İşe gidiş geliş, çalışanların ev-iş arası ulaşımıdır; servis araçları kurumun kontrolündeyse o kısım ayrıca değerlendirilir."
+      - "Yanlış. Çalışanın kendi aracı kurumun kontrolünde değildir; Kapsam 1 olamaz."
+  - q: "Kategori 1 için tedarikçi veri vermedi. Doğru etiket hangisidir?"
+    options: ["Uygulanmaz", "Uygulanır — veri eksik; görev açılır, rapor eksikliği gösterir", "Sıfır girilir"]
+    correct: 1
+    explanations:
+      - "Yanlış. Uygulanmaz kararı faaliyetin yokluğunu söyler; mal satın alınıyorsa kategori vardır."
+      - "Doğru. Kategori geçerlidir, verisi eksiktir; eksiklik görünür kalır ve ortalama veri gibi başka yöntemler değerlendirilir."
+      - "Yanlış. Eksik veriye sıfır yazmak toplamı sessizce küçültür; kural olarak yasaktır."
+  - q: "Harcama bazlı yöntemle hesaplanan kategori 1 sonucu nasıl etiketlenir?"
+    options: ["Ölçülmüş", "Tahmini — ön tarama", "Tedarikçiye özgü"]
+    correct: 1
+    explanations:
+      - "Yanlış. Harcama tutarı fiziksel miktar değildir; sonuç ölçüme dayanmaz."
+      - "Doğru. Harcama bazlı yaklaşım hızlı bir ön taramadır; sonucu tahmini olarak etiketlenir ve daha iyi veri geldikçe güncellenir."
+      - "Yanlış. Tedarikçiye özgü veri, tedarikçinin kendi ürününe ait sınırlı ve doğrulanmış veridir; harcama çarpanı bu değildir."

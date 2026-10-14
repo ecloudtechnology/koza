@@ -7,7 +7,7 @@ Bu depo, MEXT "İş Dünyasında Sorumlu Üretim" çalışma grubunun forum çı
 ## Önizleme
 
 - Yayın: GitHub Pages (`.github/workflows/pages.yml`), statik dışa aktarma. Adres depo ayarlarında "Pages" altında görünür.
-- Önizlemede kayıtlar yalnız tarayıcıda saklanır; hesap motoru (Python) tarayıcıda Pyodide ile çalışır; tüm faktörler kurgusal test değerleridir. Ayrıntı ve sınırlar: `docs/inceleme-rehberi.md`.
+- Önizlemede kayıtlar yalnız tarayıcıda saklanır; hesap motoru (Python) tarayıcıda Pyodide ile çalışır; tüm faktörler kurgusal test değerleridir. İnceleme yolu: `docs/inceleme-rehberi.md`.
 - Nereden başlamalı: önizlemede **Belgeler → İnceleme rehberi**, sonra **Ana sayfa → Sonraki adım**.
 
 ## Depo düzeni
@@ -34,6 +34,7 @@ tests/golden/              # 32 kurgusal altın senaryo (T01–T04, T20 …)
 tests/factors/             # Kurgusal test faktör kataloğu (yalnız test ve önizleme)
 tests/isolation/           # Kurumlar arası erişim testleri (T14)
 docs/surec/                # dilim döngüsü ve kural kontrol listesi
+docs/uretime-gecis.md      # üretim altyapısı adımları
 ```
 
 ## Çalıştırma
@@ -51,15 +52,9 @@ cd apps/web && npm install && npm run dev
 cd apps/web && npm run build   # → apps/web/out
 ```
 
-## Durum (13 Ekim 2026)
+## Durum (14 Ekim 2026)
 
-| Dilim | Kapsam | Durum |
-| --- | --- | --- |
-| 0 | Depo iskeleti, karar kaydı, CI, tenant izolasyonu, denetim izi | Tamam (37 API/izolasyon testi; RLS PostgreSQL 15'te doğrulandı) |
-| 1 | Kurum kurulumu → doğal gaz kaydı → hesap → inceleme → dönem → rapor | Çalışır (önizleme deposu); 109 motor testi; OCR/nesne deposu/DOCX yok |
-| 2–8 | Elektrik, asistan, SEK/GÖS panosu, Kaizen, AKS, Kapsam 3, REG | Planlı; K-06/07/08/09 kararlarına bağlı olanlar işaretli |
-
-Gereklilik bazında: `docs/gereklilik-izleme.md`. Bilinen eksikler: `docs/teslim-notu-dilim-0-1.md`.
+Tüm dilimler (0–8) uygulandı: kurulum, tüm kaynak türleri için veri girişi (OCR, CSV/XLSX), Kapsam 1–2–3 ve ürün hesapları (motor 0.2.0, 200 test, 77 altın senaryo), inceleme/onay/dönem/rapor paketi, analiz/hedef/RACI, aksiyon döngüsü, Green Kaizen, tedarikçi programı, regülasyon paketleri, senaryo defteri, gündem, 101, protokoller, sözlük, kaynaklı asistan; API PostgreSQL deposu ve kalan uçlar. Gereklilik bazında kanıt: `docs/gereklilik-izleme.md`. Teslim notu: `docs/teslim-notu-dilim-0-1.md`. Üretim adımları: `docs/uretime-gecis.md`.
 
 ## Ekip
 

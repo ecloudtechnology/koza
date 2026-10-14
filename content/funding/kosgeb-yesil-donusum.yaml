@@ -1,0 +1,16 @@
+id: kosgeb-yesil-donusum
+title: "KOSGEB — Yeşil Dönüşüm Destek Programı"
+program_owner: "KOSGEB"
+official_url: "https://www.kosgeb.gov.tr/"
+eligibility:
+  - "KOSGEB veri tabanına kayıtlı KOBİ olmak (program metnindeki ölçütler esastır)"
+  - "Başvuru konusunun yeşil dönüşüm/temiz üretim kapsamında olması (program metnine göre)"
+open_status: unknown
+call_date: null
+deadline: null
+amount_note: null
+relevance:
+  profile_ids: ["*"]
+  packages: []
+last_checked: null
+editor_status: editör onayı bekliyor — resmî çağrı metni doğrulanmadı (K-15)

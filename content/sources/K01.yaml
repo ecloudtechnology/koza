@@ -1,9 +1,36 @@
 code: K01
-title: "GRI 1 Foundation 2021"
+title: "GRI 1: Foundation 2021"
 publisher: "GRI"
+family: GRI
 role: "GRI yapısı, önemlilik ve raporlama gereklilikleri"
 urls:
   - "https://www.globalreporting.org/publications/documents/english/gri-1-foundation-2021/"
+edition: "2021"
+language: en
+published_at: null
+effective_from: null
+transition_note: "Yürürlük tarihi kaynaktan doğrulanmadı; SRC-02 kontrolüyle doldurulacak."
+retired_at: null
 checked_at: 2026-10-13
 license: "yalnız bağlantı; tam metin saklanmaz (K-12)"
-status: kart — sürüm/yürürlük alanları SRC altyapısıyla doldurulacak
+status: editör onayı bekliyor
+identity_note: null
+versions:
+  - label: "GRI 1: Foundation 2021"
+    edition: "2021"
+    published_at: null
+    effective_from: null
+    url: "https://www.globalreporting.org/publications/documents/english/gri-1-foundation-2021/"
+    note: "Güncel baskı. Yayın ve yürürlük günü kaynaktan doğrulanmadı."
+    current: true
+  - label: "GRI 101: Foundation 2016"
+    edition: "2016"
+    published_at: null
+    effective_from: null
+    url: null
+    note: "Önceki temel standart; 2021 Evrensel Standartlar ile yerini GRI 1'e bıraktı. Resmî URL kaynak izlemeyle doğrulanacak."
+    current: false
+relevance:
+  - kind: always
+    value: null
+    reason: "Etki raporu yapısı ve önemlilik yaklaşımı her kurum için başlangıç çerçevesidir (§08)."

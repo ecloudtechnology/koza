@@ -1,0 +1,18 @@
+id: golge-karbon-fiyati
+tr: Gölge karbon fiyatı
+en: Shadow carbon price
+abbr: null
+aliases: ["gölge fiyat", "shadow carbon price", "internal carbon price", "iç karbon fiyatı"]
+kind: terim
+contexts: [yonetim, mevzuat]
+definition: >-
+  Kurumun yatırım ve karar değerlendirmelerinde ton CO₂e başına varsaydığı kurgusal maliyet. Gerçek
+  bir ödeme değildir; projeleri karşılaştırmak için kullanılır. Değeri kurumun kararıdır, uygulamaya
+  sabit yazılmaz ve envanteri etkilemez; senaryo defterinde yaşar.
+example: "Yeni kazan seçiminde iki seçeneğin emisyon farkı gölge fiyatla maliyete çevrilip yatırım analizine eklenir."
+confused_with: "ETS tahsisat fiyatı ya da karbon vergisi ile karıştırılır; gölge fiyat ödenmez."
+related_task: "Senaryo defterinde karbon fiyatı senaryosu."
+related_route: "/analiz/"
+likely_department: "Finans / üst yönetim"
+source: "REG-05; §22"
+status: editör onayı bekliyor

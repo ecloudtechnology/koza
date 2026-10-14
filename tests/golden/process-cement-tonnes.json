@@ -1,0 +1,64 @@
+{
+  "id": "process-cement-tonnes",
+  "title_tr": "100 t klinker × 500 kg CO₂/t = 50 t, yalnız CO₂",
+  "requirements": [
+    "§12"
+  ],
+  "note_tr": "Katsayılar kurgusaldır; yalnız yazılım testi içindir.",
+  "request": {
+    "activity": {
+      "id": "act-test-0002",
+      "version": 1,
+      "source_type": "process",
+      "fuel": null,
+      "quantity": "100",
+      "unit": "t",
+      "heating_value_basis": null,
+      "reference_conditions": null,
+      "calorific_value": null,
+      "basis_conversion": null,
+      "data_quality": "measured",
+      "period": {
+        "start": "2026-01-01",
+        "end": "2026-12-31"
+      },
+      "process_id": "clinker-kiln-1"
+    },
+    "factors": [
+      {
+        "id": "TEST-CLINKER-CO2",
+        "version": "1.0",
+        "value": "500",
+        "numerator_unit": "kg",
+        "gas": "CO2",
+        "denominator_unit": "t",
+        "basis": null,
+        "reference_conditions": null,
+        "boundary": "process",
+        "gwp_set_id": null,
+        "source_ref": "tests/golden — kurgusal",
+        "license": "test-only",
+        "valid_from": "2026-01-01",
+        "valid_to": null
+      }
+    ],
+    "method": {
+      "id": "ghgp-corporate-test",
+      "version": "0.2",
+      "gwp_set": {
+        "id": "TEST-GWP",
+        "CH4": "28",
+        "N2O": "265",
+        "R-410A": "2000"
+      }
+    }
+  },
+  "expected": {
+    "status": "computed",
+    "total_co2e_kg": "50000",
+    "coverage": "co2_only",
+    "block_codes": [],
+    "process_id": "clinker-kiln-1",
+    "boundary": "process"
+  }
+}

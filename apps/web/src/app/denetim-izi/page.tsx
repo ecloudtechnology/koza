@@ -19,7 +19,7 @@ export default function DenetimIzi() {
   }
   return (
     <>
-      <PageHeader eyebrow="Doğrulama · §25 · Dilim 0" title="Denetim izi" lead={`Append-only: her işlem aktör, rol, nesne, sürüm ve gerekçeyle yazılır; silme yolu yok. Loglara belge içeriği veya sır yazılmaz. ${log.length} olay.`} />
+      <PageHeader eyebrow="Doğrulama · §25" title="Denetim izi" lead={`Append-only: her işlem aktör, rol, nesne, sürüm ve gerekçeyle yazılır; silme yolu yok. Loglara belge içeriği veya sır yazılmaz. ${log.length} olay.`} />
       <div className="table-wrap card">
         <table>
           <thead>

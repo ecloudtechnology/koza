@@ -1,0 +1,18 @@
+id: raci
+tr: RACI sorumluluk matrisi
+en: RACI matrix (responsible, accountable, consulted, informed)
+abbr: RACI
+aliases: ["raci", "sorumluluk matrisi", "görev dağılımı", "responsible accountable"]
+kind: terim
+contexts: [yonetim]
+definition: >-
+  Bir iş için kimin yaptığını (sorumlu), kimin hesap verdiğini (onay sahibi), kime danışıldığını ve
+  kimin bilgilendirildiğini gösteren tablo. Koza'da veri sahipliği ve onay akışı rol düzeyinde tanımlanır;
+  kişi adı yerine rol ve birim yazılır.
+example: "Kapsam 2 verisi: sorumlu enerji yönetimi, hesap veren veri sorumlusu, danışılan satın alma, bilgilendirilen finans."
+confused_with: "Organizasyon şemasıyla karıştırılır; RACI hiyerarşiyi değil, bir işteki rolleri gösterir."
+related_task: "Gösterge ve kategori için veri sahibi rolü atamak."
+related_route: "/ayarlar/"
+likely_department: "Sürdürülebilirlik / insan kaynakları"
+source: "GÖS-01; §04"
+status: editör onayı bekliyor

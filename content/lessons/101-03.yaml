@@ -3,9 +3,75 @@ title: {tr: "Emisyon mantığı"}
 level: başlangıç
 goal: "Faaliyet, faktör ve CO₂e ilişkisini anlamak"
 application: "Eğitim hesabını izlemek"
-duration_min: null
-status: iskelet — gövde yazılmadı, editör onayı yok
-prerequisites: []
-body: null
-sources: []
-review_date: null
+duration_min: 9
+field_duration_min: null
+prerequisites: ["101-02"]
+status: editör onayı bekliyor
+review_date: 2026-10-14
+sources: [K03, K04]
+related_task:
+  route: "/veri-girisi/?training=1"
+  label: "Eğitim kaydıyla bir hesap koşusu yap ve izini (trace) oku"
+explanation:
+  - >-
+    Sera gazı hesabının çekirdeği tek bir ilişkidir: faaliyet verisi çarpı emisyon faktörü, gaz
+    başına emisyon verir. Faaliyet verisi sizin ölçtüğünüz şeydir (ör. 1.000 Sm³ doğal gaz);
+    emisyon faktörü ise bir birim faaliyetin ne kadar gaz saldığını söyleyen, kaynaklı bir katsayıdır.
+  - >-
+    Faktör bir sayı değil, bir kayıttır. Değerinin yanında birimi (kg CO₂ / GJ gibi), hangi gazı
+    verdiği, hangi ısıl değer esasına dayandığı (alt ya da üst), hangi coğrafya ve yıl için geçerli
+    olduğu, sınırı (yalnız yanma mı, üst aşamalar dahil mi) ve kaynağı olmadan kullanılamaz.
+    Birimi uyuşmayan faktör, miktar dönüştürülmeden çarpılamaz.
+  - >-
+    Her sera gazının iklim etkisi farklıdır. Küresel ısınma potansiyeli (GWP), bir gazın etkisini
+    CO₂ cinsinden ifade eden katsayıdır; gaz kütlesi GWP ile çarpılınca CO₂ eşdeğeri (CO₂e) elde
+    edilir. Böylece metan, azot oksit ve CO₂ tek bir sayıda toplanabilir. Hangi GWP setinin
+    kullanıldığı yöntem sürümünde kayıtlıdır.
+  - >-
+    Bazı faktörler doğrudan CO₂e verir. Bu durumda GWP bir daha uygulanmaz; iki kez uygularsanız
+    sonucu şişirirsiniz. Bazı faktörler de yalnız CO₂ verir; o zaman sonuç "yalnız CO₂" etiketi
+    taşır ve tam CO₂e gibi sunulmaz. Koza her sonucun kapsadığı gazları açıkça yazar.
+  - >-
+    Hesabı insan değil, motor yapar. Aynı girdi, aynı faktör sürümü ve aynı yöntem sürümü her zaman
+    aynı sonucu verir; sonucun yanında hangi faktörün hangi sürümünün kullanıldığı ve birim
+    dönüşümlerinin adımları iz olarak saklanır. Sizin işiniz girdiyi doğru vermek ve izi okuyabilmektir.
+field_summary: null
+business_example: >-
+  Kurgusal örnek: bir tesis 100 GJ doğal gaz yaktı. Test faktörü 50 kg CO₂ / GJ (alt ısıl değer
+  esaslı, yalnız yanma). Motor 100 × 50 = 5.000 kg CO₂ hesaplar. Metan ve azot oksit için ayrı
+  faktör yoksa sonuç "yalnız CO₂" olarak etiketlenir; tam CO₂e iddiası yapılmaz. Fatura m³ ise
+  önce ısıl değerle GJ'ye dönüşüm gerekir ve bu dönüşümün kaynağı da kayda girer.
+common_mistake: >-
+  CO₂e veren bir faktörü alıp sonucu bir de GWP ile çarpmak. Faktör zaten CO₂e ise iş bitmiştir;
+  tekrar çarpmak sonucu olduğundan büyük gösterir. Koza bu durumu faktör kaydındaki "gaz: CO₂e"
+  bilgisinden tanır ve GWP'yi uygulamaz.
+exercise:
+  prompt: "Veri girişinde bir eğitim kaydı oluşturun, hesap önizlemesini çalıştırın ve sonuç izinde üç şeyi bulun: kullanılan faktör kimliği ve sürümü, birim dönüşüm adımı, sonucun kapsadığı gazlar."
+  steps:
+    - "Veri girişini 'eğitim' etiketiyle açın; kurgusal bir doğal gaz miktarı girin."
+    - "Hesap önizlemesinde faktör satırlarını inceleyin: her satırda gaz, faktör kimliği@sürüm ve CO₂e var mı?"
+    - "'Kapsam' etiketine bakın: yalnız CO₂ mü, tam CO₂e mi?"
+    - "Miktarı değiştirip tekrar çalıştırın; sonucun oranla değiştiğini doğrulayın."
+  note: "Eğitim kaydı ve test faktörleri kurgusaldır; envanter toplamına ve raporlara üretim verisi olarak girmez."
+quiz:
+  - q: "Emisyon faktörü 2,0 kg CO₂e / kWh olarak verilmiş. 1.000 kWh tüketim için ne yaparsınız?"
+    options: ["1.000 × 2,0 = 2.000 kg CO₂e; GWP uygulanmaz", "1.000 × 2,0 × GWP(CO₂)", "Önce kWh'yi GJ'ye çeviririm, sonra çarparım"]
+    correct: 0
+    explanations:
+      - "Doğru. Faktör zaten CO₂e cinsinden ve kWh başına; birimler uyuşuyor, GWP tekrar uygulanmaz. (Sayılar kurgusaldır.)"
+      - "Yanlış. Faktör CO₂e veriyor; GWP uygulamak çifte sayımdır."
+      - "Yanlış. Faktörün paydası zaten kWh; dönüşüm gereksizdir ve hata riski ekler. Dönüşüm yalnız birimler uyuşmadığında yapılır."
+  - q: "Bir faktör kaydında hangisi eksikse faktör kullanılamaz?"
+    options: ["Faktörü hazırlayan kişinin adı", "Birimi, gazı ve kaynağı", "Faktörün yazıldığı yazı tipi"]
+    correct: 1
+    explanations:
+      - "Yanlış. Kişi adı iz için faydalı olabilir ama faktörün geçerliliğini belirlemez; kurum ve kaynak belgesi belirler."
+      - "Doğru. Birimi olmayan faktör çarpılamaz; gazı belli olmayan faktör CO₂e'ye çevrilemez; kaynağı olmayan faktör doğrulanamaz."
+      - "Yanlış. Biçim bilgisi faktörün anlamını etkilemez."
+  - q: "Sonuç 'yalnız CO₂' etiketi taşıyor. Bu ne demektir?"
+    options: ["Hesap hatalıdır", "Metan ve azot oksit gibi diğer gazlar için faktör yoktu; sonuç tam CO₂e değildir ve öyle sunulmaz", "Kurum yalnız CO₂ salar"]
+    correct: 1
+    explanations:
+      - "Yanlış. Hesap doğrudur; yalnız kapsamı sınırlıdır ve bu açıkça yazılır."
+      - "Doğru. Etiket kapsamı anlatır: hangi gazların hesaba girdiğini. Diğer gazlar için faktör eklenince yeni koşu yapılır."
+      - "Yanlış. Yakma süreçlerinde başka gazlar da oluşur; etiket salımı değil hesabın kapsamını söyler."

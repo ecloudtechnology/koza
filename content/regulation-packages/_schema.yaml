@@ -1,0 +1,40 @@
+# Regülasyon uyum paketi şeması (REG-01, REG-06, §08, §19)
+# Paket koddur değil veridir. Eşik, tarih, benchmark ve fiyat burada bile sabit yazılmaz:
+# threshold null ise ve source_status unverified ise sonuç her zaman review_required (kural 6).
+# "_" ile başlayan dosya şemadır; gen-content atlar.
+
+id: string                       # ör. cbam, national-ets-mrv, tsrs, eu-customer-supply-chain
+version: semver                  # paket içeriği değişince yeni sürüm
+status: draft | active | retired # draft paket hiçbir zaman yükümlülük üretmez
+title: {tr: string}
+scope: {tr: string}              # kapsam açıklaması, sade dil
+decision_owner:                  # karar kaydındaki açık karar (K-06/K-07/K-08) ve rol
+  decision_ref: string | null
+  role: string
+spec_sections: [string]          # §08, §19, REG-02 ...
+sources: [string]                # content/sources kodları (K01…K16) veya serbest kaynak kimliği
+applicability_questions:
+  - id: string
+    text: {tr: string}
+    options: [{value: string, label: string}]
+    applies_when: [value]        # bu cevap pakete uygulanabilirlik yönünde (rule_ref varsa kural doğrulanmış olmalı)
+    excludes_when: [value]       # bu cevap paketi "uygulanmaz" yapar (herhangi bir dışlama → kapalı)
+    # "unknown" veya cevapsız → inceleme gerekli; iki listede de olmayan cevap tarafsızdır (sonucu etkilemez)
+    rule_ref: string | null      # cevap bir eşiğe/tarihe bağlıysa rules[] kimliği → doğrulanmamışsa review_required
+    hint: string | null
+obligations:
+  - id: string
+    text: {tr: string}
+    evidence: [string]           # gerekli kanıt
+    rule_ref: string | null
+    task_role_hint: string | null
+required_evidence: [string]
+rules:
+  - id: string
+    text: string
+    threshold: null | {value: string, unit: string}   # null = kaynaktan doğrulanmadı
+    source_ref: string
+    source_status: verified | unverified | draft
+    effective_from: null | date
+    last_checked: null | date
+    publication_status: draft | consultation | in_force | unknown

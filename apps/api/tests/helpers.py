@@ -1,4 +1,8 @@
-"""Ortak test yardımcıları. Gerçek `koza_calc` kuruluysa o kullanılır; değilse sözleşme biçimli taklit."""
+"""Ortak test yardımcıları. Gerçek `koza_calc` kuruluysa o kullanılır; değilse sözleşme biçimli taklit.
+
+`env` fixture'ı iki depoyla parametrelidir: `memory` (InMemoryRepo) ve `postgres` (PostgresRepo; yerel PostgreSQL yoksa
+skip). Kurum politikası `@pytest.mark.allow_self_approval` işaretiyle açılır.
+"""
 
 from __future__ import annotations
 
@@ -19,10 +23,24 @@ FACTOR_V2 = {"id": "TEST-NG-CO2", "version": "2.0"}
 METHOD = {"id": "ghgp-corporate-test", "version": "0.1"}
 
 
-@pytest.fixture
+@pytest.fixture(scope="session")
+def postgres_repo():
+    repo, note = T.prepare_postgres()
+    if repo is None:
+        pytest.skip(f"PostgreSQL yok: {note}")
+    yield repo
+    T.teardown_postgres(repo)
+
+
+@pytest.fixture(params=["memory", "postgres"])
 def env(request):
-    allow_self = bool(getattr(request, "param", False))
-    app, repo = T.build_app(CATALOG, allow_self_approval_a=allow_self)
+    allow_self = request.node.get_closest_marker("allow_self_approval") is not None
+    kw = {}
+    extra = request.node.get_closest_marker("app_kwargs")
+    if extra:
+        kw.update(extra.kwargs)
+    repo = request.getfixturevalue("postgres_repo") if request.param == "postgres" else None
+    app, repo = T.build_app(CATALOG, repo=repo, allow_self_approval_a=allow_self, **kw)
     with TestClient(app) as client:
         yield client, repo
 

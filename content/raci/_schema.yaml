@@ -1,0 +1,18 @@
+# RACI şeması (v1.1 yönetişim; forum "Yönetim modeli ve uygulama planı" tablosu)
+# Satırlar süreç bazlıdır ve BİRİM adı taşır; kişi adı girilmez (kural 11).
+# Bu dosyadaki satırlar varsayılandır; kurum kendi satırlarını "performans/raci" tablosunda düzenler.
+
+id: string                   # ör. "varsayilan"
+version: semver
+status: draft | review | approved | retired
+source: string               # dayanak belge
+
+rows:
+  - process_id: string       # kalıcı süreç kimliği
+    process: {tr: string}    # mimari bileşen / süreç adı
+    responsible: [string]    # R — işi yapan birimler
+    accountable: string      # A — hesap veren tek birim
+    consulted: [string]      # C — danışılan birimler
+    informed: [string]       # I — bilgilendirilen birimler
+    deliverable: {tr: string}   # somut teslimat
+    metric: {tr: string}        # başarı ölçütü (forum tablosu)

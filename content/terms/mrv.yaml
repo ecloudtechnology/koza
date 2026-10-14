@@ -1,0 +1,18 @@
+id: mrv
+tr: İzleme, raporlama ve doğrulama
+en: Monitoring, reporting and verification
+abbr: MRV
+aliases: ["mrv", "izleme raporlama doğrulama", "izleme planı", "monitoring plan"]
+kind: terim
+contexts: [mevzuat, envanter]
+definition: >-
+  Bir tesisin emisyonlarını belirli kurallara göre ölçme (izleme), düzenli bildirme (raporlama) ve
+  bağımsız bir kuruluşa kontrol ettirme (doğrulama) süreci. ETS gibi düzenlemelerin temelidir;
+  izleme planı sürümlü ve denetlenebilir tutulur, Kapsam 1 sınırı bu plana eşlenir.
+example: "Tesisin doğal gaz sayaçları, ısıl değer analizleri ve hesap yöntemi izleme planında tanımlanır; yıllık rapor doğrulayıcıya gider."
+confused_with: "Gönüllü kurumsal envanterle karıştırılır; MRV hukuki kurala ve doğrulayıcıya bağlıdır."
+related_task: "İzleme planı sürümünü kaydetmek; Kapsam 1 kayıtlarını plana eşlemek (REG-02)."
+related_route: "/envanter/"
+likely_department: "Çevre / tesis yönetimi"
+source: "REG-02; K-06"
+status: editör onayı bekliyor

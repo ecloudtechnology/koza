@@ -1,0 +1,31 @@
+id: request-template
+version: 0.1.0
+confidentiality:
+  title: "Gizlilik ve kullanım taahhüdü"
+  text: >-
+    Bu talep kapsamında paylaştığınız veriler yalnız talep eden kurumun sera gazı envanteri ve ürün
+    çalışmaları için kullanılır; üçüncü taraflarla tedarikçi adıyla paylaşılmaz. Verileriniz sürümlü saklanır;
+    hangi sürümü verdiğinizi ve eksiklerini görürsünüz. Talep eden kurum, gönderilen veriyi hukuki hüküm veya
+    ceza aracı olarak kullanmaz; eksik veya belirsiz yanıt için düzeltici plan ve destek önerilir.
+  aggregated_use_text: >-
+    Yalnız toplulaştırılmış kullanım: Paylaştığınız veriler raporlarda tek başına tedarikçi düzeyinde
+    yayımlanmaz; kategori veya ürün grubu düzeyinde toplulaştırılarak kullanılır.
+fields:
+  - {id: product, label: "Ürün / hizmet", hint: "Talep edilen ürün veya hizmetin adı ve varsa kodu", required: true, kind: text}
+  - {id: reference_unit, label: "Referans birim", hint: "Verinin hangi birim başına istendiği (ör. 1 kg, 1 adet, 1 m²)", required: true, kind: text}
+  - {id: system_boundary, label: "Sistem sınırı", hint: "Beşikten kapıya, kapıdan kapıya vb. Hangi süreçlerin dahil olduğu", required: true, kind: select, options: ["Beşikten kapıya", "Kapıdan kapıya", "Beşikten mezara", "Özel kısmi sınır"]}
+  - {id: period_geo, label: "Kapsanan yıl ve coğrafya", hint: "Hangi yıl ve hangi tesis/ülke verisi", required: true, kind: text}
+  - {id: method, label: "Yöntem", hint: "Hangi standart / yöntem (ör. ISO 14067, GHG Protocol Product Standard, tedarikçiye özgü)", required: true, kind: text}
+  - {id: verification_status, label: "Doğrulama durumu", hint: "Üçüncü taraf doğrulaması var mı; varsa kim ve ne zaman", required: true, kind: select, options: ["Doğrulanmamış", "İç kontrol", "Üçüncü taraf doğrulamalı", "Bilinmiyor"]}
+  - {id: documents, label: "İstenen belgeler", hint: "Hesap özeti, doğrulama beyanı, tahsis açıklaması", required: true, kind: textarea}
+  - {id: note, label: "Not", hint: "Teslim tarihi, iletişim kişisi", required: false, kind: textarea}
+response_fields:
+  - {id: value, label: "Değer (ondalık)", hint: "Referans birim başına kg CO₂e; virgül veya nokta kullanılabilir", required: true, kind: text}
+  - {id: unit, label: "Birim", hint: "kg CO₂e / referans birim", required: true, kind: text}
+  - {id: basis, label: "Verinin dayanağı", hint: "Ürüne özgü mü, şirket toplamından tahsis mi?", required: true, kind: select, options: ["Ürüne özgü ölçüm/hesap", "Şirket toplamından tahsis", "Yalnız şirket toplamı (tahsis yok)", "Bilinmiyor"]}
+  - {id: allocation_info, label: "Tahsis bilgisi", hint: "Toplam hangi anahtarla ürünlere dağıtıldı (kütle, ekonomik değer, üretim saati…)", required: false, kind: textarea}
+  - {id: system_boundary, label: "Sistem sınırı", hint: "Yanıtın kapsadığı süreçler", required: true, kind: text}
+  - {id: period_geo, label: "Kapsanan yıl ve coğrafya", hint: "", required: true, kind: text}
+  - {id: method, label: "Yöntem", hint: "", required: true, kind: text}
+  - {id: verification_status, label: "Doğrulama durumu", hint: "", required: true, kind: select, options: ["Doğrulanmamış", "İç kontrol", "Üçüncü taraf doğrulamalı"]}
+  - {id: documents, label: "Eklenen belgeler", hint: "Dosya adları; dosya içeriği bu önizlemede saklanmaz", required: false, kind: textarea}

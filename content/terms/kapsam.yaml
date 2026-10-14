@@ -1,6 +1,11 @@
 id: kapsam
 tr: Kapsam (1, 2, 3)
 en: Scope
+aliases: ["scope", "scope 1 2 3", "kapsam 1 2 3"]
+kind: terim
+contexts: [envanter, raporlama]
+likely_department: "Sürdürülebilirlik / enerji yönetimi"
+related_route: "/envanter/"
 definition: "Bir kurumun sera gazı emisyonlarının, emisyonun nerede oluştuğuna ve kurumun ilişkisine göre üç gruba ayrılması: Kapsam 1 kurumun kontrolündeki kaynaklardan doğrudan (ör. kazan); Kapsam 2 satın alınan elektrik, buhar, ısı ve soğutmanın üretiminden; Kapsam 3 değer zincirindeki diğer dolaylı emisyonlar (15 kategori)."
 example: "Fabrikadaki doğal gaz kazanı → Kapsam 1. Şebekeden alınan elektrik → Kapsam 2. Tedarikçinin ürettiği çeliğin emisyonu → Kapsam 3 kategori 1."
 confused_with: "Sistem sınırı (ürün çalışmalarındaki süreç sınırı) ile aynı şey değildir."

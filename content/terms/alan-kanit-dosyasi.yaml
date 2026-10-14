@@ -1,0 +1,19 @@
+id: alan-kanit-dosyasi
+tr: "Fatura dosyası kutusu — bu kutuya ne yükleyeceğim?"
+en: Evidence file field
+abbr: null
+aliases: ["dosya", "fatura dosyası", "pdf yükle", "kanıt yükle", "fotoğraf"]
+kind: alan-yardimi
+contexts: [veri-girisi]
+definition: >-
+  Faturanın PDF'ini veya net okunan fotoğrafını yükleyin. Sistem dosyanın parmak izini (karma) alır;
+  aynı dosya daha önce yüklendiyse uyarır. Önizlemede dosya içeriği saklanmaz, yalnız karma ve üst
+  veri tutulur. Belge elinizde yoksa aşağıdaki "belge elimde yok" yolu görev açar.
+example: "gaz-aralik-2025.pdf → karma sha256:… , 1 sayfa."
+confused_with: "Ekran görüntüsü ile orijinal belge aynı değildir; mümkünse orijinal PDF yükleyin."
+related_task: "Veri girişi — fatura dosyası alanı"
+related_route: "/veri-girisi/"
+field_help: {route: "/veri-girisi/", field_id: "file", field_label: "Fatura dosyası (PDF, görüntü)"}
+likely_department: "Muhasebe / belge arşivi"
+source: "§11 DAT-02; T07"
+status: editör onayı bekliyor

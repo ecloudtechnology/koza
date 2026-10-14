@@ -1,0 +1,18 @@
+id: yogunluk
+tr: Yoğunluk göstergesi
+en: Intensity indicator
+abbr: null
+aliases: ["intensity", "yogunluk", "birim başına emisyon", "spesifik emisyon"]
+kind: terim
+contexts: [raporlama, yonetim]
+definition: >-
+  Mutlak bir sonucun bir paydaya bölünmüş hâli: ton ürün başına, m² başına, çalışan başına CO₂e.
+  Payda tanımı sektör profilinden gelir ve aynı dönem için bilinen bir değer olmadan yoğunluk
+  hesaplanmaz; tahmin edilmez, boş bırakılır.
+example: "11.000 t CO₂e / 62.000 t ürün ≈ 0,18 t CO₂e/t (kurgusal)."
+confused_with: "Mutlak azalma ile karıştırılır; yoğunluk düşerken toplam artabilir."
+related_task: "Analizde payda değerini girmek ve iki dönemi karşılaştırmak."
+related_route: "/analiz/"
+likely_department: "Üretim planlama / finans (payda verisi)"
+source: "K01; GÖS-03"
+status: editör onayı bekliyor

@@ -1,0 +1,18 @@
+id: nace
+tr: NACE kodu
+en: NACE code (statistical classification of economic activities)
+abbr: NACE
+aliases: ["nace", "nace kodu", "faaliyet kodu", "sektör kodu", "ekonomik faaliyet sınıflaması"]
+kind: terim
+contexts: [yonetim]
+definition: >-
+  Avrupa'da kullanılan ekonomik faaliyet sınıflaması; her işletmenin ana faaliyetini kısım, bölüm,
+  grup ve sınıf düzeyinde kodlar (ör. C24 ana metal sanayii). Koza'da sektör profili önerisi NACE
+  koduna bakar; kod bilinmiyorsa genel profille başlanır ve sonra değiştirilebilir.
+example: "NACE 24.10 → ağır sanayi profili önerisi; kullanıcı onaylar."
+confused_with: "GTİP (ürün/gümrük kodu) ile karıştırılır; NACE faaliyeti, GTİP ürünü sınıflar."
+related_task: "Kurulumda NACE kodunu girip profil önerisini onaylamak (SEK-01)."
+related_route: "/kurulum/"
+likely_department: "Muhasebe / finans (vergi levhası, ticaret sicili)"
+source: "SEK-01; §06"
+status: editör onayı bekliyor

@@ -1,0 +1,82 @@
+{
+  "id": "scope2-location-only-kwh",
+  "title_tr": "250000 kWh × 0.4 → yalnız konum bazlı sonuç",
+  "requirements": [
+    "T05",
+    "§13"
+  ],
+  "note_tr": "Katsayılar kurgusaldır; yalnız yazılım testi içindir.",
+  "request": {
+    "activity": {
+      "id": "act-test-0002",
+      "version": 1,
+      "source_type": "purchased_electricity",
+      "fuel": null,
+      "quantity": "250000",
+      "unit": "kWh",
+      "heating_value_basis": null,
+      "reference_conditions": null,
+      "calorific_value": null,
+      "basis_conversion": null,
+      "data_quality": "measured",
+      "period": {
+        "start": "2026-01-01",
+        "end": "2026-12-31"
+      },
+      "scope2": {
+        "method": "location_based",
+        "grid_region": "TR",
+        "instruments": [],
+        "residual_mix_factor": null,
+        "self_generation_mwh": "0",
+        "sold_to_grid_mwh": "0"
+      }
+    },
+    "factors": [
+      {
+        "id": "TEST-TR-GRID-LOC",
+        "version": "1.0",
+        "value": "0.4",
+        "numerator_unit": "kg",
+        "gas": "CO2e",
+        "denominator_unit": "kWh",
+        "basis": null,
+        "reference_conditions": null,
+        "boundary": "combustion",
+        "gwp_set_id": "TEST-GWP",
+        "source_ref": "tests/golden — kurgusal",
+        "license": "test-only",
+        "valid_from": "2026-01-01",
+        "valid_to": null,
+        "role": "location"
+      }
+    ],
+    "method": {
+      "id": "ghgp-corporate-test",
+      "version": "0.2",
+      "gwp_set": {
+        "id": "TEST-GWP",
+        "CH4": "28",
+        "N2O": "265",
+        "R-410A": "2000"
+      }
+    }
+  },
+  "expected": {
+    "status": "computed",
+    "total_co2e_kg": null,
+    "block_codes": [],
+    "primary_method": "location_based",
+    "normalized_activity": {
+      "quantity": "250",
+      "unit": "MWh",
+      "basis": null
+    },
+    "results": {
+      "location_based": {
+        "total_co2e_kg": "100000",
+        "coverage": "co2e_factor"
+      }
+    }
+  }
+}

@@ -1,0 +1,18 @@
+id: iso-14067
+tr: ISO 14067
+en: ISO 14067 — Carbon footprint of products
+abbr: null
+aliases: ["iso 14067", "iso14067", "ürün karbon ayak izi", "product carbon footprint", "PCF"]
+kind: terim
+contexts: [urun]
+definition: >-
+  Ürünlerin karbon ayak izini (yaşam döngüsü boyunca sera gazı emisyonlarını) hesaplama ve raporlama
+  ilkelerini tanımlayan uluslararası standart. ISO 14040/14044 LCA çerçevesine dayanır ama yalnız
+  iklim etkisine odaklanır; yalnız karbon hesaplamak tüm çevresel etkileri kapsayan LCA değildir.
+example: "Bir ambalajın beşikten kapıya karbon ayak izi; fonksiyonel birim, sınır ve tahsis açıkça yazılır."
+confused_with: "LCA ile karıştırılır; LCA su, asitlenme, toksisite gibi birçok etki kategorisini kapsar."
+related_task: "Ürün çalışması tanımlamak (§17)."
+related_route: "/urun/"
+likely_department: "Ar-Ge / ürün yönetimi"
+source: "K08; K13"
+status: editör onayı bekliyor

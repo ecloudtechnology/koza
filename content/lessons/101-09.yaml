@@ -1,11 +1,78 @@
 id: "101-09"
 title: {tr: "Rapor ve hedef"}
-level: başlangıç
+level: orta
 goal: "Brüt sonuç, yoğunluk ve hedefi ayırmak"
 application: "İki dönem karşılaştırmak"
-duration_min: null
-status: iskelet — gövde yazılmadı, editör onayı yok
-prerequisites: []
-body: null
-sources: []
-review_date: null
+duration_min: 9
+field_duration_min: null
+prerequisites: ["101-04"]
+status: editör onayı bekliyor
+review_date: 2026-10-14
+sources: [K01, K03]
+related_task:
+  route: "/analiz/"
+  label: "Analiz ekranında iki dönemi aynı sınır ve yöntem sürümüyle karşılaştır"
+explanation:
+  - >-
+    Rapor üç farklı sayı türü içerir ve bunlar karıştırılmamalıdır. Mutlak (brüt) sonuç, dönemde
+    salınan toplam CO₂e'dir. Yoğunluk, bu toplamın bir paydaya bölünmüş hâlidir: ton ürün başına, m²
+    başına, çalışan başına. Hedef ise gelecekte ulaşılmak istenen değerdir ve mutlak ya da yoğunluk
+    cinsinden olabilir.
+  - >-
+    Yoğunluk, paydası olmadan hesaplanmaz. Payda tanımı (hangi ürün, hangi birim, hangi dönem) sektör
+    profilinden gelir ve aynı dönem için bilinen bir değer girilmiş olmalıdır. Payda bilinmiyorsa
+    yoğunluk boş kalır; tahmin edilmez.
+  - >-
+    İki dönemi karşılaştırmak için üç şey aynı olmalıdır: envanter sınırı (hangi tesis ve kuruluşlar),
+    yöntem ve faktör sürümü, kapsanan kaynaklar. Bir tesis eklendiyse ya da faktör sürümü değiştiyse,
+    fark gerçek azalma değil ölçüm değişikliği olabilir. Bu yüzden hedefler bir baz yıla bağlanır ve
+    sınır değişince baz yıl yeniden hesaplanır.
+  - >-
+    Mutlak hedef ile yoğunluk hedefi farklı şeyler söyler. Üretim artarken yoğunluk düşebilir ama
+    mutlak emisyon artabilir. İkisi de meşrudur; hangisinin seçildiği ve neden seçildiği raporda yazar.
+    Yoğunluktaki düşüşü mutlak azalma gibi sunmak yanıltıcıdır.
+  - >-
+    Raporun yalnız onaylı kayıtlardan oluşan toplamı "onaylı envanter toplamı"dır. Onaysız, engellenmiş
+    veya eksik kayıt varsa toplam "hesaplanan envanter toplamı" olarak etiketlenir ve eksikler listelenir.
+    Karbon fiyatı, tahsis ve azaltım senaryoları ayrı bir defterde kalır; envanteri değiştirmez.
+field_summary: null
+business_example: >-
+  Kurgusal örnek: bir tesis 2025'te 10.000 t CO₂e ve 50.000 t ürün (0,20 t CO₂e/t), 2026'da 11.000
+  t CO₂e ve 62.000 t ürün (yaklaşık 0,18 t CO₂e/t) raporladı. Yoğunluk yüzde on düştü, mutlak
+  emisyon yüzde on arttı. Rapor ikisini de yazdı; "emisyonumuzu azalttık" yerine "üretim başına
+  emisyonumuz düştü, toplam emisyonumuz arttı" dedi. 2026'da yeni bir hat devreye girdiği için
+  baz yıl sınırı da yeniden değerlendirildi.
+common_mistake: >-
+  Faktör sürümü değişmişken iki yılı karşılaştırmak ve farkı başarı saymak. Yeni faktör sürümü
+  eski sonucu değiştirmez; karşılaştırma için ya eski dönem yeni sürümle yeniden hesaplanır ya da
+  fark "yöntem değişikliği" olarak açıklanır.
+exercise:
+  prompt: "Analiz ekranında iki dönemi seçin. Mutlak toplam, yoğunluk ve paydayı yan yana yazın. Sınır, yöntem sürümü ve faktör sürümünün iki dönemde aynı olup olmadığını kontrol edin; farklıysa karşılaştırmanın neden geçerli olmadığını bir cümleyle yazın."
+  steps:
+    - "Her dönem için toplamın etiketini okuyun: onaylı mı, hesaplanan mı?"
+    - "Paydanın aynı tanımla girildiğini doğrulayın."
+    - "Yöntem ve faktör sürümlerini karşılaştırın."
+    - "Farkı 'gerçek değişim', 'sınır değişimi' veya 'yöntem değişimi' olarak sınıflandırın."
+  note: "Karşılaştırma yorumu rapora elle yazılır; sayılar yalnız motordan gelir. Örnek sayılar kurgusaldır."
+quiz:
+  - q: "Yoğunluk göstergesi ne zaman hesaplanmaz?"
+    options: ["Toplam emisyon çok küçükse", "Payda tanımı veya aynı dönem için payda değeri yoksa", "Hedef tanımlanmamışsa"]
+    correct: 1
+    explanations:
+      - "Yanlış. Büyüklük bir engel değildir."
+      - "Doğru. Yoğunluk pay bölü paydadır; payda bilinmiyorsa sonuç boş kalır, tahmin edilmez."
+      - "Yanlış. Hedef olmadan da yoğunluk hesaplanabilir; hedef ayrı bir kayıttır."
+  - q: "Yoğunluk düştü ama mutlak emisyon arttı. Hangi ifade doğrudur?"
+    options: ["Emisyonumuzu azalttık", "Üretim başına emisyon düştü, toplam emisyon arttı", "Hedefimize ulaştık"]
+    correct: 1
+    explanations:
+      - "Yanlış. Mutlak emisyon artmıştır; bu ifade yanıltıcıdır."
+      - "Doğru. İki sayı iki ayrı gerçeği anlatır ve ikisi de raporlanır."
+      - "Yanlış. Hedefe ulaşıldığı yalnız hedefin türüne (mutlak/yoğunluk) ve baz yıla göre söylenebilir."
+  - q: "Yeni faktör sürümü yayımlandı. 2025 raporundaki sonuç ne olur?"
+    options: ["Otomatik olarak güncellenir", "Değişmez; etkilenen kayıtlar listelenir ve yeniden hesap ayrı bir karar olur", "Silinir"]
+    correct: 1
+    explanations:
+      - "Yanlış. Onaylı sonuçlar sessizce değişmez."
+      - "Doğru. Yeni sürüm etkilenen kayıt listesi ve fark önizlemesi üretir; yeniden hesap gerekçeyle yeni koşu olarak yapılır."
+      - "Yanlış. Geçmiş sonuç korunur; rapor manifesti hangi sürümle hesaplandığını saklar."

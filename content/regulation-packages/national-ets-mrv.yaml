@@ -1,0 +1,97 @@
+id: national-ets-mrv
+version: 0.1.0
+status: active
+title: {tr: "Ulusal ETS ve MRV — izleme, raporlama, doğrulama"}
+scope:
+  tr: >-
+    İklim Kanunu ile kurulan ulusal emisyon ticaret sistemi kapsamındaki tesisler için Kapsam 1 sınırının
+    ulusal MRV kılavuzuna eşlenmesi, sürümlü izleme planı ve doğrulamaya hazır kayıt. Tesis kapasite eşiği,
+    ikincil mevzuat ve tahsis kuralları resmî kaynaktan doğrulanana kadar sonuç "inceleme gerekli"dir (K-06).
+    Tahsis, açık/fazla ve alım-satım konuları bu pakette değil senaryo defterindedir (REG-05).
+decision_owner: {decision_ref: "K-06", role: "Raporlama uzmanı"}
+spec_sections: ["§08", "§12", "§19", "REG-01", "REG-02", "REG-04", "REG-05", "REG-06"]
+sources: ["SRC-TR-ETS-RESMI-METIN"]
+applicability_questions:
+  - id: facility_activity
+    text: {tr: "Tesisinizde ETS kapsam listesindeki bir faaliyet (ör. yakma tesisi, çimento, demir-çelik, rafineri) var mı?"}
+    options:
+      - {value: "yes", label: "Evet"}
+      - {value: "no", label: "Hayır"}
+      - {value: "unknown", label: "Bilmiyorum"}
+    applies_when: ["yes"]
+    excludes_when: ["no"]
+    rule_ref: "ets-activity-list"
+    hint: "Faaliyet listesi ikincil mevzuattan doğrulanır."
+  - id: capacity_threshold
+    text: {tr: "Tesisin toplam anma ısıl gücü veya üretim kapasitesi kapsam eşiğinin üzerinde mi?"}
+    options:
+      - {value: "yes", label: "Evet, eşiğin üzerinde"}
+      - {value: "no", label: "Hayır, eşiğin altında"}
+      - {value: "unknown", label: "Bilmiyorum / eşik doğrulanmamış"}
+    applies_when: ["yes"]
+    excludes_when: ["no"]
+    rule_ref: "ets-capacity-threshold"
+    hint: "Eşik değeri uygulamada sabit yazılmaz; kaynak doğrulanmadan 'doğrulanmamış' olarak gösterilir ve sonuç inceleme gerektirir."
+  - id: permit_status
+    text: {tr: "Tesis için sera gazı emisyon izni / kayıt başvurusu yapıldı mı?"}
+    options:
+      - {value: "yes", label: "Evet"}
+      - {value: "no", label: "Hayır"}
+      - {value: "unknown", label: "Bilmiyorum"}
+    applies_when: ["yes", "no"]
+    excludes_when: []
+    rule_ref: null
+    hint: "Bilgi amaçlı; sonucu tek başına belirlemez."
+obligations:
+  - id: ets-monitoring-plan
+    text: {tr: "Tesis için izleme planı hazırla: Kapsam 1 kaynaklarını izleme kademesi ve yöntemle eşle; sürümle."}
+    evidence: ["İzleme planı sürümü", "Kaynak envanteri", "Ölçüm cihazı ve kalibrasyon kayıtları"]
+    rule_ref: "ets-mrv-guidance"
+    task_role_hint: "data_owner"
+  - id: ets-annual-report
+    text: {tr: "Yıllık emisyon raporunu izleme planına uygun, doğrulanabilir kayıtlarla hazırla."}
+    evidence: ["Onaylı dönem kayıtları", "Rapor manifesti ve karması", "Kanıt indeksi"]
+    rule_ref: "ets-mrv-guidance"
+    task_role_hint: "approver"
+  - id: ets-verification
+    text: {tr: "Akredite doğrulayıcı için kanıt paketini ve izleme planı sürümünü hazır tut."}
+    evidence: ["Doğrulama sözleşmesi", "Kanıt indeksi", "İzleme planı sürüm geçmişi"]
+    rule_ref: null
+    task_role_hint: "admin"
+required_evidence:
+  - "İzleme planı (sürümlü)"
+  - "Kapsam 1 kayıtları ve kanıtları"
+  - "Ölçüm ve kalibrasyon belgeleri"
+rules:
+  - id: ets-activity-list
+    text: "Kapsam dahilindeki faaliyet türleri (ikincil mevzuattan doğrulanacak)."
+    threshold: null
+    source_ref: "SRC-TR-ETS-RESMI-METIN"
+    source_status: unverified
+    effective_from: null
+    last_checked: null
+    publication_status: unknown
+  - id: ets-capacity-threshold
+    text: "Tesis kapasite / anma ısıl güç eşiği. Değer: doğrulanmamış (kaynak yok)."
+    threshold: null
+    source_ref: "SRC-TR-ETS-RESMI-METIN"
+    source_status: unverified
+    effective_from: null
+    last_checked: null
+    publication_status: unknown
+  - id: ets-mrv-guidance
+    text: "Ulusal MRV kılavuzu: izleme kademeleri, yöntemler, belirsizlik koşulları."
+    threshold: null
+    source_ref: "SRC-TR-ETS-RESMI-METIN"
+    source_status: unverified
+    effective_from: null
+    last_checked: null
+    publication_status: unknown
+  - id: ets-allocation-rules
+    text: "Ücretsiz tahsis kuralları ve benchmark değerleri (yalnız senaryo defterinde kullanılır; REG-05)."
+    threshold: null
+    source_ref: "SRC-TR-ETS-RESMI-METIN"
+    source_status: unverified
+    effective_from: null
+    last_checked: null
+    publication_status: unknown

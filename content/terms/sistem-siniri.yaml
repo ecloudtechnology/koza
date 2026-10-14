@@ -1,6 +1,11 @@
 id: sistem-siniri
 tr: Sistem sınırı
 en: System boundary
+aliases: ["system boundary", "sinir", "beşikten kapıya", "cradle to gate"]
+kind: terim
+contexts: [urun]
+likely_department: "Ar-Ge / ürün yönetimi"
+related_route: "/urun/"
 definition: "Bir ürün veya kurum çalışmasında hangi süreçlerin, aşamaların ve kaynakların hesaba dahil edildiğinin açık tanımı. Ürün çalışmalarında kapıdan kapıya, beşikten kapıya, beşikten mezara gibi sınırlar vardır."
 example: "Beşikten kapıya: ham madde çıkarımından ürünün fabrikadan çıkışına kadar; kullanım ve ömür sonu dahil değil."
 confused_with: "Kapsam (kurumsal 1/2/3 ayrımı) ve envanter sınırı (hangi kuruluşların dahil olduğu)."

@@ -1,0 +1,95 @@
+{
+  "id": "scope3-spend-based-currency-ok-review",
+  "title_tr": "Harcama bazlı: 100000 TRY × 1.1 deflatör × 0.0005 = 55 kg, tahmini → inceleme",
+  "requirements": [
+    "MTH-03",
+    "§16"
+  ],
+  "note_tr": "Katsayılar kurgusaldır; yalnız yazılım testi içindir.",
+  "request": {
+    "activity": {
+      "id": "act-test-0002",
+      "version": 1,
+      "source_type": "scope3",
+      "fuel": null,
+      "quantity": "100000",
+      "unit": "TRY",
+      "heating_value_basis": null,
+      "reference_conditions": null,
+      "calorific_value": null,
+      "basis_conversion": null,
+      "data_quality": "measured",
+      "period": {
+        "start": "2026-01-01",
+        "end": "2026-12-31"
+      },
+      "scope3": {
+        "category": 1,
+        "method": "spend_based",
+        "applicability": "applicable",
+        "not_applicable_reason": null,
+        "data_quality_dims": null,
+        "spend": {
+          "currency": "TRY",
+          "date": "2026-03-01",
+          "tax_treatment": "excl_vat",
+          "sector_class": "NACE C24",
+          "price_year": "2024",
+          "deflator": {
+            "value": "1.1",
+            "source_ref": "tests — kurgusal deflatör"
+          }
+        },
+        "sold_products": null
+      }
+    },
+    "factors": [
+      {
+        "id": "TEST-SPEND-TRY",
+        "version": "1.0",
+        "value": "0.0005",
+        "numerator_unit": "kg",
+        "gas": "CO2e",
+        "denominator_unit": "TRY",
+        "basis": null,
+        "reference_conditions": null,
+        "boundary": "cradle_to_gate",
+        "gwp_set_id": "TEST-GWP",
+        "source_ref": "tests/golden — kurgusal",
+        "license": "test-only",
+        "valid_from": "2026-01-01",
+        "valid_to": null
+      }
+    ],
+    "method": {
+      "id": "ghgp-corporate-test",
+      "version": "0.2",
+      "gwp_set": {
+        "id": "TEST-GWP",
+        "CH4": "28",
+        "N2O": "265",
+        "R-410A": "2000"
+      }
+    }
+  },
+  "expected": {
+    "status": "review_required",
+    "total_co2e_kg": "55",
+    "block_codes": [],
+    "warning_codes": [
+      "SPEND_BASED_ESTIMATE"
+    ],
+    "normalized_activity": {
+      "quantity": "110000",
+      "unit": "TRY",
+      "basis": null
+    },
+    "spend": {
+      "currency": "TRY",
+      "deflator": {
+        "value": "1.1",
+        "source_ref": "tests — kurgusal deflatör"
+      }
+    }
+  }
+}

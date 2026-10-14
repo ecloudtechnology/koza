@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { PageHeader } from "@/components/ui";
+
 
 const FLOW = [
   ["Görev", "Ne yapmak istiyorsun?", "Sistem sonraki adımı gösterir; teknik terim seçim olarak dayatılmaz."],
@@ -130,11 +130,28 @@ export default function Hakkinda() {
         ))}
       </div>
 
-      <h2>Bu önizleme neyi gösteriyor</h2>
+      <h2>Modüller</h2>
+      <div className="grid-3">
+        {[
+          ["Veri ve hesap", "Kurum kurulumu, tüm kaynak türleri için rehberli veri girişi (Kapsam 1, 2, Kapsam 3'ün 15 kategorisi), CSV/XLSX içe aktarma, belge okuma (OCR), ürün çalışması, faktör kataloğu.", "/veri-girisi/"],
+          ["Kontrol ve rapor", "Görevler, uzman incelemesi ve onay, dönem kapanışı ve kilit, sabit manifestli rapor paketi (GRI/TSRS indeksi, JSON/CSV/DOCX/yazdır).", "/raporlar/"],
+          ["Performans ve katılım", "Gösterge sözlüğü, yoğunluk analizi, hedef kartı ve RACI, karar kapısı ve aksiyon döngüsü, Green Kaizen.", "/analiz/"],
+          ["Dış ilişkiler ve uyum", "Tedarikçi veri programı, regülasyon paketleri (CBAM, ulusal ETS/MRV, TSRS), senaryo defteri, gündem ve takvim.", "/regulasyon/"],
+          ["Öğrenme ve kaynak", "Sürdürülebilirlik 101, protokoller ve standartlar, sözlük, kaynaklı asistan.", "/101/"],
+          ["Yönetim ve doğrulama", "Kurum ayarları, denetim izi, proje durumu, belgeler, altın set, hata sözlüğü.", "/durum/"],
+        ].map(([t, d, h]) => (
+          <Link key={t} href={h} className="card quiet" style={{ textDecoration: "none", color: "inherit" }}>
+            <h3 style={{ marginTop: 0 }}>{t}</h3>
+            <p className="small" style={{ marginBottom: 0 }}>{d}</p>
+          </Link>
+        ))}
+      </div>
+
+      <h2>Bu önizleme</h2>
       <p>
-        Dilim 0 (depo iskeleti, veritabanı göçleri, kurum izolasyonu, denetim izi) ve Dilim 1 (kurum kurulumu → doğal gaz kaydı → hesap → inceleme → dönem → rapor) çalışır durumda.
-        Kayıtlar yalnız bu tarayıcıda saklanır; hesap motoru tarayıcıda aynı Python koduyla çalışır; tüm faktörler kurgusal test değeridir. Neyin tamam, neyin planlı olduğu{" "}
-        <Link href="/durum/">Proje durumu</Link> sayfasında gereklilik kimliğiyle listelenir; inceleme yolu <Link href="/belgeler/?d=inceleme-rehberi">İnceleme rehberi</Link>nde.
+        Kayıtlar yalnız bu tarayıcıda saklanır; hesap motoru tarayıcıda aynı Python koduyla çalışır; tüm faktörler kurgusal test değeridir. Üretim altyapısı (kimlik, veritabanı, dosya deposu,
+        kuyruk) depodaki kodda ve testlerde hazırdır; adımları <Link href="/belgeler/?d=uretime-gecis">Üretime geçiş</Link> belgesinde. Gereklilik bazında kanıt{" "}
+        <Link href="/durum/">Proje durumu</Link> sayfasında; inceleme yolu <Link href="/belgeler/?d=inceleme-rehberi">İnceleme rehberi</Link>nde.
       </p>
     </>
   );

@@ -1,0 +1,30 @@
+# Kaynak kartı şeması (§08 kaynak kartı, §19 tarih modeli, SRC-01…07)
+# Yalnız resmî URL; tam metin saklanmaz (K-12). Tarih bilinmiyorsa null yazılır ve ekran "kaynakta doğrulanmadı" der.
+code: string                      # K01…K16 (§33–§34)
+title: string                     # yayımlayan + kod + başlık + baskı yılı ile birlikte kimliktir
+publisher: string
+family: GRI | TSRS | GHG Protocol | ISO | mevzuat | rehber
+role: string                      # Koza'daki işlevi (sade)
+urls: [string]                    # yalnız resmî
+edition: string | null            # baskı/sürüm etiketi (ör. "2021", "2025", "revised edition")
+language: string                  # en | tr
+published_at: date | null         # yayın tarihi (gün bilinmiyorsa null; edition yılı ayrı alandır)
+effective_from: date | null       # yürürlük / uygulanma başlangıcı
+transition_note: string | null    # geçiş koşulu (kaynakta nasıl ifade edildiği)
+retired_at: date | null           # yürürlükten kalkma
+checked_at: date                  # son başarılı erişim kontrolü (SRC-02) — "güncel" etiketi yerine bu gösterilir
+license: string
+status: string                    # içerik editörü durumu
+identity_note: string | null      # karışma riski (ör. GRI 102 2016 vs 2025)
+versions:                         # güncel ve önceki sürümler yan yana (§08 kabul)
+  - label: string
+    edition: string | null
+    published_at: date | null
+    effective_from: date | null
+    url: string | null            # yalnız resmî; bilinmiyorsa null
+    note: string
+    current: bool
+relevance:                        # "bu bana neden gösteriliyor?" — kurum profilinden türetilir
+  - kind: always | scope3_category | package | country | product_study
+    value: string | int | null
+    reason: string

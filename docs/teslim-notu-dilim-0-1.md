@@ -1,71 +1,34 @@
-# Teslim notu — Dilim 0 ve Dilim 1 (önizleme)
+# Teslim notu — tam sürüm (önizleme yayını)
 
-Tarih: 13 Ekim 2026. Biçim: GELISTIRME-KURALLARI.md "Teslim notu" ve şartname §31 "Teslim biçimi".
+Tarih: 14 Ekim 2026. Biçim: GELISTIRME-KURALLARI.md "Teslim notu" ve şartname §31 "Teslim biçimi". Tüm dilimler (0–8) uygulanmıştır; gereklilik bazında kanıt `docs/gereklilik-izleme.md`.
 
 ## Karşılanan kimlikler
 
-- **Dilim 0:** §20 veri modeli (migration + RLS + append-only), §27 API sözleşmesi (idempotency, If-Match/ETag, hata zarfı), §25 denetim izi, T14 (13 işlemde 404), kural 2/3/4/9 testleri.
-- **Dilim 1:** ONB-01, ONB-02, ONB-03, DAT-01, DAT-04, DAT-05, DAT-06 (tam); DAT-02, DAT-03 (kısmi: OCR ve nesne deposu yok); T01, T02, T03, T04, T07, T13, T17, T18, T19, T20; SEK-02, SEK-03, SEK-05 (tam), SEK-01 (kısmi).
-- Tam liste ve kanıt: `docs/gereklilik-izleme.md` / Proje durumu sekmesi.
+- v1.0: ONB-01…03, DAT-01…06, MTH-01…05, SRC-01…07, AI-01…06, T01–T20, §04 rol matrisi, §11–§25 akışları, §26–§28 mimari/API/ekran durumları, §29 test aileleri.
+- v1.1: SEK-01…05, GÖS-01…04, AKS-01…05, KZN-01…03, REG-01…06, TDR-01…04, ÖĞR-01…04, yönetişim (hedef kartı, RACI, iki hedef).
 
-## Değişen dosyalar
+## Bileşenler
 
-| Alan | Dosyalar |
-| --- | --- |
-| Hesap motoru | `packages/calc-engine/koza_calc/{engine,units,numbers,errors,golden}.py`, `CONTRACT.md`, `README.md`, `tests/` |
-| Altın set | `tests/golden/*.json` (32), `tests/factors/test-catalog.json` (kurgusal katalog) |
-| API | `apps/api/koza_api/**`, `apps/api/tests/**`, `apps/api/README.md`, `docs/api/openapi.yaml` |
-| Veritabanı | `db/migrations/0001_init.sql`, `0001_init.down.sql` |
-| İzolasyon | `tests/isolation/test_tenant_isolation.py` |
-| Arayüz | `apps/web/src/**` (22 sayfa), `scripts/gen-content.mjs` |
-| İçerik | `content/sector-profiles/*.yaml` (şema + 3 profil), `content/terms` (6), `content/lessons` (10 iskelet), `content/sources` (16 kart) |
-| Belgeler | `docs/spec/*` (v1.0, v1.1 eki, v1.1 rehber), `docs/forum/*` (TR/EN bulgular, mimari notu), `docs/{karar-kaydi,rol-matrisi,veri-modeli,gereklilik-izleme,inceleme-rehberi}.md`, `docs/kaynak/*` (özgün dosyalar) |
-| CI | `.github/workflows/ci.yml` (pytest + build), `pages.yml` (GitHub Pages yayını) |
+| Bileşen | İçerik | Test |
+| --- | --- | --- |
+| `packages/calc-engine` (koza_calc 0.2.0) | Sabit/mobil yakma, proses, soğutucu, Kapsam 2 (konum/piyasa, araçlar), Kapsam 3 (15 kategori, yöntem matrisi), ürün çalışması, `aggregate()` | 200 pytest, 77 altın senaryo; aynı kod tarayıcıda (Pyodide) |
+| `apps/api` (FastAPI) | Kimlik ve kurum bağlamı, §21 iş akışı, §27 uçları, idempotency/ETag, denetim izi, PostgreSQL deposu + bellek içi depo, içe aktarma, kaynak sürümleri, faktör etkinleştirme, toplama, nesne deposu, hız sınırı | pytest (bkz. `apps/api/README.md`) ve `tests/isolation` |
+| `db/migrations` | tenant_id + RLS + append-only, değer durumu CHECK | PostgreSQL 15 up→down→up |
+| `apps/web` | 35 ekran: kurulum, veri girişi (24 şema, OCR, CSV/XLSX), envanter, ürün, faktör kataloğu, görevler, inceleme, dönem (uzlaştırma, kilit), rapor paketi (GRI/TSRS indeksi, JSON/CSV/DOCX/yazdır, yayım, güvence), analiz/hedef/RACI, aksiyon, Kaizen, tedarikçi, regülasyon, senaryo, gündem, 101, protokoller, sözlük, asistan, ayarlar, denetim izi, durum, belgeler, altın set, hata sözlüğü | 163 vitest; ESLint/TypeScript temiz; statik derleme |
+| `content/` | 3 sektör profili, 10 ders, 48 terim, 16 kaynak kartı, 4 gündem, 2 destek, çekirdek gösterge paketi, RACI, 4 regülasyon paketi, tedarikçi programı, 3 raporlama eşlemesi | gen-content doğrulaması |
 
-## Göçler
+## Desteklenen yöntemler
 
-`0001_init` (up/down). PostgreSQL 15 üzerinde `up → smoke → down → up` doğrulandı. Üretim verisi üzerinde prova henüz yok (üretim yok).
+`koza_calc.SUPPORTED` (arayüzde kayıt sayfasında görünür): Kapsam 1 `activity_x_factor`/`fuel_based`/`mass_balance`; Kapsam 2 `location_based`, `market_based`; Kapsam 3 kategori başına izinli yöntemler (1–2: tedarikçiye özgü/hibrit/ortalama/harcama; 4: mesafe/yakıt/harcama; 5/12: atık türü; 6/7/9: mesafe; 11: ömür boyu kullanım; 15: yatırıma özgü; diğerleri ortalama veri). Matris dışı yöntem `METHOD_NOT_ALLOWED` ile reddedilir.
 
-## Test kanıtı
+## Kurgusal katsayılar
 
-```
-pytest packages/calc-engine/tests -q        → 109 passed
-pytest apps/api/tests tests/isolation -q    → 37 passed
-run_dir("tests/golden")                     → passed 32, failed 0
-npm run build (apps/web)                    → statik dışa aktarma, tip hatası yok
-```
+`tests/factors/test-catalog.json` (23 faktör) ve `tests/fixtures/test_catalog.json` yalnız test ve önizleme içindir; üretim kataloğu boştur ve uzman onayıyla doldurulur (K-04, K-05).
 
-Tarayıcıda: Altın set sekmesi aynı 32 senaryoyu Pyodide ile koşar.
+## Karar kaydı
 
-## Desteklenen yöntemler / profiller
+Grubun kesinleştireceği ürün kararları: K-02…K-15 (bkz. `docs/karar-kaydi.md`). K-16 önizleme yayın biçimi ve K-17 toplama (motor `aggregate()`) karara bağlandı.
 
-- Yöntem: `ghgp-corporate-test@0.1` (GHG Protocol Kurumsal Standart tabanlı, **test sürümü**, uzman onaysız). GWP seti `TEST-GWP` (kurgusal).
-- Kaynak türü: yalnız sabit yakma / doğal gaz. Birimler GJ, MJ, kWh, MWh, Nm³, Sm³, m³ (koşullu), kg, t.
-- Faktör sınırları: yanma; üst aşama ayrı sonuç (toplanmaz).
-- Profiller: `genel`, `agir-sanayi`, `gida-icecek` (hepsi taslak, uzman onayı bekliyor).
+## Alan uzmanı onayı
 
-## Açık eksikler
-
-1. Kimlik: OIDC/SSO, MFA, davet, oturum iptali yok (dev token).
-2. Depolama: nesne deposu, zararlı içerik taraması, imzalı bağlantı yok; önizlemede dosya içeriği saklanmaz.
-3. API `PostgresRepo` stub; API `InMemoryRepo` ile çalışır. Kuyruk/işçi yok; rapor eşzamanlı.
-4. OCR, Excel/CSV içe aktarma, ERP/sayaç entegrasyonu yok.
-5. Rapor DOCX/PDF, GRI/TSRS gereklilik indeksi, yayımlama yetkisi yok; manifest JSON var.
-6. Kapsam 2, Kapsam 3, ürün çalışması, asistan, gündem, regülasyon paketleri yok (Dilim 2–8).
-7. WCAG 2.2 AA denetimi ve p95 performans ölçümü yapılmadı.
-8. Toplama (onaylı kayıtların toplamı) önizlemede arayüzde BigInt ile tam ondalık toplanır; API manifesti toplam içermez — toplama motoru görevi olarak Dilim 2'ye bırakıldı (kural 1 okuması).
-9. İki kurgusal katalog dosyası var (`tests/factors/test-catalog.json` arayüz, `tests/fixtures/test_catalog.json` API testleri); birleştirilecek.
-
-## Karar kaydına eklenenler
-
-- K-01 Dilim 0'da karara bağlandı (Next.js statik dışa aktarma + FastAPI + saf Python motor + PostgreSQL).
-- K-16 (yeni): önizleme deposu tarayıcıda; sunucusuz statik yayın. Pilot öncesi kapatılmalı.
-- K-17 (yeni): toplama işleminin motor mu, API mi yapacağı (kural 1 yorumu).
-
-## Alan uzmanı onayı gerekiyor mu?
-
-**Evet.** Yöntem sürümü, GWP seti, birim dönüşüm kuralları (ideal gaz oranı, LHV/HHV) ve altın set referans sonuçları alan uzmanı imzası olmadan "tamamlandı" sayılmaz (§29). Sektör profilleri için de uzman onayı (K-02) gerekir.
-
-## İnsan kapısı durumu
-
-Pilot kapısı (Dilim 1–4 sonrası) **açılmadı**: kurumlar arası erişim testi geçti; yeni kullanıcının yardımsız ilk taslak gözlemi henüz yapılmadı — bu önizlemenin grup incelemesi bunun ilk provasıdır.
+Hesap yöntemi, GWP seti, birim dönüşüm kuralları, altın set referans sonuçları ve sektör profilleri alan uzmanı imzası olmadan "üretim" sayılmaz (§29). Uygulama bu imzayı beklerken tam işlevle çalışır ve her yerde "test / taslak / inceleme gerekli" durumunu gösterir.

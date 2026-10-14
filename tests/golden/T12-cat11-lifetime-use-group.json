@@ -1,0 +1,86 @@
+{
+  "id": "T12-cat11-lifetime-use-group",
+  "title_tr": "Kategori 11: 1000 adet × 120 kWh × 10 yıl × 0.4 = 480 t, satış yılına atfedilir, grup kimliği döner",
+  "requirements": [
+    "T12",
+    "§15"
+  ],
+  "note_tr": "Katsayılar kurgusaldır; yalnız yazılım testi içindir.",
+  "request": {
+    "activity": {
+      "id": "act-test-0002",
+      "version": 1,
+      "source_type": "scope3",
+      "fuel": null,
+      "quantity": null,
+      "unit": null,
+      "heating_value_basis": null,
+      "reference_conditions": null,
+      "calorific_value": null,
+      "basis_conversion": null,
+      "data_quality": "measured",
+      "period": {
+        "start": "2026-01-01",
+        "end": "2026-12-31"
+      },
+      "scope3": {
+        "category": 11,
+        "method": "lifetime_use",
+        "applicability": "applicable",
+        "not_applicable_reason": null,
+        "data_quality_dims": null,
+        "spend": null,
+        "sold_products": {
+          "sale_year": "2026",
+          "lifetime_years": "10",
+          "annual_use_kwh": "120",
+          "units_sold": "1000",
+          "group_id": "grp-2026-A"
+        }
+      }
+    },
+    "factors": [
+      {
+        "id": "TEST-USE-PHASE-EL",
+        "version": "1.0",
+        "value": "0.4",
+        "numerator_unit": "kg",
+        "gas": "CO2e",
+        "denominator_unit": "kWh",
+        "basis": null,
+        "reference_conditions": null,
+        "boundary": "well_to_wheel",
+        "gwp_set_id": "TEST-GWP",
+        "source_ref": "tests/golden — kurgusal",
+        "license": "test-only",
+        "valid_from": "2026-01-01",
+        "valid_to": null
+      }
+    ],
+    "method": {
+      "id": "ghgp-corporate-test",
+      "version": "0.2",
+      "gwp_set": {
+        "id": "TEST-GWP",
+        "CH4": "28",
+        "N2O": "265",
+        "R-410A": "2000"
+      }
+    }
+  },
+  "expected": {
+    "status": "computed",
+    "total_co2e_kg": "480000",
+    "block_codes": [],
+    "lifetime_group": {
+      "group_id": "grp-2026-A",
+      "sale_year": "2026"
+    },
+    "attribution_year": "2026",
+    "normalized_activity": {
+      "quantity": "1200000",
+      "unit": "kWh",
+      "basis": null
+    }
+  }
+}

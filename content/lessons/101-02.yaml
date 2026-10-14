@@ -3,9 +3,77 @@ title: {tr: "Veri okuryazarlığı"}
 level: başlangıç
 goal: "Miktar, birim, dönem, kaynak ve tahmini ayırmak"
 application: "Örnek faturayı okumak"
-duration_min: null
-status: iskelet — gövde yazılmadı, editör onayı yok
+duration_min: 8
+field_duration_min: 3
 prerequisites: []
-body: null
-sources: []
-review_date: null
+status: editör onayı bekliyor
+review_date: 2026-10-14
+sources: [K03, K09]
+related_task:
+  route: "/veri-girisi/"
+  label: "Veri girişinde ilk faturayı kaydet (miktar, birim, dönem, kanıt)"
+explanation:
+  - >-
+    Bir faturada çok sayı vardır ama hesap için yalnız biri gerekir: tüketim miktarı. Ödenen tutar,
+    vergi, gecikme bedeli ve sayaç numarası hesap girdisi değildir. İlk beceri, faturada "ne kadar
+    tüketildi" sorusunun cevabını bulup diğer sayılardan ayırmaktır.
+  - >-
+    Miktar tek başına anlamsızdır; birimiyle birlikte anlam kazanır. Doğal gaz faturasında m³, Sm³
+    veya kWh görebilirsiniz; elektrikte kWh veya MWh. Aynı tüketim farklı birimlerle farklı sayılar
+    verir. Birim okunamıyorsa tahmin edilmez; alan boş bırakılır ve sistem doğrulama görevi açar.
+  - >-
+    Dönem de birimin bir parçası gibidir. Fatura dönemi (ör. 15 Ocak–14 Şubat) ile raporlama dönemi
+    (takvim yılı) çoğu zaman örtüşmez. Her kayıt kendi fatura dönemini taşır; dönemler arası
+    paylaştırma hesap motorunun ve uzmanın işidir, elle yuvarlanarak yapılmaz.
+  - >-
+    Kaynak, verinin nereden geldiğidir: fatura, sayaç okuması, tedarikçi beyanı, tahmin. Aynı
+    rakam bile olsa sayaçtan okunan veri ile ortalamadan türetilen veri aynı kalitede değildir.
+    Koza her kayda "ölçülmüş" ya da "tahmini" niteliği ister ve bunu sonuca kadar taşır.
+  - >-
+    Son ayrım en kritik olanıdır: bilinmiyor, sıfır ve uygulanmaz üç farklı durumdur. Fatura
+    bulunamadıysa değer bilinmiyordur; sayaç gerçekten sıfır gösterdiyse ölçülmüş sıfırdır; kurumda
+    o kaynak hiç yoksa gerekçeli "uygulanmaz" kararıdır. Eksik veriye sıfır yazmak toplamı sessizce
+    küçültür ve raporu yanlışlar.
+field_summary:
+  - "Faturada tüketim miktarını ve birimini bulun; ödeme tutarını miktar kutusuna yazmayın."
+  - "Fatura dönemi başlangıç ve bitişini faturadan aynen alın; raporlama yılına uydurmaya çalışmayın."
+  - "Birimi okuyamıyorsanız boş bırakın ve notunuza yazın; sıfır yazmak yanlıştır."
+business_example: >-
+  Bir mobilya atölyesinin doğal gaz faturasında "Tüketim: 1.250 Sm³", "Fatura tutarı: 18.400 TL" ve
+  "Dönem: 01.12.2025–31.12.2025" yazıyor. Doğru giriş: miktar 1250, birim Sm³, fatura dönemi
+  1–31 Aralık 2025, kanıt olarak faturanın kendisi, veri niteliği "ölçülmüş". Tutar ayrı bir maliyet
+  alanıdır; hesapta kullanılmaz. Ocak ayı faturası henüz gelmediyse Ocak kaydı "bilinmiyor" kalır.
+common_mistake: >-
+  Ondalık ayracı karıştırmak. "1.234" Türkçe yazımda bin iki yüz otuz dört, İngilizce yazımda bir
+  virgül iki yüz otuz dört olabilir. Koza belirsiz yazımı kabul etmez ve hangisini kastettiğinizi
+  sorar; bu bir engel değil, sessiz bin kat hatayı önleyen kontroldür.
+exercise:
+  prompt: "Elinizdeki bir enerji faturasında beş alanı işaretleyin: tüketim miktarı, birimi, fatura dönemi, fatura numarası ve tedarikçi. Hangi alanların hesap girdisi olduğunu, hangilerinin yalnız kanıt kimliği olduğunu yazın."
+  steps:
+    - "Faturadaki tüm sayıları listeleyin; her birinin yanına 'miktar', 'tutar', 'kimlik' veya 'diğer' yazın."
+    - "Tüketimin birimini ve varsa referans koşulunu (Sm³ gibi) not edin."
+    - "Fatura dönemini raporlama döneminizle karşılaştırın; taşan gün varsa yazın."
+    - "Veri girişinde bu faturayı 'eğitim kaydı' olarak girin; eğitim kaydı envanter toplamına sayılmaz."
+  note: "Alıştırmada kullandığınız fatura gerçek olabilir; eğitim etiketiyle girildiği sürece üretim toplamına girmez. Buradaki örnek sayılar kurgusaldır."
+quiz:
+  - q: "Doğal gaz faturasında tüketim alanı okunamıyor, yalnız tutar görünüyor. Ne yaparsınız?"
+    options: ["Tutarı birim fiyata bölerek tüketimi hesaplarım", "Miktarı boş bırakır, kanıtı eklerim; sistem doğrulama görevi açar", "Geçen ayın tüketimini yazarım"]
+    correct: 1
+    explanations:
+      - "Yanlış. Tutardan türetilen miktar tahmindir ve birim fiyatın hangi kalemi kapsadığı belirsizdir; yapılacaksa uzman tarafından 'tahmini' niteliğiyle yapılır, veri girişinde sessizce değil."
+      - "Doğru. Bilinmeyen değer boş kalır; sistem eksik bilgi görevi açar ve kayıt doğrulama bekler. Eksik veriye sayı atanmaz."
+      - "Yanlış. Başka dönemin verisini yazmak hem dönemi hem niteliği yanlışlar; bu bir tahmindir ve etiketlenmeden kaydedilemez."
+  - q: "'Ölçülmüş sıfır' ile 'bilinmiyor' arasındaki fark nedir?"
+    options: ["Fark yoktur; ikisi de hesaba sıfır girer", "Ölçülmüş sıfır doğrulanmış bir değerdir; bilinmiyor ise verinin olmadığını söyler ve toplamı eksik bırakır", "Bilinmiyor yalnız Kapsam 3 için kullanılır"]
+    correct: 1
+    explanations:
+      - "Yanlış. Bilinmiyor hesaba sıfır olarak girmez; toplam 'eksik veri içerir' etiketiyle sunulur."
+      - "Doğru. Sıfır bir ölçümdür (ör. kapalı tesis); bilinmiyor ise veri yokluğudur ve rapor bunu açıkça gösterir."
+      - "Yanlış. Bilinmiyor her kapsamda geçerli bir durumdur; faturası gelmemiş bir Kapsam 1 kaydı da bilinmiyordur."
+  - q: "Fatura dönemi 20 Aralık–19 Ocak. Raporlama dönemi takvim yılı. Kayda hangi tarihleri yazarsınız?"
+    options: ["1–31 Aralık, yıla uysun diye", "20 Aralık–19 Ocak, faturada yazdığı gibi", "1–31 Ocak, çünkü fatura Ocak'ta geldi"]
+    correct: 1
+    explanations:
+      - "Yanlış. Fatura dönemini değiştirmek kanıt ile kaydı uyumsuz yapar; dönemler arası paylaştırma elle yuvarlama ile değil, yöntemle yapılır."
+      - "Doğru. Kayıt faturanın gerçek dönemini taşır; raporlama dönemine paylaştırma ayrı ve izlenebilir bir adımdır."
+      - "Yanlış. Faturanın geliş tarihi tüketim dönemi değildir."

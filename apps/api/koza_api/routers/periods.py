@@ -26,7 +26,7 @@ def _load(repo, ctx, period_id: str) -> Period:
 
 @router.post("", status_code=201, summary="Dönem oluştur")
 def create_period(body: PeriodCreate, request: Request, repo: Repo, ctx: Ctx):
-    workflow.require_roles(ctx, workflow.PERIOD_MANAGE_ROLES)
+    workflow.require_admin(ctx)
     period = Period(id=str(uuid.uuid4()), tenant_id=ctx.tenant_id,
                     start_date=body.start_date.isoformat(), end_date=body.end_date.isoformat())
     repo.add_period(period)
@@ -53,7 +53,7 @@ def lock_period(period_id: str, request: Request, repo: Repo, ctx: Ctx, body: Pe
     period = _load(repo, ctx, period_id)
     records = repo.list_records(ctx.tenant_id, period.id)
     workflow.check_lock(ctx, period, records)
-    repo.set_period_status(ctx.tenant_id, period.id, "locked", ctx.user_id)
+    period = repo.set_period_status(ctx.tenant_id, period.id, "locked", ctx.user_id)
     for record in records:
         cur = record.current
         repo.append_version(RecordVersion(
@@ -76,7 +76,7 @@ def reopen_period(period_id: str, body: PeriodReopenRequest, request: Request, r
                           reason=body.reason, impact_note=body.impact_note,
                           requested_by=ctx.user_id, approved_by=ctx.user_id)
     repo.add_period_reopen(reopen)
-    repo.set_period_status(ctx.tenant_id, period.id, "open", ctx.user_id)
+    period = repo.set_period_status(ctx.tenant_id, period.id, "open", ctx.user_id)
     for record in repo.list_records(ctx.tenant_id, period.id):
         cur = record.current
         if cur.state == workflow.LOCKED:

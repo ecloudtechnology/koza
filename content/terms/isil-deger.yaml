@@ -1,0 +1,19 @@
+id: isil-deger
+tr: Alt ve üst ısıl değer
+en: Net and gross calorific value (LHV / HHV)
+abbr: LHV / HHV
+aliases: ["isil deger", "kalorifik değer", "NCV", "GCV", "calorific value", "alt ısıl", "üst ısıl"]
+kind: terim
+contexts: [envanter, veri-girisi]
+definition: >-
+  Bir yakıtın birim miktarının yanınca verdiği enerji. Üst ısıl değer (HHV/GCV) su buharının
+  yoğuşma ısısını içerir, alt ısıl değer (LHV/NCV) içermez; bu yüzden aynı yakıt için iki farklı
+  sayı vardır. Emisyon faktörünün hangi esasa dayandığı kayıtlıdır; miktar başka esastaysa dönüşüm
+  gerekir ve dönüşüm kaynağı yazılır.
+example: "Fatura kWh (üst ısıl) veriyorsa ve faktör GJ (alt ısıl) ise, motor esas dönüşümü uygular ve koşuyu 'inceleme gerekli' işaretler."
+confused_with: "İki esas karıştırılınca sonuç yüzde on dolayında sapar; sessiz dönüşüm yapılmaz."
+related_task: "Doğal gaz kaydında ısıl değer esasını ve kaynağını girmek."
+related_route: "/veri-girisi/"
+likely_department: "Enerji yönetimi / gaz tedarikçisi"
+source: "K03; §13; T05"
+status: editör onayı bekliyor

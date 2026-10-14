@@ -3,9 +3,83 @@ title: {tr: "Standartlar"}
 level: başlangıç
 goal: "GRI, TSRS ve hesap yöntemlerinin rollerini ayırmak"
 application: "Kaynak kartı okuma"
-duration_min: null
-status: iskelet — gövde yazılmadı, editör onayı yok
-prerequisites: []
-body: null
-sources: []
-review_date: null
+duration_min: 9
+field_duration_min: null
+prerequisites: ["101-01"]
+status: editör onayı bekliyor
+review_date: 2026-10-14
+sources: [K01, K02, K03, K14, K15]
+related_task:
+  route: "/protokoller/"
+  label: "Protokoller sekmesinde kaynak kartlarını oku ve uygulanabilirlik değerlendirmesini başlat"
+explanation:
+  - >-
+    Sürdürülebilirlik alanında "standart" denen belgeler aynı işi yapmaz. Üç rolü ayırmak gerekir:
+    neyi raporlayacağınızı söyleyen raporlama standartları, nasıl hesaplayacağınızı söyleyen hesap
+    protokolleri ve neye uymak zorunda olduğunuzu söyleyen mevzuat. Bir belgeyi okurken ilk soru
+    "bu hangi rolde?" olmalıdır.
+  - >-
+    GRI, etki raporlaması standardıdır. GRI 1 Foundation (2021 baskısı) yapı ve ilkeleri kurar;
+    konu standartları hangi açıklamaların yapılacağını sıralar. GRI 102 Climate Change 2025 ve GRI
+    103 Energy 2025, iklim ve enerji açıklamalarını güncelleyen yeni konu standartlarıdır; kaynak,
+    bunların 1 Ocak 2027 ve sonrasında yayımlanan raporlar için geçerli olduğunu belirtir. Dikkat:
+    2016 tarihli "GRI 102: General Disclosures" tamamen farklı bir standarttır; kod aynı, içerik
+    değil. Bu yüzden bir standardı yayımlayan, kod, başlık ve baskı yılıyla birlikte anmak gerekir.
+  - >-
+    TSRS, Kamu Gözetimi Kurumu'nun (KGK) yayımladığı Türkiye Sürdürülebilirlik Raporlama
+    Standartlarıdır; sürdürülebilikle ilgili finansal risk ve fırsat açıklamalarına odaklanır. Hangi
+    kurumların hangi dönemden itibaren TSRS'ye tabi olduğu KGK kararlarına bağlıdır; Koza'da TSRS
+    uygulanabilirliği, bu karar kaynak izlemeyle doğrulanana kadar "inceleme gerekli" durumundadır.
+  - >-
+    GHG Protocol bir hesap protokolüdür: Corporate Standard kurumsal envanterin sınır ve ilkelerini,
+    Scope 2 Guidance konum/piyasa bazlı hesabı, Scope 3 Standard ve hesap rehberi değer zinciri
+    kategorilerini anlatır. GRI ve TSRS "ne raporlanacak" derken, GHG Protocol "sayı nasıl üretilir"
+    der; biri diğerinin yerine geçmez.
+  - >-
+    ISO 14040/14044 yaşam döngüsü çerçevesi, ISO 14067 ürün karbon ayak izi standardıdır. Mevzuat
+    (CBAM, ulusal ETS/MRV gibi) ise hukuki yükümlülük getirir; eşik ve tarihleri kaynaktan doğrulanmadan
+    uygulamaya alınmaz.
+  - >-
+    Koza'daki her kaynak kartı bu rolü, yayımlayanı, sürümü, yayın ve yürürlük tarihlerini, geçiş
+    koşulunu ve son başarılı kontrol tarihini gösterir. "Güncel" etiketi süresiz değildir; kaynağa en
+    son ne zaman erişildiği her zaman yazılıdır.
+field_summary: null
+business_example: >-
+  Bir kurum 2027'de yayımlayacağı raporu planlıyor. Rapor yapısı için GRI 1 Foundation 2021'e,
+  iklim açıklamaları için 1 Ocak 2027'den itibaren geçerli GRI 102 Climate Change 2025'e bakıyor;
+  Kapsam 1–2–3 sayılarını GHG Protocol'e göre hesaplıyor; TSRS yükümlülüğü için KGK kararını
+  bekleyip "inceleme gerekli" olarak işaretliyor. Her belge kendi rolünde kullanılıyor.
+common_mistake: >-
+  "GRI 102" deyip hangi GRI 102 olduğunu söylememek. 2016 baskısı genel açıklamalar, 2025 baskısı
+  iklim değişikliği standardıdır. Kaynak kartı kimliği bu yüzden yayımlayan + kod + başlık + baskı
+  yılı olarak tutulur.
+exercise:
+  prompt: "Protokoller sekmesinde üç kaynak kartı açın (bir GRI, bir GHG Protocol, bir TSRS). Her biri için rolünü, yürürlük tarihini (varsa), geçiş koşulunu ve son başarılı kontrol tarihini yazın. Kart 'bu bana neden gösteriliyor?' için ne diyor?"
+  steps:
+    - "Kaynak ailesine göre gruplanmış kartları inceleyin."
+    - "Her kartta 'rol' alanını okuyun: raporlama, hesap, mevzuat, rehber?"
+    - "GRI 102 kartında geçiş koşulunu ve 2016 standardıyla karışmaması için kimlik notunu bulun."
+    - "Rolünüz uygunsa bir kaynak için uygulanabilirlik kararı girin; gerekçesiz karar kabul edilmez."
+  note: "Kart okuma alıştırması kayıt üretmez; uygulanabilirlik kararı kurum kaydıdır ve uzman yetkisi ister."
+quiz:
+  - q: "GRI 102 Climate Change 2025 hangi raporlar için geçerlidir?"
+    options: ["2025 yılındaki tüketimler için", "1 Ocak 2027 ve sonrasında yayımlanan raporlar için", "Yalnız AB'deki kurumlar için"]
+    correct: 1
+    explanations:
+      - "Yanlış. Kural tüketim yılına göre değil, raporun yayımlanma tarihine göre seçilir."
+      - "Doğru. Kaynakta koşul yayın tarihi üzerinden tanımlanır; bu yüzden yürürlük ve raporlama dönemi ayrı alanlardır."
+      - "Yanlış. GRI coğrafyaya göre değil, raporlayan kurumun GRI'ye uygun rapor yayımlamasına göre uygulanır."
+  - q: "GHG Protocol Corporate Standard'ın rolü nedir?"
+    options: ["Hangi konuların raporlanacağını belirler", "Kurumsal envanterin sınırını ve hesap ilkelerini belirler", "Hukuki yükümlülük getirir"]
+    correct: 1
+    explanations:
+      - "Yanlış. Konu seçimi raporlama standartlarının (GRI/TSRS) işidir."
+      - "Doğru. GHG Protocol hesap protokolüdür: sınır yaklaşımı, kapsam tanımları ve hesap ilkeleri buradan gelir."
+      - "Yanlış. GHG Protocol gönüllü bir protokoldür; yükümlülük mevzuattan doğar (mevzuat protokole atıf yapabilir)."
+  - q: "Koza'da TSRS uygulanabilirliği neden 'inceleme gerekli' durumunda başlar?"
+    options: ["TSRS henüz yayımlanmadığı için", "Hangi kurumların tabi olduğu KGK kararına bağlıdır ve bu karar kaynak izlemeyle doğrulanmadan hukuki kural etkinleştirilmez", "TSRS yalnız bankalar için olduğu için"]
+    correct: 1
+    explanations:
+      - "Yanlış. KGK TSRS'yi yayımlamıştır; soru yayın değil, kuruma uygulanabilirliktir."
+      - "Doğru. Uygulanabilirlik kurum verisi ve kural sürümüne bağlanır; doğrulanmamış kural 'inceleme gerekli' kalır (K-08 açık karar)."
+      - "Yanlış. Kapsam KGK'nın belirlediği ölçütlere bağlıdır; sektörle sınırlı değildir."

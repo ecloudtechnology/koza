@@ -1,9 +1,37 @@
 code: K15
-title: "GRI 103 Energy 2025"
+title: "GRI 103: Energy 2025"
 publisher: "GRI"
-role: "Enerji açıklamaları; 1 Ocak 2027 geçiş koşulu"
+family: GRI
+role: "Enerji tüketimi ve ilgili raporlama açıklamaları"
 urls:
+  - "https://www.globalreporting.org/publications/documents/english/gri-103-energy-2025/"
   - "https://www.globalreporting.org/standards/standards-development/topic-standard-project-for-energy/"
+edition: "2025"
+language: en
+published_at: null
+effective_from: 2027-01-01
+transition_note: "Kaynakta belirtilen koşul: 1 Ocak 2027 ve sonrasında yayımlanan rapor/materyaller için geçerlidir. Kural yalnız tüketim yılına göre seçilemez (§19)."
+retired_at: null
 checked_at: 2026-10-13
 license: "yalnız bağlantı; tam metin saklanmaz (K-12)"
-status: kart — sürüm/yürürlük alanları SRC altyapısıyla doldurulacak
+status: editör onayı bekliyor
+identity_note: "Kimlik: 'GRI | 103 | Energy | 2025'. Önceki enerji açıklamaları GRI 302: Energy 2016'dadır."
+versions:
+  - label: "GRI 103: Energy 2025"
+    edition: "2025"
+    published_at: null
+    effective_from: 2027-01-01
+    url: "https://www.globalreporting.org/publications/documents/english/gri-103-energy-2025/"
+    note: "Güncel. 1 Ocak 2027 ve sonrasında yayımlanan raporlar için geçerli (kaynakta belirtilmiştir). Yayın günü kaynaktan doğrulanmadı."
+    current: true
+  - label: "GRI 302: Energy 2016 (önceki enerji açıklamaları)"
+    edition: "2016"
+    published_at: null
+    effective_from: null
+    url: null
+    note: "1 Ocak 2027'den önce yayımlanan raporlarda enerji açıklamaları GRI 302 (2016) ile yapılır. Resmî URL kaynak izlemeyle doğrulanacak."
+    current: false
+relevance:
+  - kind: always
+    value: null
+    reason: "Enerji tüketimi her kurumun çekirdek gösterge paketindedir; GRI raporunda enerji açıklamalarının dayanağı."

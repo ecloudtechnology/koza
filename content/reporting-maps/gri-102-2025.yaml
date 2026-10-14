@@ -1,0 +1,71 @@
+id: gri-102-2025
+framework: GRI
+title: "GRI 102: İklim Değişikliği"
+version: "2025"
+applicable_from: "2027-01-01"
+source: K14
+note_tr: "1 Ocak 2027'den itibaren uygulanır (kaynak kartı K14). O tarihe kadar GRI 305 (2016) eşleştirmesi geçerlidir; ikisi yan yana tutulur, biri diğerinin yerine sessizce geçmez. Açıklama kimlikleri ve kısa başlıklar yalnız referanstır; standart metni saklanmaz."
+items:
+  - id: "102-5"
+    title_tr: "Kapsam 1 sera gazı emisyonları"
+    elements:
+      - koza: corporate.scope1_kg
+        relation: partial
+        note_tr: "Brüt Kapsam 1 toplamı."
+      - koza: biogenic_co2_kg
+        relation: conditional
+        note_tr: "Biyojenik CO₂ ayrı."
+      - koza: method.gwp_set
+        relation: partial
+        note_tr: "GWP seti ve kaynağı."
+      - koza: boundary.approach
+        relation: partial
+        note_tr: "Konsolidasyon yaklaşımı."
+      - koza: factor_sources
+        relation: partial
+        note_tr: "Faktör kaynakları ve sürümleri."
+      - koza: base_year
+        relation: partial
+        note_tr: "Baz yıl alanı yok."
+    narrative: ["gazlar ve kaynak türleri", "baz yıl ve yeniden hesaplama", "varsayımlar", "standart ve yöntem beyanı", "geçiş planıyla ilişki"]
+  - id: "102-6"
+    title_tr: "Kapsam 2 sera gazı emisyonları"
+    elements:
+      - koza: corporate.scope2_kg.location
+        relation: partial
+        note_tr: "Konum bazlı toplam."
+      - koza: corporate.scope2_kg.market
+        relation: conditional
+        note_tr: "Piyasa bazlı toplam (araç varsa); iki yöntem toplanmaz."
+      - koza: method.gwp_set
+        relation: partial
+        note_tr: "GWP seti."
+      - koza: factor_sources
+        relation: partial
+        note_tr: "Faktör kaynakları."
+      - koza: base_year
+        relation: partial
+        note_tr: "Baz yıl alanı yok."
+    narrative: ["kapsanan gazlar", "sözleşmesel araçların niteliği", "baz yıl", "varsayımlar", "standart ve yöntem beyanı"]
+  - id: "102-7"
+    title_tr: "Kapsam 3 sera gazı emisyonları"
+    elements:
+      - koza: corporate.scope3_kg
+        relation: partial
+        note_tr: "Kapsam 3 toplamı."
+      - koza: corporate.scope3_by_category
+        relation: partial
+        note_tr: "Kategori kırılımı; eksikler ayrı listelenir."
+      - koza: quality.estimated_share
+        relation: partial
+        note_tr: "Tahmini veri payı."
+      - koza: excluded_records
+        relation: partial
+        note_tr: "Hariç tutulanlar ve nedenleri."
+      - koza: factor_sources
+        relation: partial
+        note_tr: "Faktör ve yöntem kaynakları."
+      - koza: base_year
+        relation: partial
+        note_tr: "Baz yıl alanı yok."
+    narrative: ["kategori kapsamı ve hariç tutma gerekçesi", "veri kalitesi değerlendirmesi", "baz yıl", "varsayımlar", "standart ve yöntem beyanı"]

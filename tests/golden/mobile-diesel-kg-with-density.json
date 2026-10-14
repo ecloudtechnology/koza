@@ -1,0 +1,70 @@
+{
+  "id": "mobile-diesel-kg-with-density",
+  "title_tr": "850 kg ÷ 0.85 kg/L = 1000 L × 2.7 = 2700 kg; yoğunluk kaynağı izde",
+  "requirements": [
+    "§12"
+  ],
+  "note_tr": "Katsayılar kurgusaldır; yalnız yazılım testi içindir.",
+  "request": {
+    "activity": {
+      "id": "act-test-0002",
+      "version": 1,
+      "source_type": "mobile_combustion",
+      "fuel": "diesel",
+      "quantity": "850",
+      "unit": "kg",
+      "heating_value_basis": null,
+      "reference_conditions": null,
+      "calorific_value": null,
+      "basis_conversion": null,
+      "data_quality": "measured",
+      "period": {
+        "start": "2026-01-01",
+        "end": "2026-12-31"
+      },
+      "density": {
+        "value": "0.85",
+        "unit": "kg/L",
+        "source_ref": "tests — kurgusal yoğunluk"
+      }
+    },
+    "factors": [
+      {
+        "id": "TEST-DIESEL-L",
+        "version": "1.0",
+        "value": "2.7",
+        "numerator_unit": "kg",
+        "gas": "CO2e",
+        "denominator_unit": "L",
+        "basis": null,
+        "reference_conditions": null,
+        "boundary": "combustion",
+        "gwp_set_id": "TEST-GWP",
+        "source_ref": "tests/golden — kurgusal",
+        "license": "test-only",
+        "valid_from": "2026-01-01",
+        "valid_to": null
+      }
+    ],
+    "method": {
+      "id": "ghgp-corporate-test",
+      "version": "0.2",
+      "gwp_set": {
+        "id": "TEST-GWP",
+        "CH4": "28",
+        "N2O": "265",
+        "R-410A": "2000"
+      }
+    }
+  },
+  "expected": {
+    "status": "computed",
+    "total_co2e_kg": "2700",
+    "block_codes": [],
+    "normalized_activity": {
+      "quantity": "1000",
+      "unit": "L",
+      "basis": null
+    }
+  }
+}

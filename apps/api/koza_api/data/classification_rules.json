@@ -1,0 +1,54 @@
+{
+  "rules_version": "2026.10-1",
+  "note_tr": "Deterministik kapsam/kategori önerisi kuralları (§11, §12–§15). LLM kullanılmaz; kural kimliği ve sürümü yanıtta döner. Öneri bağlayıcı değildir; uzman kontrolör inceler.",
+  "scope3_categories": {
+    "purchased_goods": 1, "capital_goods": 2, "fuel_energy_related": 3, "upstream_transport": 4, "waste": 5,
+    "business_travel": 6, "commuting": 7, "upstream_leased": 8, "downstream_transport": 9, "processing_sold": 10,
+    "use_of_sold": 11, "end_of_life": 12, "downstream_leased": 13, "franchises": 14, "investments": 15
+  },
+  "rules": [
+    {
+      "id": "R01", "when": {"source_type": ["stationary_combustion", "mobile_combustion", "process"], "control_relation": ["owned", "leased_operational_control", "leased_financial_control"]},
+      "scope": 1, "category": null, "confidence": "rule",
+      "rationale_tr": "Kurumun sahip olduğu veya kontrol ettiği kaynakta yakıt yakımı / proses emisyonu: Kapsam 1 (§12)."
+    },
+    {
+      "id": "R02", "when": {"source_type": ["stationary_combustion", "mobile_combustion", "process"], "control_relation": ["leased_no_control"]},
+      "scope": 3, "category": 8, "confidence": "rule",
+      "rationale_tr": "Kiralık varlık, kurum operasyonel/finansal kontrol uygulamıyor: Kapsam 3 kategori 8 (kiralanan varlıklar, yukarı akış)."
+    },
+    {
+      "id": "R03", "when": {"source_type": ["stationary_combustion", "mobile_combustion", "process"], "control_relation": ["third_party"]},
+      "scope": 3, "category": null, "confidence": "needs_input",
+      "rationale_tr": "Üçüncü tarafın kaynağı: Kapsam 3; kategori faaliyetin niteliğine (taşıma, tedarik, hizmet) göre belirlenir.",
+      "ask": ["scope3_hint"]
+    },
+    {
+      "id": "R04", "when": {"source_type": ["refrigerant"], "control_relation": ["owned", "leased_operational_control", "leased_financial_control"]},
+      "scope": 1, "category": null, "confidence": "rule",
+      "rationale_tr": "Envanterdeki ekipmandan soğutucu gaz kaçağı: Kapsam 1 kaçak emisyon (§12). Yeni ekipman dolumu emisyon sayılmaz."
+    },
+    {
+      "id": "R05", "when": {"source_type": ["purchased_electricity", "purchased_steam", "purchased_heat", "purchased_cooling"]},
+      "scope": 2, "category": null, "confidence": "rule",
+      "rationale_tr": "Satın alınan elektrik/buhar/ısı/soğutma: Kapsam 2; konum ve piyasa bazlı sonuç ayrı raporlanır (§13)."
+    },
+    {
+      "id": "R06", "when": {"source_type": ["scope3"]},
+      "scope": 3, "category": "from_hint", "confidence": "rule",
+      "rationale_tr": "Değer zinciri faaliyeti: Kapsam 3; kategori verilen ipucundan eşlenir (§14–§15).",
+      "ask": ["scope3_hint"]
+    },
+    {
+      "id": "R07", "when": {"source_type": ["product_process"]},
+      "scope": null, "category": null, "confidence": "rule", "context": "product",
+      "rationale_tr": "Ürün çalışması bağlamı: sonuç kurumsal Kapsam 1–2 toplamına eklenmez (§17, kural 8)."
+    }
+  ],
+  "questions": {
+    "control_relation": "Bu kaynak kurumun sahipliğinde mi, kiralık mı; kiralıksa operasyonel/finansal kontrol kurumda mı?",
+    "fuel": "Hangi yakıt kullanılıyor (doğal gaz, dizel, LPG, kömür...)?",
+    "energy_carrier": "Satın alınan enerji türü nedir (elektrik, buhar, ısı, soğutma)?",
+    "scope3_hint": "Faaliyet hangi değer zinciri kategorisine giriyor (satın alınan mal, iş seyahati, atık, taşıma...)?"
+  }
+}

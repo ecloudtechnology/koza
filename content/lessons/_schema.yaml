@@ -1,0 +1,28 @@
+# Ders şeması (§07 ders şablonu + ÖĞR-01…04). Dersler veridir; sayılar kurgusaldır ve envantere girmez.
+id: string                      # "101-NN"
+title: {tr: string}
+level: başlangıç | orta
+goal: string                    # öğrenme hedefi (§07 tablosu)
+application: string             # uygulama (§07 tablosu)
+duration_min: int               # tasarım hedefi; tamamlama zorlaması değil
+field_duration_min: int | null  # saha sürümü (ÖĞR-03, ≤3 dk) — field_summary varsa
+prerequisites: [lesson_id]
+status: string                  # "editör onayı bekliyor" | "onaylı"
+review_date: date               # içerik sürümü; değişince eski tamamlama korunur, tazeleme önerilir
+sources: [K-kodu]               # content/sources
+related_task:                   # ÖĞR-04: dersin desteklediği gerçek uygulama görevi
+  route: string                 # uygulama rotası
+  label: string
+explanation: [string]           # 3–6 kısa paragraf, özgün sade metin
+field_summary: [string] | null  # saha için 2–3 cümle; örnekler profilden gelir (example_documents)
+business_example: string
+common_mistake: string
+exercise:
+  prompt: string
+  steps: [string]
+  note: string                  # "kurgusal, envantere girmez"
+quiz:                           # 3 soru
+  - q: string
+    options: [string]           # 3 seçenek
+    correct: int                # doğru seçeneğin indeksi (0 tabanlı)
+    explanations: [string]      # her seçenek için: doğruysa neden doğru, yanlışsa neden yanlış

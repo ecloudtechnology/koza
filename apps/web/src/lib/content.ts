@@ -2,10 +2,11 @@
 import profilesJson from "@/generated/profiles.json";
 import catalogJson from "@/generated/test-catalog.json";
 import goldenJson from "@/generated/golden.json";
-import docsJson from "@/generated/docs.json";
 import traceJson from "@/generated/traceability.json";
 import termsJson from "@/generated/terms.json";
 import lessonsJson from "@/generated/lessons.json";
+import contentJson from "@/generated/content.json";
+import specJson from "@/generated/spec-sections.json";
 import sourcesJson from "@/generated/sources.json";
 
 export interface Profile {
@@ -73,8 +74,7 @@ export interface DocEntry {
 export interface TraceRow {
   id: string;
   title: string;
-  dilim: string;
-  status: "done" | "partial" | "planned" | "blocked";
+  status: "done" | "decision";
   where: string;
   evidence: string;
   note?: string;
@@ -107,12 +107,19 @@ export interface Lesson {
 export const PROFILES = profilesJson as unknown as Profile[];
 export const TEST_CATALOG = catalogJson as unknown as TestCatalog;
 export const GOLDEN = goldenJson as unknown as GoldenFixture[];
-export const DOCS = docsJson as unknown as DocEntry[];
 export const TRACE = traceJson as unknown as { updated: string; rows: TraceRow[] };
 export const TERMS = termsJson as unknown as Term[];
 export const LESSONS = lessonsJson as unknown as Lesson[];
 export interface SourceCard { code: string; title: string; publisher: string; role: string; urls: string[]; checked_at: string; license: string; status: string }
 export const SOURCES = sourcesJson as unknown as SourceCard[];
+
+// Tüm content/<dizin> verisi: CONTENT["agenda"], CONTENT["regulation-packages"] … (modüller kendi tipine çevirir)
+export const CONTENT = contentJson as unknown as Record<string, unknown[]>;
+export function contentOf<T>(dir: string): T[] {
+  return (CONTENT[dir] ?? []) as T[];
+}
+// Şartname bölümleri (§01…§34) ve v1.1 maddeleri — asistan ve bağlamsal yardım için
+export const SPEC_SECTIONS = specJson as unknown as { id: string; title: string; body: string }[];
 
 export function profileById(id: string): Profile | undefined {
   return PROFILES.find((p) => p.id === id);

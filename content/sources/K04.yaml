@@ -1,9 +1,29 @@
 code: K04
 title: "GHG Protocol Scope 2 Guidance"
-publisher: "GHG Protocol"
-role: "Konum/piyasa bazlı hesap, sözleşmesel araç kalite koşulları"
+publisher: "GHG Protocol (WRI / WBCSD)"
+family: GHG Protocol
+role: "Konum ve piyasa bazlı Kapsam 2 hesabı; sözleşmesel araç kalite koşulları"
 urls:
   - "https://ghgprotocol.org/scope-2-guidance"
+edition: null
+language: en
+published_at: null
+effective_from: null
+transition_note: null
+retired_at: null
 checked_at: 2026-10-13
 license: "yalnız bağlantı; tam metin saklanmaz (K-12)"
-status: kart — sürüm/yürürlük alanları SRC altyapısıyla doldurulacak
+status: editör onayı bekliyor
+identity_note: "Corporate Standard'a ek rehberdir; onun yerine geçmez."
+versions:
+  - label: "Scope 2 Guidance"
+    edition: null
+    published_at: null
+    effective_from: null
+    url: "https://ghgprotocol.org/scope-2-guidance"
+    note: "Yayın yılı kaynak sayfasından doğrulanacak."
+    current: true
+relevance:
+  - kind: always
+    value: null
+    reason: "Satın alınan elektrik, buhar, ısı veya soğutma kaydı olan her kurum için iki yöntem (konum/piyasa) buradan gelir."

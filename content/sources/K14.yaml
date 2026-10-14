@@ -1,9 +1,37 @@
 code: K14
-title: "GRI 102 Climate Change 2025"
+title: "GRI 102: Climate Change 2025"
 publisher: "GRI"
-role: "İklim açıklamaları; 1 Ocak 2027 geçiş koşulu"
+family: GRI
+role: "Kapsam 1, 2 ve 3 iklim açıklamaları; yöntem, gazlar, sınırlar ve geçerlilik"
 urls:
+  - "https://globalreporting.org/pdf.ashx?id=29514"
   - "https://www.globalreporting.org/standards/standards-development/topic-standard-project-for-climate-change/"
+edition: "2025"
+language: en
+published_at: null
+effective_from: 2027-01-01
+transition_note: "Kaynakta belirtilen koşul: 1 Ocak 2027 ve sonrasında yayımlanan rapor/materyaller için geçerlidir. Kural yalnız tüketim yılına göre seçilemez; raporun yayımlanma tarihine bakılır (§19)."
+retired_at: null
 checked_at: 2026-10-13
 license: "yalnız bağlantı; tam metin saklanmaz (K-12)"
-status: kart — sürüm/yürürlük alanları SRC altyapısıyla doldurulacak
+status: editör onayı bekliyor
+identity_note: "Kimlik = yayımlayan + kod + başlık + baskı yılı: 'GRI | 102 | Climate Change | 2025'. 2016 tarihli 'GRI 102: General Disclosures' farklı bir standarttır; yalnız kod ile anılmaz."
+versions:
+  - label: "GRI 102: Climate Change 2025"
+    edition: "2025"
+    published_at: null
+    effective_from: 2027-01-01
+    url: "https://globalreporting.org/pdf.ashx?id=29514"
+    note: "Güncel. 1 Ocak 2027 ve sonrasında yayımlanan raporlar için geçerli (kaynakta belirtilmiştir). Yayın günü kaynaktan doğrulanmadı."
+    current: true
+  - label: "GRI 305: Emissions 2016 (önceki emisyon açıklamaları)"
+    edition: "2016"
+    published_at: null
+    effective_from: null
+    url: null
+    note: "1 Ocak 2027'den önce yayımlanan raporlarda emisyon açıklamaları GRI 305 (2016) ile yapılır; 305-1/2/3 ↔ 102-5/6/7 eşleştirmesi raporlama haritasında sürüme göre tutulur. Resmî URL kaynak izlemeyle doğrulanacak."
+    current: false
+relevance:
+  - kind: always
+    value: null
+    reason: "GRI'ye uygun rapor yayımlayan her kurum için 1 Ocak 2027 sonrası raporlarda iklim açıklamalarının dayanağı."

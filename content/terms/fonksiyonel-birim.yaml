@@ -1,6 +1,11 @@
 id: fonksiyonel-birim
 tr: Fonksiyonel birim
 en: Functional unit
+aliases: ["functional unit", "işlev birimi", "referans birim"]
+kind: terim
+contexts: [urun]
+likely_department: "Ar-Ge / ürün yönetimi"
+related_route: "/urun/"
 definition: "Ürün çalışmasında sonucun ilişkilendirildiği, ürünün sağladığı işlevi tanımlayan nicel birim (ör. 1 m² boyalı yüzeyi 10 yıl korumak). Referans akış ise bu işlevi sağlamak için gereken ürün miktarıdır."
 example: "İki ambalajı karşılaştırmak için '1.000 litre içeceği 6 ay korumak' fonksiyonel birimi; bir kilogram ambalaj tek başına karşılaştırma yapmaz."
 confused_with: "Referans akış ve ürün kütlesi ile karıştırılır."

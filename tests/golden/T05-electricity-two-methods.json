@@ -1,0 +1,164 @@
+{
+  "id": "T05-electricity-two-methods",
+  "title_tr": "100 MWh elektrik: konum 40 t, piyasa 20 t; iki yöntem toplanmaz (total null)",
+  "requirements": [
+    "T05",
+    "§13"
+  ],
+  "note_tr": "Katsayılar kurgusaldır; yalnız yazılım testi içindir.",
+  "request": {
+    "activity": {
+      "id": "act-test-0002",
+      "version": 1,
+      "source_type": "purchased_electricity",
+      "fuel": null,
+      "quantity": "100",
+      "unit": "MWh",
+      "heating_value_basis": null,
+      "reference_conditions": null,
+      "calorific_value": null,
+      "basis_conversion": null,
+      "data_quality": "measured",
+      "period": {
+        "start": "2026-01-01",
+        "end": "2026-12-31"
+      },
+      "scope2": {
+        "method": "both",
+        "grid_region": "TR",
+        "instruments": [
+          {
+            "id": "GO-2026-001",
+            "type": "guarantee_of_origin",
+            "mwh": "60",
+            "generation_period": {
+              "start": "2026-01-01",
+              "end": "2026-12-31"
+            },
+            "retired": true,
+            "quality_criteria_met": true,
+            "beneficiary": "org-test",
+            "factor": {
+              "id": "TEST-GO-ZERO",
+              "version": "1.0",
+              "value": "0",
+              "numerator_unit": "kg",
+              "gas": "CO2e",
+              "denominator_unit": "kWh",
+              "basis": null,
+              "reference_conditions": null,
+              "boundary": "combustion",
+              "gwp_set_id": "TEST-GWP",
+              "source_ref": "tests/golden — kurgusal",
+              "license": "test-only",
+              "valid_from": "2026-01-01",
+              "valid_to": null
+            }
+          }
+        ],
+        "residual_mix_factor": null,
+        "self_generation_mwh": "0",
+        "sold_to_grid_mwh": "0"
+      }
+    },
+    "factors": [
+      {
+        "id": "TEST-TR-GRID-LOC",
+        "version": "1.0",
+        "value": "0.4",
+        "numerator_unit": "kg",
+        "gas": "CO2e",
+        "denominator_unit": "kWh",
+        "basis": null,
+        "reference_conditions": null,
+        "boundary": "combustion",
+        "gwp_set_id": "TEST-GWP",
+        "source_ref": "tests/golden — kurgusal",
+        "license": "test-only",
+        "valid_from": "2026-01-01",
+        "valid_to": null,
+        "role": "location"
+      },
+      {
+        "id": "TEST-TR-RESIDUAL",
+        "version": "1.0",
+        "value": "0.5",
+        "numerator_unit": "kg",
+        "gas": "CO2e",
+        "denominator_unit": "kWh",
+        "basis": null,
+        "reference_conditions": null,
+        "boundary": "combustion",
+        "gwp_set_id": "TEST-GWP",
+        "source_ref": "tests/golden — kurgusal",
+        "license": "test-only",
+        "valid_from": "2026-01-01",
+        "valid_to": null,
+        "role": "market_residual"
+      }
+    ],
+    "method": {
+      "id": "ghgp-corporate-test",
+      "version": "0.2",
+      "gwp_set": {
+        "id": "TEST-GWP",
+        "CH4": "28",
+        "N2O": "265",
+        "R-410A": "2000"
+      }
+    }
+  },
+  "expected": {
+    "status": "computed",
+    "total_co2e_kg": null,
+    "coverage": null,
+    "block_codes": [],
+    "warning_codes": [],
+    "scope": 2,
+    "primary_method": "location_based",
+    "normalized_activity": {
+      "quantity": "100",
+      "unit": "MWh",
+      "basis": null
+    },
+    "results": {
+      "location_based": {
+        "status": "computed",
+        "total_co2e_kg": "40000",
+        "coverage": "co2e_factor",
+        "components": [
+          {
+            "gas": "CO2e",
+            "factor_id": "TEST-TR-GRID-LOC",
+            "co2e_kg": "40000"
+          }
+        ]
+      },
+      "market_based": {
+        "status": "computed",
+        "total_co2e_kg": "20000",
+        "coverage": "co2e_factor",
+        "covered_mwh": "60",
+        "uncovered_mwh": "40",
+        "instrument_ids": [
+          "GO-2026-001"
+        ],
+        "residual_factor_used": "residual_mix",
+        "components": [
+          {
+            "factor_id": "TEST-GO-ZERO",
+            "co2e_kg": "0",
+            "instrument_id": "GO-2026-001",
+            "portion_mwh": "60"
+          },
+          {
+            "factor_id": "TEST-TR-RESIDUAL",
+            "co2e_kg": "20000",
+            "instrument_id": null,
+            "portion_mwh": "40"
+          }
+        ]
+      }
+    }
+  }
+}

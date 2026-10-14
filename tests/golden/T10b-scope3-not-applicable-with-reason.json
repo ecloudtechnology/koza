@@ -1,0 +1,58 @@
+{
+  "id": "T10b-scope3-not-applicable-with-reason",
+  "title_tr": "Kategori 14 gerekçeli uygulanamaz → total null, value_state not_applicable, sıfır değil",
+  "requirements": [
+    "T10",
+    "§15"
+  ],
+  "note_tr": "Katsayılar kurgusaldır; yalnız yazılım testi içindir.",
+  "request": {
+    "activity": {
+      "id": "act-test-0002",
+      "version": 1,
+      "source_type": "scope3",
+      "fuel": null,
+      "quantity": null,
+      "unit": null,
+      "heating_value_basis": null,
+      "reference_conditions": null,
+      "calorific_value": null,
+      "basis_conversion": null,
+      "data_quality": "measured",
+      "period": {
+        "start": "2026-01-01",
+        "end": "2026-12-31"
+      },
+      "scope3": {
+        "category": 14,
+        "method": null,
+        "applicability": "not_applicable",
+        "not_applicable_reason": "Kuruluş franchise vermiyor",
+        "data_quality_dims": null,
+        "spend": null,
+        "sold_products": null
+      }
+    },
+    "factors": [],
+    "method": {
+      "id": "ghgp-corporate-test",
+      "version": "0.2",
+      "gwp_set": {
+        "id": "TEST-GWP",
+        "CH4": "28",
+        "N2O": "265",
+        "R-410A": "2000"
+      }
+    }
+  },
+  "expected": {
+    "status": "computed",
+    "total_co2e_kg": null,
+    "coverage": null,
+    "components": [],
+    "value_state": "not_applicable",
+    "block_codes": [],
+    "category": 14,
+    "not_applicable_reason": "Kuruluş franchise vermiyor"
+  }
+}

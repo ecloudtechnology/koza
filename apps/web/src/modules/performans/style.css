@@ -1,0 +1,34 @@
+/* performans modülü: çubuk grafikler (renk tek başına anlam taşımaz: desen + etiket), adım şeridi, mobil öneri formu */
+.pf-bars { width: 100%; max-width: 720px; display: block; font-family: var(--sans); }
+.pf-bars text { fill: var(--ink); font-size: 12px; }
+.pf-bars .lbl { fill: var(--ink-2); }
+.pf-bars .bar-approved { fill: var(--accent); }
+.pf-bars .bar-draft { fill: url(#pf-hatch); stroke: var(--ink-3); stroke-width: 1; }
+.pf-bars .bar-scenario { fill: none; stroke: var(--copper); stroke-width: 2; stroke-dasharray: 4 3; }
+.pf-bars .bar-plain { fill: var(--info); }
+.pf-bars .axis { stroke: var(--line-2); }
+.pf-legend { display: flex; flex-wrap: wrap; gap: 0.9rem; font-size: 0.8rem; color: var(--ink-2); margin: 0.4rem 0 0.2rem; }
+.pf-legend span::before { content: ""; display: inline-block; width: 14px; height: 10px; margin-right: 0.35rem; vertical-align: middle; border: 1px solid var(--ink-3); }
+.pf-legend .approved::before { background: var(--accent); border-color: var(--accent); }
+.pf-legend .draft::before { background: repeating-linear-gradient(45deg, var(--ink-3) 0 2px, transparent 2px 5px); }
+.pf-legend .scenario::before { background: none; border: 2px dashed var(--copper); }
+.pf-legend .plain::before { background: var(--info); border-color: var(--info); }
+.pf-side { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; }
+.pf-steps { display: flex; flex-wrap: wrap; gap: 0.4rem; padding: 0; margin: 0.5rem 0 1rem; list-style: none; counter-reset: none; }
+.pf-steps li { font-size: 0.78rem; padding: 0.25rem 0.6rem; border: 1px solid var(--line-2); border-radius: 999px; color: var(--ink-2); background: var(--surface-2); }
+.pf-steps li[aria-current="step"] { border-color: var(--accent); color: var(--accent-2); background: var(--accent-soft); font-weight: 600; }
+.pf-steps li.done { text-decoration: line-through; opacity: 0.7; }
+.pf-mobile { max-width: 480px; }
+.pf-mobile textarea { min-height: 3.6rem; }
+.pf-mobile input, .pf-mobile textarea, .pf-mobile select { max-width: 100%; font-size: 1rem; }
+.pf-assess { display: grid; grid-template-columns: max-content 150px 1fr; gap: 0.4rem 0.8rem; align-items: center; }
+.pf-assess select, .pf-assess input { max-width: 100%; }
+.pf-opt-table input { max-width: 100%; font-size: 0.85rem; padding: 0.35rem 0.45rem; }
+.pf-state { font-size: 0.78rem; color: var(--ink-3); }
+.pf-claim { border-left: 3px solid var(--warn); padding: 0.4rem 0.7rem; background: var(--warn-soft); font-size: 0.9rem; border-radius: var(--radius-sm); }
+.pf-claim.ok { border-color: var(--info); background: var(--info-soft); }
+.pf-claim.quiet { border-color: var(--line-2); background: var(--surface-2); }
+.pf-inline-form { display: grid; gap: 0.6rem; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); align-items: end; }
+.pf-inline-form .field { min-width: 0; }
+.pf-scenario { border: 2px dashed var(--copper); border-radius: var(--radius-sm); padding: 0.6rem 0.9rem; background: var(--copper-soft); font-size: 0.9rem; }
+@media (max-width: 640px) { .pf-assess { grid-template-columns: 1fr; } }

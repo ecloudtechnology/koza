@@ -1,0 +1,19 @@
+id: alan-fatura-donemi
+tr: "Fatura dönemi kutuları — bu kutuya ne yazacağım?"
+en: Invoice period fields
+abbr: null
+aliases: ["fatura dönemi", "dönem başlangıcı", "dönem bitişi", "okuma dönemi", "billing period"]
+kind: alan-yardimi
+contexts: [veri-girisi]
+definition: >-
+  Faturada yazan tüketim döneminin ilk ve son gününü aynen girin. Raporlama yılına uydurmak için
+  tarihi değiştirmeyin; dönemler arası paylaştırma ayrı ve izlenebilir bir adımdır. Faturanın
+  düzenlenme veya son ödeme tarihi tüketim dönemi değildir.
+example: "Faturada 'Dönem: 20.12.2025–19.01.2026' → başlangıç 2025-12-20, bitiş 2026-01-19."
+confused_with: "Fatura tarihi ve son ödeme tarihi ile karıştırılır."
+related_task: "Veri girişi — fatura dönemi alanları"
+related_route: "/veri-girisi/"
+field_help: {route: "/veri-girisi/", field_id: "ps", field_label: "Fatura dönemi başlangıcı / bitişi"}
+likely_department: "Muhasebe"
+source: "§11; 101-02"
+status: editör onayı bekliyor

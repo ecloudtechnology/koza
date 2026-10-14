@@ -18,7 +18,7 @@ export default function Ekip() {
       <PageHeader
         eyebrow="MEXT Teknoloji Merkezi"
         title="Ekip"
-        lead="Koza'yı oluşturan çalışma grubu: GreenSync Young Professionals Forum, \"İş Dünyasında Sorumlu Üretim\" teması. Grup, atölyedeki ESG balık kılçığını çözüm önerilerine, altı katmanlı sistem mimarisine ve TR ETS ekine dönüştürdü; bu önizleme o çıktının ürün karşılığıdır."
+        lead="Koza'yı oluşturan çalışma grubu: GreenSync Young Professionals Forum, “İş Dünyasında Sorumlu Üretim” teması. Grup, atölyedeki ESG balık kılçığını çözüm önerilerine, altı katmanlı sistem mimarisine ve TR ETS ekine dönüştürdü; bu önizleme o çıktının ürün karşılığıdır."
       />
       <h2>Çalışma grubu</h2>
       <div className="team">

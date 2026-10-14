@@ -1,6 +1,6 @@
 # Veri modeli ve göçler
 
-Kaynak: şartname §20 (çekirdek model), §21 (durumlar), GELISTIRME-KURALLARI.md kural 2, 3, 9. Uygulama: `db/migrations/0001_init.sql` (PostgreSQL), geri dönüş `0001_init.down.sql`. Önizleme karşılığı: `apps/web/src/lib/domain.ts`.
+Kaynak: şartname §20 (çekirdek model), §21 (durumlar), GELISTIRME-KURALLARI.md kural 2, 3, 9. Uygulama: `db/migrations/0001_init.sql` + `0002_api_dilim1.sql` (PostgreSQL), geri dönüşler `*.down.sql`; çalıştırıcı `apps/api/scripts/migrate.py`. Önizleme karşılığı: `apps/web/src/lib/domain.ts`.
 
 ## İlkeler
 
@@ -19,7 +19,7 @@ Kaynak: şartname §20 (çekirdek model), §21 (durumlar), GELISTIRME-KURALLARI.
 | ReportingPeriod | `reporting_period` | `status ∈ {open, closing, locked}`; yeniden açma `period_reopen` |
 | EmissionSource | `emission_source` | tür, yakıt, kontrol/kiralama |
 | ActivityRecord (+Detail) | `activity_record`, `activity_record_version`, `activity_detail` | sürümler append-only; detay JSON şema sürümlü |
-| Evidence | `evidence` | sha256, boyut, tür, tarama durumu; nesne anahtarı (depo henüz yok) |
+| Evidence | `evidence` | sha256, boyut, tür, tarama durumu, nesne anahtarı (`KOZA_OBJECT_STORE_DIR`), `record_id` (0002) |
 | FactorVersion | `factor_version` | değer, pay/payda birimi, gaz, sınır, esas, kaynak, lisans, onay |
 | MethodVersion | `method_version` | GWP seti, formül sürümü, onay |
 | CalculationRun / Result | `calculation_run`, `calculation_result` | girdi karması, faktör kimlikleri, motor sürümü; değişmez |
@@ -41,8 +41,30 @@ Kaynak: şartname §20 (çekirdek model), §21 (durumlar), GELISTIRME-KURALLARI.
 
 Migration PostgreSQL 15 üzerinde `up → smoke → down → up` ile çalıştırıldı: değer durumu CHECK'i, append-only tetikleyicileri, RLS (yabancı tenant 0 satır; tenant ayarlanmadan 0 satır) ve bileşik FK reddi doğrulandı. Komut ve ayrıntı: `apps/api/README.md`.
 
+## 0002_api_dilim1 (Dilim 1 API ekleri)
+
+Gerekçeler dosya başında madde madde yazılıdır; özet:
+
+| Ek | Neden |
+| --- | --- |
+| `app_user.oidc_subject` | OIDC `sub` → kullanıcı eşlemesi (§25 SSO) |
+| `audit_event.object_id` → `text` | faktör/kaynak kimlikleri UUID değil; §25 "faktör değişimi kayda alınır" |
+| `calculation_result.raw jsonb` | motor 0.2 çıktısı iç içe (Kapsam 2 `results`, `lifetime_group`); koşum sonucu birebir saklanır |
+| `factor_version.activated_at/retired_at/created_by` | etkinleştirme izi (T13, §18) |
+| `activity_record.import_job_id/row_hash/withdrawn_*` | içe aktarma tekrarı (aynı satır ikinci kayıt yaratmaz) ve geri alma: taslak kayıt geri çekilir, sürümleri silinmez (kural 9) |
+| `evidence.record_id` | yükleme oturumunun kayıt bağı; sürüm bağı `activity_evidence`'ta |
+| `import_job` | 202 + job_id, satır sonuçları, dosya sha256 |
+| `session_revocation` (platform), `session_seen` (tenant) | jti iptal listesi; giriş audit'i bir kez |
+| `reference_source`, `reference_source_version` | §19 kaynak kayıt defteri: yayın/yürürlük/kapsanan dönem/görülme/son kontrol ayrı alanlar, içerik karması, değişiklik kartı, uzman onayı; içerik değişmez (yalnız onay ve son kontrol alanları güncellenir — tetikleyici) |
+| `integration_staging` | §27 staging; `(tenant_id, source_system, external_id, event_id)` tekil |
+| `schema_migration` | çalıştırıcının sürüm kaydı |
+
+Yeni tenant tablolarında RLS `ENABLE + FORCE`. Uygulama rolü (`migrate.py grant`) `NOBYPASSRLS`, yalnız SELECT/INSERT/UPDATE;
+DELETE/TRUNCATE yetkisi yoktur. Doğrulama: `tests/isolation/test_rls_postgres.py` ve iki depolu API test paketi
+(`apps/api/README.md`).
+
 ## Açık
 
-- Nesne deposu anahtarı ve imzalı bağlantı (Dilim 2).
+- S3 uyumlu nesne deposu uyarlayıcısı (yerel dosya uyarlayıcısı var).
 - Vektör/arama indeksi tenant etiketi (Dilim 3).
 - Baz yıl yeniden hesap politikası tabloları (Dilim 8).

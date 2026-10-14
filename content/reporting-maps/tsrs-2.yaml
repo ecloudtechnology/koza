@@ -1,0 +1,95 @@
+id: tsrs-2
+framework: TSRS
+title: "TSRS 2: İklimle İlgili Açıklamalar (yapısal liste)"
+version: "KGK 2023"
+applicable_from: null
+source: K02
+note_tr: "TSRS uygulanabilirliği kurum ölçütlerine ve KGK kararına bağlıdır (K-08). Bu liste yalnız açıklama ailelerinin yapısal tanımlayıcılarıdır; paragraf numaraları ve metin KGK yayınından doğrulanır. TSRS finansal risk ve fırsat odaklıdır; GRI etki odağından ayrı tutulur (§08)."
+items:
+  - id: "TSRS2-GOV"
+    title_tr: "Yönetişim — iklim risk ve fırsatlarının gözetimi"
+    elements:
+      - koza: boundary.approach
+        relation: conditional
+        note_tr: "Raporlayan kurum sınırı; yönetişim anlatısı Koza verisinden türemez."
+    narrative: ["yönetim organı ve sorumlulukları", "yetkinlik ve bilgi akışı", "yönetim düzeyi rolleri", "politika"]
+  - id: "TSRS2-STR"
+    title_tr: "Strateji — iklim risk ve fırsatlarının iş modeline etkisi"
+    elements:
+      - koza: period
+        relation: conditional
+        note_tr: "Raporlama dönemi; strateji ve dayanıklılık analizi ayrı kanıt ister."
+    narrative: ["risk ve fırsat tanımı", "iş modeli ve değer zinciri etkisi", "geçiş planı", "finansal etki", "senaryo analizi ve dayanıklılık", "varsayım"]
+  - id: "TSRS2-RM"
+    title_tr: "Risk yönetimi — iklim risklerinin belirlenmesi ve izlenmesi"
+    elements: []
+    narrative: ["risk belirleme süreci", "önceliklendirme", "kurumsal risk yönetimiyle bütünleşme", "yönetim yaklaşımı"]
+  - id: "TSRS2-MT-GHG-S1"
+    title_tr: "Metrikler — Kapsam 1 sera gazı emisyonları"
+    elements:
+      - koza: corporate.scope1_kg
+        relation: partial
+        note_tr: "Brüt Kapsam 1 toplamı (CO₂e)."
+      - koza: method.id
+        relation: partial
+        note_tr: "Kullanılan hesap standardı/yöntemi ve sürümü."
+      - koza: boundary.approach
+        relation: partial
+        note_tr: "Konsolidasyon yaklaşımı."
+      - koza: factor_sources
+        relation: partial
+        note_tr: "Faktör kaynakları."
+    narrative: ["ölçüm yaklaşımı, girdiler ve varsayımlar", "yöntem değişikliği gerekçesi"]
+  - id: "TSRS2-MT-GHG-S2"
+    title_tr: "Metrikler — Kapsam 2 sera gazı emisyonları (konum bazlı; sözleşmesel araç bilgisi)"
+    elements:
+      - koza: corporate.scope2_kg.location
+        relation: partial
+        note_tr: "Konum bazlı toplam zorunlu unsurdur."
+      - koza: corporate.scope2_kg.market
+        relation: conditional
+        note_tr: "Sözleşmesel araçlar varsa bilgi olarak; toplanmaz."
+      - koza: factor_sources
+        relation: partial
+        note_tr: "Şebeke faktörü kaynağı."
+    narrative: ["sözleşmesel araçların açıklanması", "ölçüm yaklaşımı ve varsayımlar"]
+  - id: "TSRS2-MT-GHG-S3"
+    title_tr: "Metrikler — Kapsam 3 sera gazı emisyonları ve kategori kapsamı"
+    elements:
+      - koza: corporate.scope3_kg
+        relation: partial
+        note_tr: "Kapsam 3 toplamı."
+      - koza: corporate.scope3_by_category
+        relation: partial
+        note_tr: "Kategori kırılımı ve dahil edilen kategoriler."
+      - koza: quality.estimated_share
+        relation: partial
+        note_tr: "Tahmini veri payı; ölçüm çerçevesi anlatısı ayrı."
+      - koza: excluded_records
+        relation: partial
+        note_tr: "Hariç tutulanlar ve nedenleri."
+    narrative: ["ölçüm çerçevesi (birincil/ikincil veri, doğrulama)", "kategori hariç tutma gerekçesi", "varsayım"]
+  - id: "TSRS2-MT-CROSS"
+    title_tr: "Sektörler arası metrikler — geçiş/fiziksel risk, fırsat, sermaye dağıtımı, içsel karbon fiyatı, ücretlendirme"
+    elements: []
+    narrative: ["geçiş riskine açık varlık/faaliyet", "fiziksel riske açık varlık/faaliyet", "iklim fırsatları", "sermaye dağıtımı", "içsel karbon fiyatı ve kullanımı", "ücretlendirme bağlantısı"]
+  - id: "TSRS2-MT-TARGET"
+    title_tr: "Hedefler — iklim hedefleri ve ilerleme"
+    elements:
+      - koza: base_year
+        relation: partial
+        note_tr: "Baz yıl alanı Koza'da henüz yok; hedef ve ilerleme Analiz/hedef modülünde tanımlanır."
+    narrative: ["hedef türü (mutlak/yoğunluk), kapsam, baz yıl, hedef yılı", "ara hedefler", "karbon kredisi kullanımı planı", "ilerleme ve revizyon"]
+  - id: "TSRS1-GEN"
+    title_tr: "TSRS 1 — genel gereklilikler: raporlayan kurum, dönem, karşılaştırmalı bilgi, yargı ve belirsizlikler"
+    elements:
+      - koza: period
+        relation: partial
+        note_tr: "Raporlama dönemi."
+      - koza: comparison.previous
+        relation: conditional
+        note_tr: "Önceki dönem paketi varsa karşılaştırmalı değerler yan yana gösterilir; fark ayrıştırması motor sürümünde yok."
+      - koza: assurance.external
+        relation: conditional
+        note_tr: "Bağımsız güvence raporu eklenmişse dosya, kapsam ve görüş; platform kendi güvence etiketi vermez."
+    narrative: ["raporlayan kurumun finansal tablolarla uyumu", "önemli yargılar", "ölçüm belirsizliği", "hata düzeltmeleri"]

@@ -44,7 +44,7 @@ function AltinSet() {
     if (!auto) return;
     const t = setTimeout(() => void run(), 0);
     return () => clearTimeout(t);
-  }, [auto]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [auto]);
 
   return (
     <>

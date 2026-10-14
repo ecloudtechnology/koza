@@ -1,0 +1,68 @@
+{
+  "id": "mobile-diesel-litre",
+  "title_tr": "1000 L dizel × 2.7 kg CO₂e/L = 2700 kg",
+  "requirements": [
+    "§12"
+  ],
+  "note_tr": "Katsayılar kurgusaldır; yalnız yazılım testi içindir.",
+  "request": {
+    "activity": {
+      "id": "act-test-0002",
+      "version": 1,
+      "source_type": "mobile_combustion",
+      "fuel": "diesel",
+      "quantity": "1000",
+      "unit": "L",
+      "heating_value_basis": null,
+      "reference_conditions": null,
+      "calorific_value": null,
+      "basis_conversion": null,
+      "data_quality": "measured",
+      "period": {
+        "start": "2026-01-01",
+        "end": "2026-12-31"
+      },
+      "vehicle_class": "light_duty"
+    },
+    "factors": [
+      {
+        "id": "TEST-DIESEL-L",
+        "version": "1.0",
+        "value": "2.7",
+        "numerator_unit": "kg",
+        "gas": "CO2e",
+        "denominator_unit": "L",
+        "basis": null,
+        "reference_conditions": null,
+        "boundary": "combustion",
+        "gwp_set_id": "TEST-GWP",
+        "source_ref": "tests/golden — kurgusal",
+        "license": "test-only",
+        "valid_from": "2026-01-01",
+        "valid_to": null
+      }
+    ],
+    "method": {
+      "id": "ghgp-corporate-test",
+      "version": "0.2",
+      "gwp_set": {
+        "id": "TEST-GWP",
+        "CH4": "28",
+        "N2O": "265",
+        "R-410A": "2000"
+      }
+    }
+  },
+  "expected": {
+    "status": "computed",
+    "total_co2e_kg": "2700",
+    "coverage": "co2e_factor",
+    "block_codes": [],
+    "source_type": "mobile_combustion",
+    "normalized_activity": {
+      "quantity": "1000",
+      "unit": "L",
+      "basis": null
+    }
+  }
+}

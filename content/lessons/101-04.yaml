@@ -3,9 +3,80 @@ title: {tr: "Kapsamlar"}
 level: başlangıç
 goal: "Kurumsal ilişkiye göre 1, 2, 3 ayrımını kavramak"
 application: "Gerekçeli örnek sınıflandırma"
-duration_min: null
-status: iskelet — gövde yazılmadı, editör onayı yok
-prerequisites: []
-body: null
-sources: []
-review_date: null
+duration_min: 9
+field_duration_min: null
+prerequisites: ["101-03"]
+status: editör onayı bekliyor
+review_date: 2026-10-14
+sources: [K03, K04, K06]
+related_task:
+  route: "/envanter/"
+  label: "Envanterde kaynakların kapsam etiketini ve envanter sınırını kontrol et"
+explanation:
+  - >-
+    Kapsam, bir emisyonun kurumla ilişkisini söyler: emisyon sizin kontrolünüzdeki bir kaynaktan mı
+    çıkıyor, satın aldığınız enerjinin üretiminden mi, yoksa değer zincirinizdeki başka bir kuruluştan mı?
+    Bu üç soru sırasıyla Kapsam 1, 2 ve 3'tür. Kapsam, emisyonun büyüklüğünü değil, sorumluluk ilişkisini anlatır.
+  - >-
+    Kapsam 1, kurumun sahip olduğu veya kontrol ettiği kaynaklardan doğrudan çıkan emisyonlardır: kazan
+    ve fırın (sabit yanma), şirket araçları (hareketli yanma), üretim kimyası (proses) ve soğutucu gaz
+    kaçakları. Kapsam 2, satın alınan elektrik, buhar, ısı ve soğutmanın üretiminde oluşan emisyonlardır;
+    baca sizde değil, enerji üreticisindedir ama tüketim sizindir.
+  - >-
+    Kapsam 3, kurumun değer zincirindeki diğer tüm dolaylı emisyonlardır: satın alınan malzemeler,
+    taşıma, atık, iş seyahati, çalışanların işe gidiş gelişi, satılan ürünlerin kullanımı ve daha
+    fazlası. On beş kategoriye ayrılır ve 101-05'te işlenir. Kapsam 3 çoğu kurumda toplamın en büyük
+    parçasıdır ama en zor ölçülenidir.
+  - >-
+    "Benim kontrolümde" ifadesi envanter sınırına bağlıdır. Kurum önce yaklaşımını seçer: operasyonel
+    kontrol, finansal kontrol veya özkaynak payı. Kiralık bir aracın yakıtı operasyonel kontrol
+    yaklaşımında genellikle Kapsam 1'dir; başka yaklaşımda Kapsam 3'e düşebilir. Bu yüzden kapsam
+    kararı kaynak türünden değil, kaynak türü artı sınır yaklaşımından çıkar.
+  - >-
+    Kapsam 2'nin iki hesap görünümü vardır. Konum bazlı yöntem şebeke ortalamasını kullanır; piyasa
+    bazlı yöntem sözleşmesel araçları (yenilenebilir enerji sertifikası, tedarikçiye özgü faktör) dikkate
+    alır. Bunlar aynı tüketimin iki ayrı sonucudur; toplanmaz, yan yana raporlanır.
+  - >-
+    Koza veri girişinde kapsamı sizden istemez; kaynak türü ve sınır yaklaşımından önerir ve gerekçesini
+    yazar. Emin olmadığınız durumda öneriyi değiştirmek yerine uzman kontrolüne işaretlemek doğru yoldur.
+field_summary: null
+business_example: >-
+  Bir içecek tesisinde dört kaynak var: buhar kazanı (doğal gaz), kiralık dağıtım kamyonları (dizel,
+  şoförler tesisin), şebeke elektriği ve şişe tedarikçisinin cam fırını. Operasyonel kontrol
+  yaklaşımında kazan ve kamyonlar Kapsam 1, elektrik Kapsam 2, cam fırını Kapsam 3 kategori 1'dir.
+  Kamyonlar tesisin kontrolünde olmasaydı (taşıma hizmeti satın alınsaydı) Kapsam 3 kategori 4 olurdu.
+common_mistake: >-
+  Konum bazlı ve piyasa bazlı Kapsam 2 sonuçlarını toplamak ya da yalnız düşük olanı raporlamak.
+  Bunlar alternatif görünümlerdir; ikisi de yan yana sunulur. Piyasa bazlı sonucun düşük olması
+  için sözleşmesel aracın kalite koşullarını sağlaması gerekir; sertifika yoksa kalıntı karışım
+  faktörü kullanılır.
+exercise:
+  prompt: "Kurumunuzdaki beş kaynağı seçin; her biri için kaynak türünü, kontrol ilişkisini ve önerdiğiniz kapsamı gerekçesiyle yazın. Sonra envanter ekranındaki sistem önerisiyle karşılaştırın."
+  steps:
+    - "Kaynakları listeleyin: yakıt yakan ekipman, satın alınan enerji, değer zinciri kalemleri."
+    - "Her kaynak için 'sahibi/kontrolü kim?' sorusuna cevap verin."
+    - "Kurumun envanter sınırı yaklaşımını kurulumdan okuyun (operasyonel / finansal / özkaynak)."
+    - "Kapsamı yazın; sistem önerisiyle farklıysa nedenini not edin ve uzman kontrolüne işaretleyin."
+  note: "Sınıflandırma alıştırması envantere yazılmaz; gerçek kayıt veri girişinden geçer."
+quiz:
+  - q: "Şebekeden satın alınan elektriğin emisyonu hangi kapsamdadır?"
+    options: ["Kapsam 1, çünkü elektriği biz tüketiyoruz", "Kapsam 2, çünkü emisyon satın alınan enerjinin üretiminde oluşur", "Kapsam 3, çünkü santral başka bir kuruluştur"]
+    correct: 1
+    explanations:
+      - "Yanlış. Kapsam 1 kendi kontrolünüzdeki kaynaktan çıkan emisyondur; elektrikte baca sizde değildir."
+      - "Doğru. Satın alınan elektrik, buhar, ısı ve soğutma Kapsam 2'dir; tüketim sizin, üretim emisyonu tedarikçinin tesisindedir."
+      - "Yanlış. Santral başka kuruluş olsa da satın alınan enerji özel olarak Kapsam 2'ye ayrılmıştır; Kapsam 3 diğer dolaylı emisyonlar içindir (ör. elektriğin iletim kayıpları ve yakıt üst aşamaları kategori 3)."
+  - q: "Kapsam 2'de konum bazlı sonuç 400 t, piyasa bazlı sonuç 150 t çıktı (kurgusal). Raporda ne yapılır?"
+    options: ["İkisi toplanır: 550 t", "Yalnız düşük olan (150 t) yazılır", "İkisi ayrı ayrı yan yana raporlanır; piyasa bazlı için sözleşmesel aracın kalite koşulu belgelenir"]
+    correct: 2
+    explanations:
+      - "Yanlış. Aynı tüketimin iki görünümü toplanmaz; toplam gerçek olmayan bir sayı olur."
+      - "Yanlış. Yalnız düşük olanı seçmek seçici raporlamadır; iki yöntem birlikte sunulur."
+      - "Doğru. Konum ve piyasa bazlı sonuçlar alternatif görünümlerdir; piyasa bazlı sonuç ancak aracın kalite koşulları sağlanıyorsa geçerlidir."
+  - q: "Kiralık bir forkliftin dizel tüketimi hangi kapsamdadır?"
+    options: ["Her zaman Kapsam 3, çünkü forklift kiralık", "Sınır yaklaşımına bağlıdır; operasyonel kontrolde genellikle Kapsam 1", "Her zaman Kapsam 2"]
+    correct: 1
+    explanations:
+      - "Yanlış. Kiralık olmak tek başına belirleyici değildir; kurum ekipmanı işletiyorsa operasyonel kontrol altında sayılabilir."
+      - "Doğru. Kapsam kararı kaynak türü ve kurumun seçtiği envanter sınırı yaklaşımından birlikte çıkar."
+      - "Yanlış. Kapsam 2 yalnız satın alınan elektrik, buhar, ısı ve soğutma içindir; dizel yakma buna girmez."

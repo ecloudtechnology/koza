@@ -1,11 +1,35 @@
-from . import activities, approvals, audit, calculations, evidence, periods, reports
+from . import (
+    activities,
+    approvals,
+    audit,
+    calculations,
+    classifications,
+    evidence,
+    exports,
+    factors,
+    imports,
+    integrations,
+    memberships,
+    periods,
+    reports,
+    sessions,
+    sources,
+)
 
 ALL = [
     activities.router,
     calculations.router,
+    classifications.router,
     approvals.router,
     periods.router,
     reports.router,
     evidence.router,
+    imports.router,
+    exports.router,
+    factors.router,
+    sources.router,
+    integrations.router,
+    sessions.router,
+    memberships.router,
     audit.router,
 ]

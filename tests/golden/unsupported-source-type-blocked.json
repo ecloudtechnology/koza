@@ -1,6 +1,6 @@
 {
   "id": "unsupported-source-type-blocked",
-  "title_tr": "Hareketli yanma henüz desteklenmiyor → bloke",
+  "title_tr": "Tanınmayan kaynak türü → bloke (0.2: hareketli yanma artık desteklenir)",
   "requirements": [
     "§30"
   ],
@@ -9,7 +9,7 @@
     "activity": {
       "id": "act-test-0001",
       "version": 1,
-      "source_type": "mobile_combustion",
+      "source_type": "bilinmeyen_tur",
       "fuel": "natural_gas",
       "quantity": "100",
       "unit": "GJ",

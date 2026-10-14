@@ -1,0 +1,18 @@
+id: epd
+tr: Çevresel ürün beyanı
+en: Environmental product declaration
+abbr: EPD
+aliases: ["epd", "çevresel ürün beyanı", "ürün beyanı", "environmental product declaration"]
+kind: terim
+contexts: [urun]
+definition: >-
+  Bir ürünün yaşam döngüsü çevresel etkilerini, ürün kategorisi kurallarına göre hesaplanmış ve
+  bağımsız doğrulanmış biçimde sunan standart belge. LCA sonucunun müşteriye iletilen, karşılaştırılabilir
+  özetidir; tedarikçi verisi olarak Kapsam 3 ve ürün çalışmalarında girdi olabilir.
+example: "Çimento tedarikçisinin EPD'si, kategori 1 için tedarikçiye özgü veri olarak kullanılır; sınırı ve geçerlilik tarihi kontrol edilir."
+confused_with: "Pazarlama 'yeşil etiketi' ile karıştırılır; EPD doğrulanmış ve kurala bağlı bir beyandır."
+related_task: "Tedarikçiden EPD istemek; sınırını ve tarihini doğrulamak."
+related_route: "/envanter/"
+likely_department: "Satın alma / Ar-Ge"
+source: "K13; K11"
+status: editör onayı bekliyor

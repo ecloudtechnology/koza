@@ -1,0 +1,19 @@
+id: lca
+tr: Yaşam döngüsü değerlendirmesi
+en: Life cycle assessment
+abbr: LCA
+aliases: ["lca", "yaşam döngüsü analizi", "life cycle assessment", "ydd", "iso 14040", "iso 14044"]
+kind: terim
+contexts: [urun]
+definition: >-
+  Bir ürün veya hizmetin hammadde çıkarımından ömür sonuna kadar tüm aşamalarındaki çevresel
+  etkilerini (iklim, su, asitlenme, toksisite ve diğerleri) sistematik olarak hesaplayan yöntem.
+  Çerçevesi ISO 14040 ve 14044'te tanımlıdır; amaç ve kapsam, envanter, etki değerlendirme ve yorum
+  aşamalarından oluşur.
+example: "İki kumaş seçeneğini aynı fonksiyonel birimle, beşikten kapıya sınırda ve birden çok etki kategorisinde karşılaştırmak."
+confused_with: "Ürün karbon ayak izi (yalnız sera gazı) ve kurumsal envanter (kurum düzeyi, yıllık) ile karıştırılır."
+related_task: "Ürün çalışmasında sistem sınırı ve fonksiyonel birim seçimi."
+related_route: "/urun/"
+likely_department: "Ar-Ge / çevre mühendisliği"
+source: "K13; K12"
+status: editör onayı bekliyor

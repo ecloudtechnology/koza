@@ -132,9 +132,9 @@ export default function Home() {
       <div className="card quiet">
         <h3 style={{ marginTop: 0 }}>Bu önizleme hakkında</h3>
         <p className="small" style={{ marginBottom: 0 }}>
-          Dilim 0–1 akışı çalışır; hesabı tarayıcıda çalışan aynı Python motoru yapar. Kayıtlar yalnız bu tarayıcıda saklanır; sunucu, veritabanı ve gerçek yetki katmanı depodaki
-          kodda ve testlerde çalışır, önizlemede değil. Tüm emisyon faktörleri <b>kurgusal test değeridir</b>. İnceleyenler için: <Link href="/belgeler/?d=inceleme-rehberi">İnceleme rehberi</Link> ·{" "}
-          <Link href="/durum/">Proje durumu</Link> · <Link href="/hatalar/">Hata sözlüğü</Link>
+          Bu, Koza'nın inceleme için yayımlanmış önizlemesidir: kayıtlar yalnız bu tarayıcıda saklanır; hesabı tarayıcıda çalışan aynı Python motoru yapar; sunucu, veritabanı ve kimlik
+          katmanı depodaki kodda ve testlerde çalışır (bkz. Üretime geçiş). Tüm emisyon faktörleri <b>kurgusal test değeridir</b>; gerçek katalog uzman onayıyla yüklenir. İnceleyenler
+          için: <Link href="/belgeler/?d=inceleme-rehberi">İnceleme rehberi</Link> · <Link href="/durum/">Proje durumu</Link> · <Link href="/hatalar/">Hata sözlüğü</Link>
         </p>
       </div>
     </>

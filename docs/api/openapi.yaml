@@ -2,8 +2,8 @@
 openapi: "3.1.0"
 info:
   title: "Koza API"
-  description: "Koza iş API'si — Dilim 0. Zarf: {data, meta, request_id}; hata: {code, message, field_errors, retryable, request_id}. Kurum bağlamı X-Tenant başlığı + üyelikten doğrulanır."
-  version: "0.1.0"
+  description: "Koza iş API'si — Dilim 1. Zarf: {data, meta, request_id}; hata: {code, message, field_errors, retryable, request_id}. Kurum bağlamı X-Tenant başlığı + üyelikten doğrulanır; gövdedeki tenant_id reddedilir."
+  version: "0.2.0"
 paths:
   /healthz:
     get:
@@ -239,6 +239,56 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/HTTPValidationError"
+  /v1/calculations/aggregate:
+    post:
+      tags:
+        - "calculations"
+      summary: "Toplama (koza_calc.aggregate; kurumsal ve ürün ayrı; saklanmaz)"
+      description: "Dönemdeki kayıtların koşumlarını politikayla motora verir: onaylı/kilitli kayıtlar onaylı koşumla, politika başka\ndurumları içeriyorsa güncel veri sürümünün son koşumuyla. Ürün çalışmaları `context=product` ile ayrı gider ve\nkurumsal toplama girmez (kural 8). Motor 0.2 yoksa 503 AGGREGATE_UNAVAILABLE; API toplam üretmez (kural 1)."
+      operationId: "aggregate_v1_calculations_aggregate_post"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/AggregateRequest"
+        required: true
+      responses:
+        200:
+          description: "Successful Response"
+          content:
+            application/json:
+              schema: {}
+        422:
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/HTTPValidationError"
+  /v1/classifications/preview:
+    post:
+      tags:
+        - "classifications"
+      summary: "Kapsam/kategori önerisi (kural tabanlı; hiçbir şey saklanmaz)"
+      description: "Kaynak türü + yakıt + kontrol ilişkisinden deterministik öneri. Yanıt: gerekçe (`rationale_tr`),\neksik sorular (`missing_questions`), kural kimliği ve sürümü. LLM kullanılmaz; sonuç bağlayıcı değildir."
+      operationId: "preview_v1_classifications_preview_post"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/ClassificationPreviewRequest"
+        required: true
+      responses:
+        200:
+          description: "Successful Response"
+          content:
+            application/json:
+              schema: {}
+        422:
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/HTTPValidationError"
   /v1/approvals:
     post:
       tags:
@@ -444,8 +494,8 @@ paths:
     post:
       tags:
         - "evidence"
-      summary: "Kanıt yükleme kaydı (sha256 + ad + boyut)"
-      description: "Yalnız sha256, dosya adı ve boyut alınır; kurum içinde aynı karma varsa `duplicate_candidates`\nlistelenir (T07). GERÇEK NESNE DEPOSU UYGULANMADI: `upload` alanı null döner, dosya alınmaz,\n`scan_status` 'pending' kalır. Kanıt tarama tamamlanmadan kullanılamaz."
+      summary: "Kanıt yükleme oturumu (sha256 + ad + boyut)"
+      description: "Kurum içinde aynı karma varsa `duplicate_candidates` listelenir (T07). Nesne deposu varsa `upload` içerik\nyükleme adresini verir; yoksa null. `scan_status` içerik yüklenip taranana kadar `pending`."
       operationId: "create_upload_v1_evidence_uploads_post"
       requestBody:
         content:
@@ -455,6 +505,697 @@ paths:
         required: true
       responses:
         201:
+          description: "Successful Response"
+          content:
+            application/json:
+              schema: {}
+        422:
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/HTTPValidationError"
+  /v1/evidence/uploads/{evidence_id}/content:
+    put:
+      tags:
+        - "evidence"
+      summary: "Kanıt içeriğini yükle (boyut/tür sınırı, karma doğrulaması, tarama)"
+      description: "Ham gövde. Beyan edilen sha256 ile içerik karması uyuşmazsa dosya saklanmaz (422 EVIDENCE_HASH_MISMATCH).\nTarama kancası sonucu: clean | rejected | pending; `pending` kalan dosya indirilemez."
+      operationId: "upload_content_v1_evidence_uploads__evidence_id__content_put"
+      parameters:
+        - name: "evidence_id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+            title: "Evidence Id"
+      responses:
+        200:
+          description: "Successful Response"
+          content:
+            application/json:
+              schema: {}
+        422:
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/HTTPValidationError"
+  /v1/evidence/{evidence_id}:
+    get:
+      tags:
+        - "evidence"
+      summary: "Kanıt üst verisi"
+      operationId: "get_evidence_v1_evidence__evidence_id__get"
+      parameters:
+        - name: "evidence_id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+            title: "Evidence Id"
+      responses:
+        200:
+          description: "Successful Response"
+          content:
+            application/json:
+              schema: {}
+        422:
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/HTTPValidationError"
+  /v1/evidence/{evidence_id}/download-url:
+    get:
+      tags:
+        - "evidence"
+      summary: "Kısa ömürlü imzalı indirme bağlantısı (yalnız taranmış dosya)"
+      operationId: "download_url_v1_evidence__evidence_id__download_url_get"
+      parameters:
+        - name: "evidence_id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+            title: "Evidence Id"
+        - name: "ttl"
+          in: "query"
+          required: false
+          schema:
+            anyOf:
+              - type: "integer"
+                minimum: 10
+              - type: "null"
+            title: "Ttl"
+      responses:
+        200:
+          description: "Successful Response"
+          content:
+            application/json:
+              schema: {}
+        422:
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/HTTPValidationError"
+  /v1/evidence/files/{tenant_id}/{evidence_id}:
+    get:
+      tags:
+        - "evidence"
+      summary: "İmzalı dosya indirme (imza + süre doğrulanır)"
+      description: "Bearer gerekmez; HMAC imzası ve süre doğrulanır. Süre dolunca 403. İmza yalnız bu tenant+kanıt için geçerlidir."
+      operationId: "download_file_v1_evidence_files__tenant_id___evidence_id__get"
+      parameters:
+        - name: "tenant_id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+            title: "Tenant Id"
+        - name: "evidence_id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+            title: "Evidence Id"
+        - name: "exp"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+            title: "Exp"
+        - name: "sig"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+            title: "Sig"
+      responses:
+        200:
+          description: "Successful Response"
+          content:
+            application/json:
+              schema: {}
+        422:
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/HTTPValidationError"
+  /v1/imports:
+    post:
+      tags:
+        - "imports"
+      summary: "İçe aktar (CSV multipart veya JSON satırlar) → 202 + job_id"
+      description: "multipart/form-data: `file` (CSV, UTF-8, ayraç `,` veya `;`), `period_id`. JSON: `{\"period_id\",\"rows\":[...]}`.\nSütunlar: source_type, fuel, quantity, quantity_state, not_applicable_reason, unit, heating_value_basis, data_quality,\nactivity_start, activity_end, note. Aynı dosya ikinci kez → aynı iş; aynı satır → `duplicate`."
+      operationId: "create_import_v1_imports_post"
+      parameters:
+        - name: "preview"
+          in: "query"
+          required: false
+          schema:
+            type: "boolean"
+            default: false
+            title: "Preview"
+      responses:
+        202:
+          description: "Successful Response"
+          content:
+            application/json:
+              schema: {}
+        422:
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/HTTPValidationError"
+  /v1/imports/{job_id}:
+    get:
+      tags:
+        - "imports"
+      summary: "İçe aktarma işini oku"
+      operationId: "get_import_v1_imports__job_id__get"
+      parameters:
+        - name: "job_id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+            title: "Job Id"
+      responses:
+        200:
+          description: "Successful Response"
+          content:
+            application/json:
+              schema: {}
+        422:
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/HTTPValidationError"
+  /v1/imports/{job_id}/rollback:
+    post:
+      tags:
+        - "imports"
+      summary: "İçe aktarmayı geri al (yalnız taslak kayıtlar geri çekilir)"
+      description: "İşin yarattığı kayıtlardan hâlâ `draft` olanlar geri çekilir (withdrawn); hesaplanmış/onaylı olanlar korunur ve\n`kept` listesinde döner. Sürüm satırları silinmez (kural 9). Kilitli dönemde 409."
+      operationId: "rollback_import_v1_imports__job_id__rollback_post"
+      parameters:
+        - name: "job_id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+            title: "Job Id"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/ImportRollbackRequest"
+      responses:
+        200:
+          description: "Successful Response"
+          content:
+            application/json:
+              schema: {}
+        422:
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/HTTPValidationError"
+  "/v1/exports/activities.csv":
+    get:
+      tags:
+        - "exports"
+      summary: "Faaliyet kayıtları CSV (UI ile aynı yetki ve filtre)"
+      description: "Kural 2: miktar boş hücre (bilinmiyor) / \"0\" / `quantity_state` sütunu ile ayrılır; sayı asla float'a çevrilmez.\nMetin hücreleri `= + - @` ile başlıyorsa tek tırnakla etkisizleştirilir."
+      operationId: "export_activities_v1_exports_activities_csv_get"
+      parameters:
+        - name: "period_id"
+          in: "query"
+          required: false
+          schema:
+            anyOf:
+              - type: "string"
+              - type: "null"
+            title: "Period Id"
+      responses:
+        200:
+          description: "Successful Response"
+          content:
+            application/json:
+              schema: {}
+        422:
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/HTTPValidationError"
+  /v1/factors:
+    get:
+      tags:
+        - "catalog"
+      summary: "Faktör kataloğu"
+      operationId: "list_factors_v1_factors_get"
+      parameters:
+        - name: "factor_id"
+          in: "query"
+          required: false
+          schema:
+            anyOf:
+              - type: "string"
+              - type: "null"
+            title: "Factor Id"
+        - name: "status"
+          in: "query"
+          required: false
+          schema:
+            anyOf:
+              - type: "string"
+                pattern: "^(draft|active|retired)$"
+              - type: "null"
+            title: "Status"
+      responses:
+        200:
+          description: "Successful Response"
+          content:
+            application/json:
+              schema: {}
+        422:
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/HTTPValidationError"
+  /v1/factors/{factor_id}/versions:
+    get:
+      tags:
+        - "catalog"
+      summary: "Faktör sürümleri"
+      operationId: "factor_versions_v1_factors__factor_id__versions_get"
+      parameters:
+        - name: "factor_id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+            title: "Factor Id"
+      responses:
+        200:
+          description: "Successful Response"
+          content:
+            application/json:
+              schema: {}
+        422:
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/HTTPValidationError"
+    post:
+      tags:
+        - "catalog"
+      summary: "Faktör sürümü ekle (uzman kontrolör; source_ref zorunlu)"
+      operationId: "create_factor_version_v1_factors__factor_id__versions_post"
+      parameters:
+        - name: "factor_id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+            title: "Factor Id"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/FactorVersionCreate"
+      responses:
+        201:
+          description: "Successful Response"
+          content:
+            application/json:
+              schema: {}
+        422:
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/HTTPValidationError"
+  /v1/factors/{factor_id}/versions/{version}/activate:
+    post:
+      tags:
+        - "catalog"
+      summary: "Faktör sürümünü etkinleştir (T13: eski koşumlar değişmez)"
+      operationId: "activate_factor_version_v1_factors__factor_id__versions__version__activate_post"
+      parameters:
+        - name: "factor_id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+            title: "Factor Id"
+        - name: "version"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+            title: "Version"
+      responses:
+        200:
+          description: "Successful Response"
+          content:
+            application/json:
+              schema: {}
+        422:
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/HTTPValidationError"
+  /v1/methods:
+    get:
+      tags:
+        - "catalog"
+      summary: "Yöntem kataloğu"
+      operationId: "list_methods_v1_methods_get"
+      responses:
+        200:
+          description: "Successful Response"
+          content:
+            application/json:
+              schema: {}
+  /v1/sources:
+    get:
+      tags:
+        - "sources"
+      summary: "Kaynakları listele"
+      operationId: "list_sources_v1_sources_get"
+      responses:
+        200:
+          description: "Successful Response"
+          content:
+            application/json:
+              schema: {}
+    post:
+      tags:
+        - "sources"
+      summary: "Kaynak kaydet (SRC-01)"
+      operationId: "create_source_v1_sources_post"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/SourceCreate"
+        required: true
+      responses:
+        201:
+          description: "Successful Response"
+          content:
+            application/json:
+              schema: {}
+        422:
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/HTTPValidationError"
+  /v1/sources/{source_id}:
+    get:
+      tags:
+        - "sources"
+      summary: "Kaynağı oku"
+      operationId: "get_source_v1_sources__source_id__get"
+      parameters:
+        - name: "source_id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+            title: "Source Id"
+      responses:
+        200:
+          description: "Successful Response"
+          content:
+            application/json:
+              schema: {}
+        422:
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/HTTPValidationError"
+  /v1/sources/{source_id}/versions:
+    get:
+      tags:
+        - "sources"
+      summary: "Kaynak sürümleri ve değişiklik listesi (§27)"
+      operationId: "list_versions_v1_sources__source_id__versions_get"
+      parameters:
+        - name: "source_id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+            title: "Source Id"
+      responses:
+        200:
+          description: "Successful Response"
+          content:
+            application/json:
+              schema: {}
+        422:
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/HTTPValidationError"
+    post:
+      tags:
+        - "sources"
+      summary: "Yeni kaynak sürümü (SRC-03/04; içerik karması zorunlu)"
+      description: "Aynı içerik karması son sürümle aynıysa 409 SOURCE_CONTENT_UNCHANGED (kontrol tarihi için `/checked` kullanın)."
+      operationId: "create_version_v1_sources__source_id__versions_post"
+      parameters:
+        - name: "source_id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+            title: "Source Id"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/SourceVersionCreate"
+      responses:
+        201:
+          description: "Successful Response"
+          content:
+            application/json:
+              schema: {}
+        422:
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/HTTPValidationError"
+  /v1/sources/{source_id}/versions/{version}/approve:
+    post:
+      tags:
+        - "sources"
+      summary: "Uzman onayı (SRC-06; yalnız uzman kontrolör)"
+      operationId: "approve_version_v1_sources__source_id__versions__version__approve_post"
+      parameters:
+        - name: "source_id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+            title: "Source Id"
+        - name: "version"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            title: "Version"
+      responses:
+        200:
+          description: "Successful Response"
+          content:
+            application/json:
+              schema: {}
+        422:
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/HTTPValidationError"
+  /v1/sources/{source_id}/versions/{version}/checked:
+    post:
+      tags:
+        - "sources"
+      summary: "Son başarılı kontrol zamanını yaz (SRC-02)"
+      operationId: "mark_checked_v1_sources__source_id__versions__version__checked_post"
+      parameters:
+        - name: "source_id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+            title: "Source Id"
+        - name: "version"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            title: "Version"
+      responses:
+        200:
+          description: "Successful Response"
+          content:
+            application/json:
+              schema: {}
+        422:
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/HTTPValidationError"
+  /v1/integrations/{source_system}/events:
+    post:
+      tags:
+        - "integrations"
+      summary: "İmzalı webhook → staging (aynı olay tekrar işlenmez)"
+      description: "Başlıklar: `X-Koza-Timestamp` (Unix sn), `X-Koza-Signature: sha256=<HMAC(secret, \"<ts>.<gövde>\")>`.\nGövde: {event_id, mapping_version, pulled_at?, rows: [{external_id, payload, pulled_at?}]}."
+      operationId: "receive_event_v1_integrations__source_system__events_post"
+      parameters:
+        - name: "source_system"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+            title: "Source System"
+      responses:
+        202:
+          description: "Successful Response"
+          content:
+            application/json:
+              schema: {}
+        422:
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/HTTPValidationError"
+  /v1/integrations/staging:
+    get:
+      tags:
+        - "integrations"
+      summary: "Staging satırları"
+      operationId: "list_staging_v1_integrations_staging_get"
+      parameters:
+        - name: "source_system"
+          in: "query"
+          required: false
+          schema:
+            anyOf:
+              - type: "string"
+              - type: "null"
+            title: "Source System"
+      responses:
+        200:
+          description: "Successful Response"
+          content:
+            application/json:
+              schema: {}
+        422:
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/HTTPValidationError"
+  /v1/integrations/status:
+    get:
+      tags:
+        - "integrations"
+      summary: "Entegrasyon güncellik durumu (kaynak sistem başına son alım)"
+      operationId: "status_v1_integrations_status_get"
+      responses:
+        200:
+          description: "Successful Response"
+          content:
+            application/json:
+              schema: {}
+  /v1/sessions/me:
+    get:
+      tags:
+        - "sessions"
+      summary: "Oturum bilgisi"
+      operationId: "me_v1_sessions_me_get"
+      responses:
+        200:
+          description: "Successful Response"
+          content:
+            application/json:
+              schema: {}
+  /v1/sessions/revoke:
+    post:
+      tags:
+        - "sessions"
+      summary: "Oturumu sonlandır (jti iptal listesi)"
+      description: "Kendi oturumu herkes; başka bir jti yalnız admin (ör. ayrılan çalışanın açık oturumu)."
+      operationId: "revoke_v1_sessions_revoke_post"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/SessionRevokeRequest"
+        required: true
+      responses:
+        200:
+          description: "Successful Response"
+          content:
+            application/json:
+              schema: {}
+        422:
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/HTTPValidationError"
+  /v1/memberships:
+    get:
+      tags:
+        - "memberships"
+      summary: "Kurum üyelikleri"
+      operationId: "list_memberships_v1_memberships_get"
+      responses:
+        200:
+          description: "Successful Response"
+          content:
+            application/json:
+              schema: {}
+    post:
+      tags:
+        - "memberships"
+      summary: "Rol ver / rolü geri al (admin + MFA)"
+      description: "OIDC modunda değişiklik açık oturumda hemen etkilidir (roller her istekte depodan okunur). Dev tokenlarda roller\ntoken içinde geldiğinden yalnız depo güncellenir; `meta.effective_for_dev_tokens=false`."
+      operationId: "change_membership_v1_memberships_post"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/MembershipChange"
+        required: true
+      responses:
+        200:
           description: "Successful Response"
           content:
             application/json:
@@ -664,6 +1405,43 @@ components:
       type: "object"
       title: "ActivityPatch"
       description: "Kısmi güncelleme. Verilmeyen alan korunur; açık `null` 'bilinmiyor' demektir\n(pydantic `model_fields_set` ile ayırt edilir)."
+    AggregatePolicy:
+      properties:
+        include_states:
+          items:
+            type: "string"
+            enum:
+              - "draft"
+              - "validation_required"
+              - "calculated"
+              - "in_review"
+              - "changes_requested"
+              - "approved"
+              - "locked"
+          type: "array"
+          title: "Include States"
+        scope2_method:
+          type: "string"
+          enum:
+            - "location_based"
+            - "market_based"
+          title: "Scope2 Method"
+          default: "location_based"
+      additionalProperties: false
+      type: "object"
+      title: "AggregatePolicy"
+    AggregateRequest:
+      properties:
+        period_id:
+          type: "string"
+          title: "Period Id"
+        policy:
+          "$ref": "#/components/schemas/AggregatePolicy"
+      additionalProperties: false
+      type: "object"
+      required:
+        - "period_id"
+      title: "AggregateRequest"
     ApprovalRequest:
       properties:
         record_id:
@@ -729,6 +1507,107 @@ components:
         - "factor_refs"
         - "method"
       title: "CalculateRequest"
+    ChangeCard:
+      properties:
+        old_link:
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Old Link"
+        new_link:
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "New Link"
+        changed_clause:
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Changed Clause"
+        summary_tr:
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Summary Tr"
+        nature:
+          anyOf:
+            - type: "string"
+              enum:
+                - "definitive"
+                - "interpretive"
+            - type: "null"
+          title: "Nature"
+          description: "kesin / yorum niteliği"
+        affected_profiles:
+          items:
+            type: "string"
+          type: "array"
+          title: "Affected Profiles"
+        affected_forms:
+          items:
+            type: "string"
+          type: "array"
+          title: "Affected Forms"
+        affected_calculations:
+          items:
+            type: "string"
+          type: "array"
+          title: "Affected Calculations"
+        affected_lessons:
+          items:
+            type: "string"
+          type: "array"
+          title: "Affected Lessons"
+        effective_note_tr:
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Effective Note Tr"
+          description: "Hangi tarihten itibaren hangi iş değişir"
+      additionalProperties: false
+      type: "object"
+      title: "ChangeCard"
+      description: "§19 değişiklik kartı."
+    ClassificationPreviewRequest:
+      properties:
+        source_type:
+          type: "string"
+          minLength: 1
+          title: "Source Type"
+        fuel:
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Fuel"
+        control_relation:
+          anyOf:
+            - type: "string"
+              enum:
+                - "owned"
+                - "leased_operational_control"
+                - "leased_financial_control"
+                - "leased_no_control"
+                - "third_party"
+                - "unknown"
+            - type: "null"
+          title: "Control Relation"
+        energy_carrier:
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Energy Carrier"
+          description: "purchased_* için: electricity | steam | heat | cooling"
+        scope3_hint:
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Scope3 Hint"
+          description: "scope3 için ipucu: purchased_goods | business_travel | ..."
+      additionalProperties: false
+      type: "object"
+      required:
+        - "source_type"
+      title: "ClassificationPreviewRequest"
     EvidenceUploadRequest:
       properties:
         sha256:
@@ -770,6 +1649,99 @@ components:
         - "id"
         - "version"
       title: "FactorRef"
+    FactorVersionCreate:
+      properties:
+        version:
+          type: "string"
+          maxLength: 50
+          minLength: 1
+          title: "Version"
+        value:
+          type: "string"
+          pattern: "^-?\\d+(\\.\\d+)?$"
+          title: "Value"
+          description: "Ondalık dize; sayı değil"
+        numerator_unit:
+          type: "string"
+          minLength: 1
+          title: "Numerator Unit"
+        gas:
+          type: "string"
+          enum:
+            - "CO2"
+            - "CH4"
+            - "N2O"
+            - "CO2e"
+          title: "Gas"
+        denominator_unit:
+          type: "string"
+          minLength: 1
+          title: "Denominator Unit"
+        basis:
+          anyOf:
+            - type: "string"
+              enum:
+                - "LHV"
+                - "HHV"
+            - type: "null"
+          title: "Basis"
+        reference_conditions:
+          anyOf:
+            - additionalProperties: true
+              type: "object"
+            - type: "null"
+          title: "Reference Conditions"
+        boundary:
+          type: "string"
+          minLength: 1
+          title: "Boundary"
+        gwp_set_id:
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Gwp Set Id"
+        country:
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Country"
+        year:
+          anyOf:
+            - type: "integer"
+            - type: "null"
+          title: "Year"
+        source_ref:
+          type: "string"
+          minLength: 3
+          title: "Source Ref"
+          description: "Zorunlu: yayımlayan kaynak / sürüm referansı (§18)"
+        license:
+          type: "string"
+          minLength: 1
+          title: "License"
+        valid_from:
+          type: "string"
+          format: "date"
+          title: "Valid From"
+        valid_to:
+          anyOf:
+            - type: "string"
+              format: "date"
+            - type: "null"
+          title: "Valid To"
+      additionalProperties: false
+      type: "object"
+      required:
+        - "version"
+        - "value"
+        - "numerator_unit"
+        - "gas"
+        - "denominator_unit"
+        - "boundary"
+        - "source_ref"
+        - "license"
+        - "valid_from"
+      title: "FactorVersionCreate"
     HTTPValidationError:
       properties:
         detail:
@@ -779,6 +1751,54 @@ components:
           title: "Detail"
       type: "object"
       title: "HTTPValidationError"
+    ImportRollbackRequest:
+      properties:
+        reason:
+          type: "string"
+          maxLength: 2000
+          minLength: 10
+          title: "Reason"
+      additionalProperties: false
+      type: "object"
+      required:
+        - "reason"
+      title: "ImportRollbackRequest"
+    MembershipChange:
+      properties:
+        user_id:
+          type: "string"
+          title: "User Id"
+        role:
+          type: "string"
+          enum:
+            - "admin"
+            - "data_entry"
+            - "data_owner"
+            - "reviewer"
+            - "approver"
+            - "viewer"
+            - "supplier"
+            - "content_editor"
+          title: "Role"
+        action:
+          type: "string"
+          enum:
+            - "grant"
+            - "revoke"
+          title: "Action"
+        reason:
+          anyOf:
+            - type: "string"
+              maxLength: 500
+            - type: "null"
+          title: "Reason"
+      additionalProperties: false
+      type: "object"
+      required:
+        - "user_id"
+        - "role"
+        - "action"
+      title: "MembershipChange"
     MethodRef:
       properties:
         id:
@@ -937,6 +1957,132 @@ components:
       required:
         - "period_id"
       title: "ReportCreate"
+    SessionRevokeRequest:
+      properties:
+        jti:
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Jti"
+          description: "Boşsa mevcut oturum; başka jti yalnız admin"
+        reason:
+          anyOf:
+            - type: "string"
+              maxLength: 500
+            - type: "null"
+          title: "Reason"
+      additionalProperties: false
+      type: "object"
+      title: "SessionRevokeRequest"
+    SourceCreate:
+      properties:
+        name:
+          type: "string"
+          maxLength: 300
+          minLength: 1
+          title: "Name"
+        publisher:
+          type: "string"
+          maxLength: 300
+          minLength: 1
+          title: "Publisher"
+        url:
+          anyOf:
+            - type: "string"
+              maxLength: 2000
+            - type: "null"
+          title: "Url"
+        kind:
+          type: "string"
+          enum:
+            - "standard"
+            - "methodology"
+            - "regulation"
+            - "dataset"
+            - "guidance"
+          title: "Kind"
+        license:
+          anyOf:
+            - type: "string"
+              maxLength: 300
+            - type: "null"
+          title: "License"
+      additionalProperties: false
+      type: "object"
+      required:
+        - "name"
+        - "publisher"
+        - "kind"
+      title: "SourceCreate"
+    SourceVersionCreate:
+      properties:
+        publication_date:
+          anyOf:
+            - type: "string"
+              format: "date"
+            - type: "null"
+          title: "Publication Date"
+        effective_date:
+          anyOf:
+            - type: "string"
+              format: "date"
+            - type: "null"
+          title: "Effective Date"
+        covered_period_start:
+          anyOf:
+            - type: "string"
+              format: "date"
+            - type: "null"
+          title: "Covered Period Start"
+        covered_period_end:
+          anyOf:
+            - type: "string"
+              format: "date"
+            - type: "null"
+          title: "Covered Period End"
+        early_adoption_note:
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Early Adoption Note"
+        seen_at:
+          anyOf:
+            - type: "string"
+              format: "date-time"
+            - type: "null"
+          title: "Seen At"
+          description: "Sistemde görülme; boşsa şimdi"
+        last_checked_at:
+          anyOf:
+            - type: "string"
+              format: "date-time"
+            - type: "null"
+          title: "Last Checked At"
+        content_hash:
+          anyOf:
+            - type: "string"
+              pattern: "^[0-9a-f]{64}$"
+            - type: "null"
+          title: "Content Hash"
+          description: "İçerik sha256; `content` verilirse hesaplanır"
+        content:
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Content"
+          description: "Karma hesaplamak için ham metin (saklanmaz)"
+        content_url:
+          anyOf:
+            - type: "string"
+              maxLength: 2000
+            - type: "null"
+          title: "Content Url"
+        change_card:
+          "$ref": "#/components/schemas/ChangeCard"
+      additionalProperties: false
+      type: "object"
+      title: "SourceVersionCreate"
+      description: "Tarih modeli (§19): yayın, yürürlük, kapsanan dönem, erken uygulama, görülme, son kontrol — ayrı alanlar."
     SubmitRequest:
       properties:
         note:

@@ -1,0 +1,18 @@
+id: co2e
+tr: Karbondioksit eşdeğeri
+en: Carbon dioxide equivalent
+abbr: CO₂e
+aliases: ["co2e", "co2 eşdeğeri", "karbon eşdeğeri", "CO2-eq", "tCO2e"]
+kind: terim
+contexts: [envanter, urun, raporlama]
+definition: >-
+  Farklı sera gazlarının iklim etkisini tek bir ortak birimde ifade etme yolu. Her gazın kütlesi
+  kendi küresel ısınma potansiyeliyle (GWP) çarpılır ve CO₂ cinsinden toplanır; böylece metan, azot
+  oksit ve florlu gazlar aynı sayıda toplanabilir.
+example: "1 t CO₂ + 1 t CH₄ (GWP 28, test seti) = 1 + 28 = 29 t CO₂e. Sonucun yanında hangi GWP setinin kullanıldığı yazılır."
+confused_with: "CO₂ (yalnız karbondioksit) ile karıştırılır; 'yalnız CO₂' etiketli sonuç tam CO₂e değildir. GWP sonuç birimi değil, dönüşüm katsayısıdır."
+related_task: "Hesap sonucunun kapsadığı gazları okumak; raporda birimi doğru yazmak."
+related_route: "/envanter/"
+likely_department: "Sürdürülebilirlik"
+source: "K03; §18"
+status: editör onayı bekliyor

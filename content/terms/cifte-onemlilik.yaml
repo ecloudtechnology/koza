@@ -1,0 +1,19 @@
+id: cifte-onemlilik
+tr: Çifte önemlilik
+en: Double materiality
+abbr: null
+aliases: ["double materiality", "cifte onemlilik", "önemlilik", "materiality", "etki önemliliği", "finansal önemlilik"]
+kind: terim
+contexts: [raporlama, yonetim]
+definition: >-
+  Bir konunun iki yönden önemli olup olmadığına bakma yaklaşımı: kurumun çevre ve insanlar üzerindeki
+  etkisi (etki önemliliği) ve konunun kurumun finansal durumuna etkisi (finansal önemlilik). GRI
+  yaklaşımı etki tarafına, TSRS yaklaşımı finansal tarafa odaklanır; bir konu yalnız birinde de
+  önemli olabilir.
+example: "Su kıtlığı: tesisin yerel su kaynağına etkisi (etki) ve üretim kesintisi riski (finansal) ayrı ayrı değerlendirilir."
+confused_with: "Tek bir 'önemli konular listesi' sanılır; iki soru ayrı cevaplanır ve karar kurumun değerlendirmesidir, profil karar vermez."
+related_task: "Konu değerlendirmesini kaydedip hangi açıklamaların gerekli olduğunu belirlemek."
+related_route: "/raporlar/"
+likely_department: "Sürdürülebilirlik / finans / üst yönetim"
+source: "K01 GRI 1 Foundation 2021; K02 TSRS"
+status: editör onayı bekliyor

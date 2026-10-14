@@ -1,13 +1,13 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { PREVIEW_USERS, ROLE_LABEL } from "@/lib/domain";
 import { useStore } from "@/lib/useStore";
 import { Icon, type IconName } from "./icons";
+import "@/modules";
 
-type Status = "hazir" | "kismi" | "planli";
-type NavItem = { href: string; label: string; icon: IconName; status?: Status; dilim?: string };
+type NavItem = { href: string; label: string; icon: IconName };
 
 export const NAV: { group: string; items: NavItem[] }[] = [
   {
@@ -19,49 +19,64 @@ export const NAV: { group: string; items: NavItem[] }[] = [
     ],
   },
   {
-    group: "Çalışma akışı",
+    group: "Veri ve hesap",
     items: [
-      { href: "/kurulum/", label: "Kurum kurulumu", icon: "building", status: "hazir", dilim: "1" },
-      { href: "/veri-girisi/", label: "Veri girişi", icon: "edit", status: "kismi", dilim: "1" },
-      { href: "/envanter/", label: "Emisyon envanteri", icon: "layers", status: "kismi", dilim: "1" },
-      { href: "/gorevler/", label: "Görevler ve talepler", icon: "check", status: "kismi", dilim: "1" },
-      { href: "/inceleme/", label: "İnceleme kuyruğu", icon: "eye", status: "hazir", dilim: "1" },
-      { href: "/donem/", label: "Dönem kapanışı", icon: "lock", status: "hazir", dilim: "1" },
-      { href: "/raporlar/", label: "Raporlar ve kanıtlar", icon: "file", status: "kismi", dilim: "1" },
-      { href: "/faktorler/", label: "Faktör kataloğu", icon: "grid", status: "kismi", dilim: "1" },
+      { href: "/kurulum/", label: "Kurum kurulumu", icon: "building" },
+      { href: "/veri-girisi/", label: "Veri girişi", icon: "edit" },
+      { href: "/ice-aktar/", label: "İçe aktarma (CSV)", icon: "list" },
+      { href: "/envanter/", label: "Emisyon envanteri", icon: "layers" },
+      { href: "/urun/", label: "Ürün ve yaşam döngüsü", icon: "box" },
+      { href: "/faktorler/", label: "Faktör kataloğu", icon: "grid" },
+    ],
+  },
+  {
+    group: "Kontrol ve rapor",
+    items: [
+      { href: "/gorevler/", label: "Görevler ve talepler", icon: "check" },
+      { href: "/inceleme/", label: "İnceleme kuyruğu", icon: "eye" },
+      { href: "/donem/", label: "Dönem kapanışı", icon: "lock" },
+      { href: "/raporlar/", label: "Raporlar ve kanıtlar", icon: "file" },
+    ],
+  },
+  {
+    group: "Performans ve katılım",
+    items: [
+      { href: "/analiz/", label: "Analiz ve hedefler", icon: "chart" },
+      { href: "/aksiyon/", label: "Karar kapısı ve aksiyon", icon: "flag" },
+      { href: "/kaizen/", label: "Green Kaizen", icon: "spark" },
+    ],
+  },
+  {
+    group: "Dış ilişkiler ve uyum",
+    items: [
+      { href: "/tedarikci/", label: "Tedarikçi programı", icon: "people" },
+      { href: "/regulasyon/", label: "Regülasyon paketleri", icon: "shield" },
+      { href: "/senaryo/", label: "Senaryo defteri", icon: "chart" },
+      { href: "/gundem/", label: "Gündem ve takvim", icon: "calendar" },
     ],
   },
   {
     group: "Öğrenme ve kaynak",
     items: [
-      { href: "/101/", label: "Sürdürülebilirlik 101", icon: "book", status: "planli", dilim: "3" },
-      { href: "/protokoller/", label: "Protokoller ve standartlar", icon: "shield", status: "planli", dilim: "3" },
-      { href: "/gundem/", label: "Gündem ve takvim", icon: "calendar", status: "planli", dilim: "8" },
-      { href: "/sozluk/", label: "Sözlük", icon: "search", status: "kismi", dilim: "3" },
-      { href: "/asistan/", label: "Asistan", icon: "spark", status: "planli", dilim: "3" },
+      { href: "/101/", label: "Sürdürülebilirlik 101", icon: "book" },
+      { href: "/protokoller/", label: "Protokoller ve standartlar", icon: "docs" },
+      { href: "/sozluk/", label: "Sözlük", icon: "search" },
+      { href: "/asistan/", label: "Asistan", icon: "spark" },
     ],
   },
   {
-    group: "İleri",
+    group: "Yönetim ve doğrulama",
     items: [
-      { href: "/urun/", label: "Ürün ve yaşam döngüsü", icon: "box", status: "planli", dilim: "7+" },
-      { href: "/analiz/", label: "Analiz ve hedefler", icon: "chart", status: "planli", dilim: "4" },
-      { href: "/ayarlar/", label: "Kurum ayarları", icon: "settings", status: "kismi", dilim: "0" },
-    ],
-  },
-  {
-    group: "Proje ve doğrulama",
-    items: [
+      { href: "/ayarlar/", label: "Kurum ayarları", icon: "settings" },
+      { href: "/denetim-izi/", label: "Denetim izi", icon: "list" },
       { href: "/durum/", label: "Proje durumu", icon: "flag" },
       { href: "/belgeler/", label: "Belgeler", icon: "docs" },
       { href: "/altin-set/", label: "Altın set (motor testi)", icon: "beaker" },
       { href: "/hatalar/", label: "Hata sözlüğü", icon: "alert" },
-      { href: "/denetim-izi/", label: "Denetim izi", icon: "list", dilim: "0" },
     ],
   },
 ];
 
-const ST: Record<Status, { cls: string; text: string }> = { hazir: { cls: "ok", text: "hazır" }, kismi: { cls: "warn", text: "kısmi" }, planli: { cls: "", text: "planlı" } };
 
 export function Shell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -70,7 +85,6 @@ export function Shell({ children }: { children: React.ReactNode }) {
   const base = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
   const path = (pathname ?? "/").replace(base, "") || "/";
   const isActive = (href: string) => (href === "/" ? path === "/" : path.startsWith(href.replace(/\/$/, "")));
-  useEffect(() => setOpen(false), [pathname]);
 
   return (
     <div className="shell">
@@ -80,21 +94,16 @@ export function Shell({ children }: { children: React.ReactNode }) {
           <span className="mark" aria-hidden="true">K</span>
           <span>
             <span className="name">Koza</span>
-            <span className="sub">Önizleme · Dilim 0–1</span>
+            <span className="sub">Sürdürülebilirlik platformu</span>
           </span>
         </Link>
         {NAV.map((g) => (
           <div key={g.group}>
             <div className="nav-group">{g.group}</div>
             {g.items.map((it) => (
-              <Link key={it.href} href={it.href} className="item" aria-current={isActive(it.href) ? "page" : undefined}>
+              <Link key={it.href} href={it.href} className="item" aria-current={isActive(it.href) ? "page" : undefined} onClick={() => setOpen(false)}>
                 <Icon name={it.icon} />
                 <span>{it.label}</span>
-                {it.status && (
-                  <span className={`st ${ST[it.status].cls}`} title={it.dilim ? `Dilim ${it.dilim}` : undefined}>
-                    {ST[it.status].text}
-                  </span>
-                )}
               </Link>
             ))}
           </div>

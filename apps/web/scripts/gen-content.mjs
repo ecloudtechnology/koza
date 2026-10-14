@@ -22,19 +22,31 @@ function readDirFiles(dir, ext) {
     .map((f) => ({ name: f, text: fs.readFileSync(path.join(dir, f), "utf8") }));
 }
 
-// 1. Sektör profilleri (content/sector-profiles/*.yaml, _schema hariç)
-const profiles = readDirFiles(path.join(root, "content", "sector-profiles"), ".yaml")
-  .filter((f) => !f.name.startsWith("_"))
-  .map((f) => yaml.load(f.text));
+// 1. content/<dizin>/*.yaml → content.json {dizin: [...]} (+ geriye uyum için ayrı dosyalar). _ ile başlayan dosyalar (şema) atlanır.
+function loadYamlDir(dir) {
+  return readDirFiles(dir, ".yaml")
+    .filter((f) => !f.name.startsWith("_"))
+    .map((f) => {
+      try {
+        return yaml.load(f.text);
+      } catch (e) {
+        throw new Error(`YAML hatası ${dir}/${f.name}: ${e.message}`);
+      }
+    });
+}
+const contentRoot = path.join(root, "content");
+const content = {};
+for (const d of fs.readdirSync(contentRoot).filter((d) => fs.statSync(path.join(contentRoot, d)).isDirectory()).sort()) {
+  content[d] = loadYamlDir(path.join(contentRoot, d));
+}
+fs.writeFileSync(path.join(gen, "content.json"), JSON.stringify(content, null, 2));
+const profiles = content["sector-profiles"] ?? [];
+const terms = content["terms"] ?? [];
+const lessons = content["lessons"] ?? [];
 fs.writeFileSync(path.join(gen, "profiles.json"), JSON.stringify(profiles, null, 2));
-
-// 2. Sözlük ve dersler (content/terms, content/lessons)
-const terms = readDirFiles(path.join(root, "content", "terms"), ".yaml").map((f) => yaml.load(f.text));
 fs.writeFileSync(path.join(gen, "terms.json"), JSON.stringify(terms, null, 2));
-const lessons = readDirFiles(path.join(root, "content", "lessons"), ".yaml").map((f) => yaml.load(f.text));
 fs.writeFileSync(path.join(gen, "lessons.json"), JSON.stringify(lessons, null, 2));
-const sources = readDirFiles(path.join(root, "content", "sources"), ".yaml").map((f) => yaml.load(f.text));
-fs.writeFileSync(path.join(gen, "sources.json"), JSON.stringify(sources, null, 2));
+fs.writeFileSync(path.join(gen, "sources.json"), JSON.stringify(content["sources"] ?? [], null, 2));
 
 // 3. Altın set ve test faktör kataloğu (yalnız tests/ altından okunur — kural 12)
 const golden = readDirFiles(path.join(root, "tests", "golden"), ".json").map((f) => JSON.parse(f.text));
@@ -63,15 +75,35 @@ const docList = [
   ["is-akisi", "Geliştirici iş akışı", "docs/gelistirici-is-akisi.md"],
   ["rol-matrisi", "Rol ve yetki matrisi", "docs/rol-matrisi.md"],
   ["veri-modeli", "Veri modeli ve göçler", "docs/veri-modeli.md"],
-  ["calc-contract", "Hesap motoru sözleşmesi", "packages/calc-engine/CONTRACT.md"],
+  ["uretime-gecis", "Üretime geçiş yönergesi", "docs/uretime-gecis.md"],
+  ["calc-contract", "Hesap motoru sözleşmesi v0.1", "packages/calc-engine/CONTRACT.md"],
+  ["calc-contract-2", "Hesap motoru sözleşmesi v0.2", "packages/calc-engine/CONTRACT-v0.2.md"],
   ["calc-readme", "Hesap motoru README", "packages/calc-engine/README.md"],
   ["api-readme", "İş API'si README", "apps/api/README.md"],
   ["kurallar", "Geliştirme kuralları", "GELISTIRME-KURALLARI.md"],
+  ["surec-dilim", "Süreç: dilim döngüsü", "docs/surec/dilim.md"],
+  ["surec-kontrol", "Süreç: kural kontrol listesi", "docs/surec/kontrol.md"],
 ];
 const docs = docList
   .filter(([, , rel]) => fs.existsSync(path.join(root, rel)))
   .map(([id, title, rel]) => ({ id, title, path: rel, body: fs.readFileSync(path.join(root, rel), "utf8") }));
 fs.writeFileSync(path.join(gen, "docs.json"), JSON.stringify(docs));
+
+// 5b. Şartname bölümleri (asistan ve bağlamsal yardım için): "## NN Başlık" → {id, title, body}; v1.1 maddeleri de eklenir
+const spec = fs.readFileSync(path.join(root, "docs", "spec", "KOZA_sartname_v1.0.md"), "utf8");
+const sections = [];
+let cur = null;
+for (const line of spec.split("\n")) {
+  const m = line.match(/^## (\d{2}) (.+)$/);
+  if (m) {
+    if (cur) sections.push(cur);
+    cur = { id: `§${m[1]}`, title: m[2].trim(), body: "" };
+  } else if (cur) cur.body += line + "\n";
+}
+if (cur) sections.push(cur);
+const v11 = fs.readFileSync(path.join(root, "docs", "spec", "KOZA_v1.1_gereklilikler.md"), "utf8");
+for (const m of v11.matchAll(/^- \*\*([A-ZÖĞÜŞİÇ]+-\d{2})\*\* (.+)$/gm)) sections.push({ id: m[1], title: m[1], body: m[2] });
+fs.writeFileSync(path.join(gen, "spec-sections.json"), JSON.stringify(sections));
 
 // 6. Hesap motoru kaynak kodu → public/calc-engine (tarayıcıda Pyodide aynı dosyaları çalıştırır)
 const engineSrc = path.join(root, "packages", "calc-engine", "koza_calc");
@@ -90,11 +122,6 @@ fs.writeFileSync(path.join(enginePub, "manifest.json"), JSON.stringify({ files: 
 // 7. Görseller
 const imgPub = path.join(web, "public", "img");
 fs.mkdirSync(imgPub, { recursive: true });
-for (const f of ["gelistirme-dongusu.svg", "sistem-akisi.svg", "gelistirme-dongusu.png"]) {
-  const p = path.join(root, "docs", "img", f);
-  if (fs.existsSync(p)) fs.copyFileSync(p, path.join(imgPub, f));
-}
+for (const f of fs.readdirSync(path.join(root, "docs", "img"))) fs.copyFileSync(path.join(root, "docs", "img", f), path.join(imgPub, f));
 
-console.log(
-  `gen-content: ${profiles.length} profil, ${terms.length} terim, ${lessons.length} ders, ${golden.length} altın örnek, ${docs.length} belge, ${engineFiles.length} motor dosyası`
-);
+console.log(`gen-content: ${Object.keys(content).map((k) => `${k}=${content[k].length}`).join(", ")}; ${golden.length} altın örnek; ${docs.length} belge; ${sections.length} şartname bölümü; ${engineFiles.length} motor dosyası`);

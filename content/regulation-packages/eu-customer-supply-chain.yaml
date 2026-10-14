@@ -1,0 +1,74 @@
+id: eu-customer-supply-chain
+version: 0.1.0
+status: active
+title: {tr: "AB müşterilerinin tedarik zinciri talepleri"}
+scope:
+  tr: >-
+    AB'deki müşterilerin kendi raporlama ve durum tespiti yükümlülükleri (ör. kurumsal sürdürülebilirlik
+    raporlaması ve durum tespiti düzenlemeleri) nedeniyle tedarikçilerinden istediği veri: ürün karbon ayak izi,
+    Kapsam 1–2 toplamı, tedarikçi davranış kuralları, sosyal uygunluk beyanları. Bu paket müşteri sözleşmesine
+    bağlı bir yükümlülüktür; hukuki eşik yerine sözleşme ve müşteri talebi belirleyicidir. Veri talebi şablonu
+    tedarikçi programındaki standart talep ile aynıdır (§14, TDR-02).
+decision_owner: {decision_ref: null, role: "Satış ve sürdürülebilirlik sorumlusu"}
+spec_sections: ["§08", "§14", "§17", "§19", "REG-01", "TDR-02"]
+sources: ["K06"]
+applicability_questions:
+  - id: has_eu_customer_request
+    text: {tr: "AB'deki bir müşteriden yazılı sürdürülebilirlik / emisyon veri talebi veya sözleşme maddesi aldınız mı?"}
+    options:
+      - {value: "yes", label: "Evet"}
+      - {value: "no", label: "Hayır"}
+      - {value: "unknown", label: "Bilmiyorum / satış ekibine sorulacak"}
+    applies_when: ["yes"]
+    excludes_when: ["no"]
+    rule_ref: null
+    hint: "Talep sözleşme eki, anket veya portal daveti biçiminde olabilir."
+  - id: request_type
+    text: {tr: "Talep ürün düzeyinde mi (ürün karbon ayak izi) yoksa kurum düzeyinde mi (Kapsam 1–2 toplamı, politika)?"}
+    options:
+      - {value: "product", label: "Ürün düzeyi"}
+      - {value: "corporate", label: "Kurum düzeyi"}
+      - {value: "both", label: "Her ikisi"}
+      - {value: "unknown", label: "Bilmiyorum"}
+    applies_when: ["product", "corporate", "both"]
+    excludes_when: []
+    rule_ref: null
+    hint: "Ürün düzeyi talep ürün çalışmasında (§17) karşılanır; kurum toplamı ürün faktörü olarak verilemez (§14)."
+  - id: customer_framework
+    text: {tr: "Müşteri belirli bir çerçeve veya düzenlemeye atıf yapıyor mu?"}
+    options:
+      - {value: "yes", label: "Evet, atıf var"}
+      - {value: "no", label: "Hayır, serbest talep"}
+      - {value: "unknown", label: "Bilmiyorum"}
+    applies_when: ["yes"]
+    excludes_when: []
+    rule_ref: "eu-customer-frameworks"
+    hint: "Atıf yapılan düzenlemenin yürürlük ve kapsam bilgisi kaynak izleme üzerinden doğrulanır."
+obligations:
+  - id: eu-customer-response-plan
+    text: {tr: "Müşteri talebini standart yanıt planına çevir: hangi veri, hangi bağlam (ürün/kurum), hangi dönem, hangi kanıt."}
+    evidence: ["Müşteri talep metni", "Yanıt planı", "Gizlilik ve kullanım koşulları"]
+    rule_ref: null
+    task_role_hint: "data_owner"
+  - id: eu-customer-product-footprint
+    text: {tr: "Ürün düzeyi talep için ürün çalışması aç; sınır, referans birim ve tahsisi açıkça belirt."}
+    evidence: ["Ürün çalışması kaydı (§17)"]
+    rule_ref: null
+    task_role_hint: "data_owner"
+  - id: eu-customer-external-send
+    text: {tr: "Dış tarafa gönderim öncesi muhatap, kapsam ve ekleri doğrula; açık yetkiyle kaydet (§09, §21)."}
+    evidence: ["Yetki kaydı (denetim izi)", "Gönderilen metin sürümü"]
+    rule_ref: null
+    task_role_hint: "admin"
+required_evidence:
+  - "Müşteri talep metni veya sözleşme maddesi"
+  - "Onaylı envanter dönemi (kurum düzeyi talep için)"
+rules:
+  - id: eu-customer-frameworks
+    text: "Müşterinin atıf yaptığı AB düzenlemelerinin yürürlük ve kapsam bilgisi (doğrulanacak)."
+    threshold: null
+    source_ref: "K06"
+    source_status: unverified
+    effective_from: null
+    last_checked: null
+    publication_status: unknown

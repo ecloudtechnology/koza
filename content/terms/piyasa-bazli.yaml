@@ -1,0 +1,18 @@
+id: piyasa-bazli
+tr: Piyasa bazlı yöntem
+en: Market-based method
+abbr: null
+aliases: ["market based", "piyasa bazli", "sözleşmesel araç", "contractual instrument"]
+kind: terim
+contexts: [envanter]
+definition: >-
+  Kapsam 2 hesabında kurumun sözleşmeyle seçtiği elektriğin emisyonunu yansıtan yöntem: menşe
+  garantisi, tedarikçiye özgü faktör veya yenilenebilir enerji sözleşmesi gibi araçlar kullanılır.
+  Araç yoksa ya da kalite koşullarını sağlamıyorsa kalıntı karışım faktörü uygulanır.
+example: "Menşe garantili 500 MWh için sıfıra yakın faktör, kalan 700 MWh için kalıntı karışım faktörü; sonuç konum bazlıyla yan yana sunulur."
+confused_with: "Düşük çıktığı için 'gerçek' sonuç sanılır; iki yöntem birlikte raporlanır, biri seçilmez."
+related_task: "Sözleşmesel aracın kalite koşullarını belgeleyip Kapsam 2 kaydına eklemek."
+related_route: "/veri-girisi/"
+likely_department: "Enerji yönetimi / satın alma"
+source: "K04; K16"
+status: editör onayı bekliyor

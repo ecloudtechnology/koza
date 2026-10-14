@@ -53,6 +53,17 @@ export interface Db {
   audit: AuditEvent[];
   publishedFactorVersions: Record<string, string>; // factor id → etkin sürüm (uzman yayımlar; T13)
   setupProgress: Record<string, number>; // tenant → kurulum adımı (§06: kaldığı yerden devam)
+  modules: Record<string, Record<string, ModuleRow[]>>; // modül → tablo → satırlar (her satır tenant_id taşır)
+}
+
+// Modül tabloları için ortak satır biçimi. Modüller (src/modules/*) kendi tiplerini bunun üzerine kurar.
+export interface ModuleRow {
+  id: string;
+  tenant_id: string;
+  created_at: string;
+  created_by: string;
+  version: number;
+  [key: string]: unknown;
 }
 
 export interface Session {
@@ -94,6 +105,7 @@ function emptyDb(): Db {
     audit: [],
     publishedFactorVersions: { "TEST-NG-CO2": "1.0", "TEST-NG-CH4": "1.0", "TEST-NG-N2O": "1.0", "TEST-NG-CO2E-NM3": "1.0", "TEST-NG-UPSTREAM-CO2E": "1.0" },
     setupProgress: {},
+    modules: {},
   };
 }
 
@@ -176,13 +188,14 @@ export class Store {
     return this.db.tenants.find((t) => t.id === this.session.tenant_id) ?? null;
   }
 
-  private require(action: string): void {
+  /** Yetki kontrolü (rol matrisi). Modüller kendi eylemlerini registerPermissions ile ekler. */
+  require(action: string): void {
     if (!can(this.role, action)) {
       throw new StoreError("FORBIDDEN", `Bu işlem için yetkiniz yok (${this.role}). Uygun role sahip bir kullanıcıdan erişim isteyin.`, 403);
     }
   }
 
-  private audit(action: string, object_type: string, object_id: string, object_version: number | null = null, reason: string | null = null): void {
+  audit(action: string, object_type: string, object_id: string, object_version: number | null = null, reason: string | null = null): void {
     this.db.audit.push({
       id: newId("aud"),
       tenant_id: this.tenantId,
@@ -197,8 +210,41 @@ export class Store {
     });
   }
 
-  private commit(): void {
+  commit(): void {
     saveDb(this.db);
+  }
+
+  // ---------- Modül tabloları (src/modules/*) ----------
+  // Her satır aktif kurumun tenant_id'sini taşır; okuma her zaman aktif kuruma süzülür (kural 3'ün önizleme karşılığı).
+  rows<T extends ModuleRow>(module: string, table: string): T[] {
+    const t = this.db.modules[module]?.[table] ?? [];
+    const tid = this.session.tenant_id;
+    return t.filter((r) => r.tenant_id === tid) as T[];
+  }
+  row<T extends ModuleRow>(module: string, table: string, id: string): T {
+    const r = this.rows<T>(module, table).find((x) => x.id === id);
+    if (!r) throw new StoreError("NOT_FOUND", "Kayıt bulunamadı.", 404);
+    return r;
+  }
+  insert<T extends ModuleRow>(module: string, table: string, data: Omit<T, "id" | "tenant_id" | "created_at" | "created_by" | "version"> & { id?: string }, auditAction?: string): T {
+    const tid = this.tenantId;
+    const row = { ...data, id: data.id ?? newId(table.slice(0, 3)), tenant_id: tid, created_at: now(), created_by: this.user.id, version: 1 } as T;
+    const m = (this.db.modules[module] ??= {});
+    (m[table] ??= []).push(row);
+    this.audit(auditAction ?? `${module}.${table}.create`, `${module}.${table}`, row.id, 1);
+    this.commit();
+    return row;
+  }
+  /** Yerinde güncelleme; sürüm artar ve audit yazılır. Değişmez olması gereken satırlar için kullanmayın (yeni satır ekleyin). */
+  update<T extends ModuleRow>(module: string, table: string, id: string, patch: Partial<T>, reason: string | null = null, expected_version?: number): T {
+    const r = this.row<T>(module, table, id);
+    if (expected_version !== undefined && r.version !== expected_version) {
+      throw new StoreError("VERSION_CONFLICT", `Kayıt bu arada değişti (güncel sürüm ${r.version}, sizde ${expected_version}). Diğer sürümü görüp tekrar deneyin; veriniz ezilmedi.`, 409, { current_version: r.version });
+    }
+    Object.assign(r, patch, { version: r.version + 1 });
+    this.audit(`${module}.${table}.update`, `${module}.${table}`, id, r.version, reason);
+    this.commit();
+    return r;
   }
 
   // ---------- Kurum ve kurulum (ONB-01..03, SEK-01, SEK-05) ----------
@@ -241,6 +287,17 @@ export class Store {
     t.profile_version = profile_version;
     t.profile_confirmed = true;
     this.audit("tenant.profile_confirm", "organization", t.id, null, `${profile_id}@${profile_version}`);
+    this.commit();
+  }
+
+  /** Görev ayrılığı istisnası (§04): gerekçe, izin veren ve süre kaydedilir; raporda görünür. */
+  setPolicy(input: { allow_self_approval: boolean; reason: string; until: string | null }): void {
+    this.require("setup.edit");
+    if (this.role !== "admin") throw new StoreError("FORBIDDEN", "Kurum politikasını yalnız kurum yöneticisi değiştirir.", 403);
+    const t = this.tenant!;
+    if (input.allow_self_approval && input.reason.trim().length < 10) throw new StoreError("VALIDATION", "İstisna gerekçesi en az 10 karakter olmalı.", 422);
+    t.policy = { allow_self_approval: input.allow_self_approval, self_approval_reason: input.allow_self_approval ? `${input.reason} (izin veren: ${this.user.id}; süre: ${input.until ?? "belirsiz"})` : null };
+    this.audit("tenant.policy", "organization", t.id, null, t.policy.self_approval_reason ?? "istisna kapatıldı");
     this.commit();
   }
 
@@ -388,7 +445,9 @@ export class Store {
   }
   current(record_id: string): ActivityRecordVersion {
     const vs = this.versionsOf(record_id);
-    return vs[vs.length - 1];
+    const v = vs[vs.length - 1];
+    if (v && v.detail === undefined) v.detail = null; // şema 1 kayıtları (detail alanı yok)
+    return v;
   }
 
   private assertPeriodOpen(period_id: string): void {
@@ -627,6 +686,31 @@ export class Store {
       estimated: recs.filter((x) => x.v.data_quality === "estimated"),
       open_tasks: this.tasks().filter((t) => t.status === "open"),
     };
+  }
+
+  /** Uzlaştırma (§21): aynı kaynakta dönemleri çakışan kayıtlar (sayaç + fatura toplanmaz, §12) ve miktar farkları. Fark otomatik kötü performans değildir. */
+  reconciliation(period_id: string): { source_id: string; source_name: string; records: { id: string; period_start: string; period_end: string; quantity: string | null; unit: string | null; data_quality: string }[]; note_tr: string }[] {
+    const p = this.period(period_id);
+    const bySource = new Map<string, ActivityRecordVersion[]>();
+    for (const r of this.records()) {
+      const v = this.current(r.id);
+      if (v.period_id !== p.id) continue;
+      (bySource.get(v.source_id) ?? bySource.set(v.source_id, []).get(v.source_id)!).push(v);
+    }
+    const out: ReturnType<Store["reconciliation"]> = [];
+    for (const [sid, vs] of bySource) {
+      if (vs.length < 2) continue;
+      const overlapping = vs.some((a) => vs.some((b) => a !== b && a.period_start <= b.period_end && b.period_start <= a.period_end));
+      if (!overlapping) continue;
+      const src = this.db.sources.find((s) => s.id === sid);
+      out.push({
+        source_id: sid,
+        source_name: src?.name ?? sid,
+        records: vs.map((v) => ({ id: v.record_id, period_start: v.period_start, period_end: v.period_end, quantity: v.quantity, unit: v.unit, data_quality: v.data_quality })),
+        note_tr: "Aynı kaynakta dönemleri çakışan birden fazla kayıt var. Sayaç ve fatura birlikte varsa ikisi toplanmaz; dönem kayması, ölçüm sınırı ve veri eksiği ayrı açıklanır (§21). Birini gerekçeyle düzeltin veya ayrı dönemlere bölün.",
+      });
+    }
+    return out;
   }
 
   lockPeriod(period_id: string, force_note: string | null): void {

@@ -15,13 +15,27 @@ def test_golden_dir_all_pass():
         assert set(r) == {"id", "ok", "diff"}
 
 
+def _walk_factors(obj):
+    """İstek içindeki her faktör nesnesi (üst liste, araç faktörü, artık karışım…)."""
+    if isinstance(obj, dict):
+        if "numerator_unit" in obj and "denominator_unit" in obj and "value" in obj:
+            yield obj
+        for v in obj.values():
+            yield from _walk_factors(v)
+    elif isinstance(obj, list):
+        for v in obj:
+            yield from _walk_factors(v)
+
+
 def test_every_fixture_declares_fictional_coefficients():
     for path in sorted(GOLDEN_DIR.glob("*.json")):
         fx = json.loads(path.read_text(encoding="utf-8"))
         assert fx["note_tr"] == "Katsayılar kurgusaldır; yalnız yazılım testi içindir.", path.name
         assert fx["id"] == path.stem, path.name
         assert fx["title_tr"] and fx["requirements"]
-        for f in fx["request"]["factors"]:
+        assert ("request" in fx) != ("aggregate_request" in fx), path.name
+        request = fx.get("request", fx.get("aggregate_request"))
+        for f in _walk_factors(request):
             assert f.get("license") == "test-only", path.name
 
 

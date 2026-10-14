@@ -1,0 +1,21 @@
+/* Asistan: iki sütun (geçmiş | yanıt); formu kapatmaz, dar ekranda alt alta (§28 asistan görünümü). */
+.asistan-layout { display: grid; grid-template-columns: minmax(220px, 300px) 1fr; gap: 1rem; align-items: start; }
+.asistan-history { display: grid; gap: 0.35rem; max-height: 60vh; overflow: auto; padding: 0; margin: 0; list-style: none; }
+.asistan-history button { width: 100%; text-align: left; font-weight: 500; font-size: 0.85rem; padding: 0.45rem 0.6rem; white-space: normal; }
+.asistan-history button[aria-current="true"] { border-color: var(--accent); background: var(--accent-soft); }
+.asistan-ask { display: grid; grid-template-columns: 1fr max-content; gap: 0.5rem; align-items: start; }
+.asistan-ask input { max-width: none; }
+.asistan-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.5rem; }
+.asistan-chips button { font-size: 0.82rem; padding: 0.35rem 0.7rem; border-radius: 999px; }
+.asistan-answer .kv dt { font-weight: 600; }
+.asistan-basis { margin: 0; padding-left: 1.1rem; }
+.asistan-basis li { margin-bottom: 0.3rem; }
+.asistan-basis .excerpt { display: block; color: var(--ink-2); font-size: 0.82rem; }
+.asistan-number { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 1.05rem; }
+.asistan-cannot { font-size: 0.8rem; color: var(--ink-2); }
+.asistan-doc textarea { max-width: none; min-height: 7rem; }
+.asistan-cands { display: grid; gap: 0.4rem; margin: 0.6rem 0; }
+.asistan-cands label { display: grid; grid-template-columns: max-content 1fr; gap: 0.5rem; align-items: start; font-size: 0.88rem; }
+.asistan-eval td, .asistan-eval th { vertical-align: top; }
+.asistan-eval .crit { display: inline-block; margin: 0 0.25rem 0.25rem 0; }
+@media (max-width: 860px) { .asistan-layout { grid-template-columns: 1fr; } .asistan-history { max-height: 30vh; } .asistan-ask { grid-template-columns: 1fr; } }

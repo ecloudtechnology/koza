@@ -92,3 +92,12 @@ export const ERROR_BY_CODE: Record<string, ErrorEntry> = Object.fromEntries(ERRO
 export function explain(code: string): ErrorEntry | undefined {
   return ERROR_BY_CODE[code];
 }
+
+/** Modüller kendi hata kodlarını sözlüğe ekler (src/modules/<ad>/register.ts). Aynı kod iki kez eklenmez. */
+export function registerErrors(entries: ErrorEntry[]): void {
+  for (const e of entries) {
+    if (ERROR_BY_CODE[e.code]) continue;
+    ERRORS.push(e);
+    ERROR_BY_CODE[e.code] = e;
+  }
+}

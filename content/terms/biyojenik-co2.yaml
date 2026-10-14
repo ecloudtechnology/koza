@@ -1,0 +1,18 @@
+id: biyojenik-co2
+tr: Biyojenik CO₂
+en: Biogenic CO₂
+abbr: null
+aliases: ["biyojenik", "biogenic", "biyokütle emisyonu", "biomass co2"]
+kind: terim
+contexts: [envanter, raporlama]
+definition: >-
+  Biyokütle kaynaklı yakıtların (odun, biyogaz, biyodizel) yanmasından çıkan karbondioksit. Fosil
+  CO₂'den ayrı izlenir ve Kapsam 1–2–3 toplamının dışında, ayrı bir satırda raporlanır; aynı yakıtın
+  metan ve azot oksit emisyonları ise kapsam toplamlarına girer.
+example: "Kazanda yakılan odun peletinin CO₂'si 'biyojenik CO₂' satırına, CH₄ ve N₂O'su Kapsam 1'e yazılır."
+confused_with: "'Sıfır emisyon' sanılır; sıfır değil, ayrı raporlanan bir emisyondur."
+related_task: "Biyokütle yakıt kaydında yakıt türünü doğru seçmek."
+related_route: "/veri-girisi/"
+likely_department: "Enerji yönetimi"
+source: "K03; K14 GRI 102 Climate Change 2025"
+status: editör onayı bekliyor

@@ -1,0 +1,70 @@
+{
+  "id": "scope3-cat5-waste-end-of-life",
+  "title_tr": "Kategori 5: 2 t atık × 500 kg/t (ömür sonu) = 1000 kg; geri dönüşüm otomatik negatif değildir",
+  "requirements": [
+    "§14"
+  ],
+  "note_tr": "Katsayılar kurgusaldır; yalnız yazılım testi içindir.",
+  "request": {
+    "activity": {
+      "id": "act-test-0002",
+      "version": 1,
+      "source_type": "scope3",
+      "fuel": null,
+      "quantity": "2",
+      "unit": "t",
+      "heating_value_basis": null,
+      "reference_conditions": null,
+      "calorific_value": null,
+      "basis_conversion": null,
+      "data_quality": "measured",
+      "period": {
+        "start": "2026-01-01",
+        "end": "2026-12-31"
+      },
+      "scope3": {
+        "category": 5,
+        "method": "waste_type_specific",
+        "applicability": "applicable",
+        "not_applicable_reason": null,
+        "data_quality_dims": null,
+        "spend": null,
+        "sold_products": null
+      }
+    },
+    "factors": [
+      {
+        "id": "TEST-WASTE-LANDFILL",
+        "version": "1.0",
+        "value": "500",
+        "numerator_unit": "kg",
+        "gas": "CO2e",
+        "denominator_unit": "t",
+        "basis": null,
+        "reference_conditions": null,
+        "boundary": "end_of_life",
+        "gwp_set_id": "TEST-GWP",
+        "source_ref": "tests/golden — kurgusal",
+        "license": "test-only",
+        "valid_from": "2026-01-01",
+        "valid_to": null
+      }
+    ],
+    "method": {
+      "id": "ghgp-corporate-test",
+      "version": "0.2",
+      "gwp_set": {
+        "id": "TEST-GWP",
+        "CH4": "28",
+        "N2O": "265",
+        "R-410A": "2000"
+      }
+    }
+  },
+  "expected": {
+    "status": "computed",
+    "total_co2e_kg": "1000",
+    "block_codes": [],
+    "boundary": "end_of_life"
+  }
+}

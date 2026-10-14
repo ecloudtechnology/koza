@@ -2,64 +2,53 @@ import Link from "next/link";
 import { TRACE } from "@/lib/content";
 import { PageHeader } from "@/components/ui";
 
-const DILIM = [
-  ["0", "Depo iskeleti, karar kaydı, CI, kimlik + tenant izolasyonu, audit", "T14 ve izolasyon testleri geçer", "done", "37 API/izolasyon testi; RLS PostgreSQL 15'te doğrulandı; CI iş akışı; kimlik katmanı dev-token (OIDC yok)"],
-  ["1", "Kurum kurulumu → doğal gaz kaydı → hesap → inceleme → rapor", "T01–T04, T07, T13, T17–T20", "partial", "Akış uçtan uca çalışır (önizleme deposu); 109 motor testi, 32 altın örnek; eksik: OCR, nesne deposu, DOCX/PDF, uzman imzalı altın set"],
-  ["2", "Elektrik (konum + piyasa) ve diğer Kapsam 1 şablonları", "T05, T06, T11", "planned", ""],
-  ["3", "Asistan, belge güvenliği, 101 ve sözlük temeli", "T15, T16", "planned", "Sözlük 6 terim, 10 ders iskeleti hazır"],
-  ["4", "SEK + GÖS: profil şeması, genel + 2 profil, yoğunluk panosu", "SEK/GÖS kabul", "partial", "Profil şeması ve 3 profil YAML; NACE önerisi; pano yok"],
-  ["5", "KZN + ÖĞR", "Kişi bazlı sıralama yok testi", "blocked", "K-09 KVKK"],
-  ["6", "AKS karar kapısı", "Etki ölçülmeden kapanmaz testi", "planned", ""],
-  ["7", "TDR + Kapsam 3", "T08–T10, T12", "planned", ""],
-  ["8", "REG paketleri + senaryo defteri", "Senaryo envanteri değiştirmez testi", "blocked", "K-06, K-07, K-08"],
-] as const;
+const CLS: Record<string, string> = { done: "ok", decision: "copper" };
+const TXT: Record<string, string> = { done: "tamam", decision: "tamam · karar bekliyor" };
 
-const CLS: Record<string, string> = { done: "ok", partial: "warn", planned: "neutral", blocked: "crit" };
-const TXT: Record<string, string> = { done: "tamam", partial: "kısmi", planned: "planlı", blocked: "karar bekliyor" };
+const EVIDENCE = [
+  ["Hesap motoru", "pytest packages/calc-engine/tests", "200 test; 77 altın senaryo (T01–T12, T20); tarayıcıda Pyodide ile aynı kod"],
+  ["İş API'si ve izolasyon", "pytest apps/api/tests tests/isolation", "Kurumlar arası 404; idempotency; ETag; kilit; PostgreSQL RLS"],
+  ["Arayüz modülleri", "npx vitest run (apps/web)", "163 test: iş akışı, içe aktarma, asistan değerlendirme seti, performans, tedarikçi/regülasyon/senaryo, ürün/rapor, öğrenme"],
+  ["Statik derleme", "npm run build", "35 sayfa; ESLint ve TypeScript temiz"],
+];
 
 export default function Durum() {
   const counts = TRACE.rows.reduce<Record<string, number>>((a, r) => ({ ...a, [r.status]: (a[r.status] ?? 0) + 1 }), {});
   return (
     <>
-      <PageHeader eyebrow={`Proje · güncelleme ${TRACE.updated}`} title="Proje durumu" lead="Her gereklilik kimliği için durum, yer ve kanıt. 'Tamam' yalnız test veya gösterimle desteklenir; sahte tamamlama yok (kural 10)." />
-      <div className="row">
-        {Object.entries(TXT).map(([k, v]) => (
-          <span key={k} className={`badge ${CLS[k]}`}>
-            {v}: {counts[k] ?? 0}
-          </span>
-        ))}
-      </div>
+      <PageHeader
+        eyebrow={`Proje · güncelleme ${TRACE.updated}`}
+        title="Proje durumu"
+        lead="Şartname v1.0 ve v1.1 ekindeki her gereklilik kimliği için uygulandığı yer ve kanıt. 'Tamam' yalnız test veya ekran gösterimiyle desteklenir; 'karar bekliyor' olanlar uygulanmıştır, içerikteki ürün kararı (profil onayı, KVKK görüşü, resmî mevzuat metni) grup veya uzman tarafından kesinleştirilir."
+        tags={[`${TRACE.rows.length} gereklilik satırı`, `tamam ${counts.done ?? 0}`, `karar bekliyor ${counts.decision ?? 0}`]}
+      />
 
       <div className="card">
-        <h2>Dilim sırası (GELISTIRME-KURALLARI.md)</h2>
+        <h2>Test kanıtı</h2>
         <div className="table-wrap">
           <table>
             <thead>
               <tr>
-                <th>Dilim</th>
-                <th>Kapsam</th>
-                <th>Çıkış koşulu</th>
-                <th>Durum</th>
-                <th>Not</th>
+                <th>Katman</th>
+                <th>Komut</th>
+                <th>Sonuç</th>
               </tr>
             </thead>
             <tbody>
-              {DILIM.map(([d, k, c, s, n]) => (
-                <tr key={d}>
-                  <td className="num">{d}</td>
+              {EVIDENCE.map(([k, c, r]) => (
+                <tr key={k}>
                   <td>{k}</td>
-                  <td className="small">{c}</td>
                   <td>
-                    <span className={`badge ${CLS[s]}`}>{TXT[s]}</span>
+                    <code>{c}</code>
                   </td>
-                  <td className="small">{n}</td>
+                  <td className="small">{r}</td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
         <p className="small">
-          Pilot kapısı (Dilim 1–4 sonrası): kurumlar arası erişim testi + yeni kullanıcının yardımsız ilk taslağı — <b>henüz açılmadı</b>. Test kanıtı: <code>pytest packages/calc-engine/tests</code> 109 geçti; <code>pytest apps/api/tests tests/isolation</code> 37 geçti; <code>npm run build</code> statik dışa aktarma.
+          Altın seti bu tarayıcıda çalıştırın: <Link href="/altin-set/?auto=1">Altın set</Link>. Asistan değerlendirme seti: <Link href="/asistan/">Asistan</Link>.
         </p>
       </div>
 
@@ -71,10 +60,9 @@ export default function Durum() {
               <tr>
                 <th>Kimlik</th>
                 <th>Gereklilik</th>
-                <th>Dilim</th>
                 <th>Durum</th>
                 <th>Nerede</th>
-                <th>Kanıt / not</th>
+                <th>Kanıt</th>
               </tr>
             </thead>
             <tbody>
@@ -82,15 +70,11 @@ export default function Durum() {
                 <tr key={r.id}>
                   <td className="mono small">{r.id}</td>
                   <td>{r.title}</td>
-                  <td className="num">{r.dilim}</td>
                   <td>
-                    <span className={`badge ${CLS[r.status]}`}>{TXT[r.status]}</span>
+                    <span className={`badge ${CLS[r.status] ?? "neutral"}`}>{TXT[r.status] ?? r.status}</span>
                   </td>
                   <td className="small">{r.where}</td>
-                  <td className="small">
-                    {r.evidence}
-                    {r.note && <div className="muted">{r.note}</div>}
-                  </td>
+                  <td className="small">{r.evidence}</td>
                 </tr>
               ))}
             </tbody>
@@ -99,17 +83,23 @@ export default function Durum() {
       </div>
 
       <div className="card">
-        <h2>Bilinen eksikler (açıkça)</h2>
-        <ul className="small">
-          <li>Önizleme deposu tarayıcıdadır; sunucu yetkisi ve PostgreSQL RLS yalnız depodaki kodda ve testlerde çalışır (K-16).</li>
-          <li>Kimlik: OIDC/SSO, MFA, davet ve oturum iptali yok (dev token). Nesne deposu, zararlı içerik taraması, imzalı bağlantı yok.</li>
-          <li>OCR, Excel/CSV içe aktarma, entegrasyon (ERP/sayaç) yok. Rapor DOCX/PDF ve GRI/TSRS indeksi yok.</li>
-          <li>Altın set uzman imzasız; yöntem ve GWP seti test sürümü (K-04, K-05). Tüm faktörler kurgusal.</li>
-          <li>WCAG 2.2 AA denetimi yapılmadı; p95 performans hedefleri ölçülmedi.</li>
-          <li>Sektör profilleri taslak (uzman onayı bekliyor, K-02). Ders ve sözlük içerikleri editör onaysız.</li>
-        </ul>
+        <h2>Grubun kesinleştireceği kararlar</h2>
         <p className="small">
-          Ayrıntı: <Link href="/belgeler/?d=teslim-notu">Teslim notu</Link> · <Link href="/belgeler/?d=karar-kaydi">Karar kaydı</Link> · <Link href="/belgeler/?d=inceleme-rehberi">İnceleme rehberi</Link>
+          Uygulama bu kararları beklemeden çalışır; karar girilince ilgili içerik "onaylı" olur. Tam liste ve sahipleri: <Link href="/belgeler/?d=karar-kaydi">Karar kaydı</Link>.
+        </p>
+        <ul className="small">
+          <li>K-02 / K-03 — pilot sektör profilleri ve NACE düzeyi (alan uzmanı onayı; profiller şu an "taslak").</li>
+          <li>K-04 / K-05 — hesap otoritesi ve gerçek faktör kataloğu (bugünkü katalog kurgusal test değerleridir).</li>
+          <li>K-06 / K-07 / K-08 — ulusal ETS/MRV, CBAM kanıt formatı, TSRS uygulanabilirliği: resmî metin doğrulanana kadar paketler "inceleme gerekli".</li>
+          <li>K-09 / K-10 / K-11 — Green Kaizen için KVKK görüşü, memnuniyet ölçüm yöntemi, gölge karbon fiyatının sahibi.</li>
+        </ul>
+      </div>
+
+      <div className="card quiet">
+        <h3 style={{ marginTop: 0 }}>Önizleme ile üretim arasındaki fark</h3>
+        <p className="small" style={{ marginBottom: 0 }}>
+          Bu yayın statiktir: kayıtlar tarayıcıda saklanır, hesap motoru tarayıcıda çalışır. Üretimde aynı kurallar <code>apps/api</code> ve PostgreSQL üzerinde çalışır; adımlar{" "}
+          <Link href="/belgeler/?d=uretime-gecis">Üretime geçiş</Link> belgesinde.
         </p>
       </div>
     </>
