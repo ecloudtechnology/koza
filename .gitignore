@@ -5,6 +5,7 @@ apps/web/out/
 apps/web/src/generated/
 apps/web/public/calc-engine/
 apps/web/public/img/
+apps/web/public/KOZA-EKIP-CALISMA-DOSYASI.md
 apps/web/next-env.d.ts
 *.tsbuildinfo
 # Python

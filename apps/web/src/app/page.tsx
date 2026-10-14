@@ -97,7 +97,7 @@ export default function Home() {
             <Link href="/gorevler/">Tüm görevler</Link>
           </p>
         </div>
-        <div className="card">
+        <div className="card adv">
           <h2>Son değişiklikler</h2>
           {recent.length === 0 ? (
             <p className="muted">Henüz işlem yok.</p>
@@ -116,8 +116,20 @@ export default function Home() {
         </div>
       </div>
 
+      <div className="card">
+        <h2>Hızlı erişim</h2>
+        <div className="quick">
+          <Link href="/veri-girisi/"><b>Kayıt gir</b><span>Fatura, malzeme, sevkiyat, atık, seyahat…</span></Link>
+          <Link href="/ice-aktar/"><b>Dosyadan yükle</b><span>CSV veya Excel ile toplu kayıt</span></Link>
+          <Link href="/inceleme/"><b>İnceleme</b><span>Onay bekleyen kayıtlar</span></Link>
+          <Link href="/raporlar/"><b>Raporlar</b><span>Dönem raporu ve kanıt indeksi</span></Link>
+          <Link href="/analiz/"><b>Analiz</b><span>Yoğunluk, hedefler, iki hedefin durumu</span></Link>
+          <Link href="/asistan/"><b>Asistan</b><span>"Bu kutuya ne yazacağım?"</span></Link>
+        </div>
+      </div>
+
       {recs.length > 0 && (
-        <div className="card">
+        <div className="card adv">
           <h2>Kayıt durumları</h2>
           <div className="row">
             {recs.map((r) => (
@@ -129,7 +141,7 @@ export default function Home() {
         </div>
       )}
 
-      <div className="card quiet">
+      <div className="card quiet adv">
         <h3 style={{ marginTop: 0 }}>Bu önizleme hakkında</h3>
         <p className="small" style={{ marginBottom: 0 }}>
           Bu, Koza'nın inceleme için yayımlanmış önizlemesidir: kayıtlar yalnız bu tarayıcıda saklanır; hesabı tarayıcıda çalışan aynı Python motoru yapar; sunucu, veritabanı ve kimlik

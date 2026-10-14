@@ -34,6 +34,12 @@ function Belgeler() {
             </Link>
           ))}
         </nav>
+        <h3>Ekip çalışma dosyası</h3>
+        <p className="small">
+          <a href={`${base}/KOZA-EKIP-CALISMA-DOSYASI.md`} download>Tüm belgeler tek Markdown (indir)</a>
+          <br />
+          <span className="muted">Depodaki tüm belgelerin birleşik hâli; ekip bunun üzerinden çalışır.</span>
+        </p>
         <h3>Görseller</h3>
         <nav className="doc-list">
           <a href={`${base}/img/gelistirme-dongusu.svg`} target="_blank" rel="noreferrer">

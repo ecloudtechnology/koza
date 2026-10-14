@@ -119,6 +119,10 @@ if (fs.existsSync(engineSrc)) {
 }
 fs.writeFileSync(path.join(enginePub, "manifest.json"), JSON.stringify({ files: engineFiles }));
 
+// 6b. Ekip çalışma dosyası (tek Markdown) → public/ (indirilebilir)
+const team = path.join(root, "docs", "KOZA-EKIP-CALISMA-DOSYASI.md");
+if (fs.existsSync(team)) fs.copyFileSync(team, path.join(web, "public", "KOZA-EKIP-CALISMA-DOSYASI.md"));
+
 // 7. Görseller
 const imgPub = path.join(web, "public", "img");
 fs.mkdirSync(imgPub, { recursive: true });

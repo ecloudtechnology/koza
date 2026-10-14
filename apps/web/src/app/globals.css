@@ -260,3 +260,28 @@ details[open] summary { margin-bottom: 0.6rem; }
   .kv { grid-template-columns: 1fr; gap: 0.1rem 0; } .kv dt { margin-top: 0.4rem; font-size: 0.8rem; }
   .err-detail { grid-template-columns: 1fr; }
 }
+
+/* ---------- Sade / ayrıntılı görünüm ---------- */
+html[data-ui="basit"] .adv { display: none !important; }
+.nav-grp { border: 0; padding: 0; margin: 0; background: transparent; }
+.nav-grp > summary.nav-group { cursor: pointer; list-style: none; display: flex; align-items: center; gap: 0.4rem; user-select: none; }
+.nav-grp > summary.nav-group::-webkit-details-marker { display: none; }
+.nav-grp > summary.nav-group::before { content: "▸"; font-size: 0.7rem; transition: transform 0.15s; }
+.nav-grp[open] > summary.nav-group::before { transform: rotate(90deg); }
+.nav a.item .hint { display: block; font-size: 0.7rem; color: var(--ink-3); font-weight: 400; line-height: 1.2; }
+.nav a.item[aria-current="page"] .hint { color: var(--accent-2); opacity: 0.8; }
+.mode-btn { width: 100%; margin-bottom: 0.4rem; font-size: 0.8rem; padding: 0.4rem 0.6rem; }
+.role-badge { margin-left: 0.6rem; text-transform: none; letter-spacing: 0; font-weight: 500; }
+.notice.compact { display: block; padding: 0; border-left: 3px solid var(--info); }
+.notice.compact::before { display: none; }
+.notice.compact > summary { cursor: pointer; padding: 0.5rem 0.9rem; list-style: none; font-size: 0.88rem; }
+.notice.compact > summary::-webkit-details-marker { display: none; }
+.notice.compact > summary .label { display: inline; margin: 0; }
+.notice.compact[open] > summary { border-bottom: 1px solid color-mix(in srgb, var(--info) 25%, transparent); }
+.notice.compact > div { padding: 0.6rem 0.9rem 0.8rem; }
+.page-head .lead { font-size: 0.95rem; }
+.quick { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 0.6rem; }
+.quick a { display: grid; gap: 0.2rem; padding: 0.8rem 0.9rem; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface); text-decoration: none; color: var(--ink); }
+.quick a:hover { border-color: var(--accent); }
+.quick a b { font-size: 0.92rem; }
+.quick a span { font-size: 0.78rem; color: var(--ink-2); }

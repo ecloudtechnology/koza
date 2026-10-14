@@ -451,7 +451,7 @@ function Kayit() {
         )}
       </div>
 
-      <div className="card">
+      <div className="card adv">
         <h2>Sürüm geçmişi (append-only)</h2>
         <div className="table-wrap">
           <table>
@@ -656,7 +656,7 @@ function ResultView({ r, title, schema }: { r: CalcResultV2; title: string; sche
         <dt>Girdi karması</dt>
         <dd className="mono small">{r.inputs_hash}</dd>
       </dl>
-      <details>
+      <details className="adv">
         <summary>İz kaydı (sonuçtan faktöre ve kaynağa)</summary>
         <pre className="trace">{JSON.stringify(r.trace, null, 2)}</pre>
       </details>
